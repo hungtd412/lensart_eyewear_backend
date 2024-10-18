@@ -59,7 +59,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         try {
             $validated = $request->validate([
@@ -85,7 +85,8 @@ class AuthController extends Controller
         if (auth()->attempt($validated)) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Đăng nhập thành công.'
+                'message' => 'Đăng nhập thành công.',
+                'token' => auth()->user()->createToken('token')->plainTextToken
             ]);
         }
 
@@ -105,10 +106,7 @@ class AuthController extends Controller
                 ], 400);
             }
 
-            auth()->logout();
-
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $request->user()->tokens()->delete();
 
             return response()->json([
                 'status' => 'success',
@@ -117,7 +115,8 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'fail',
-                'message' => 'Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại.'
+                // 'message' => 'Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại.'
+                'message' => $e->getMessage()
             ], 500);
         }
     }

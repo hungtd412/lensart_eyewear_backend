@@ -9,3 +9,7 @@ insert into role(name) values
 
 select * from users
 desc users
+
+update users
+set role_id = 3
+where id = 2
