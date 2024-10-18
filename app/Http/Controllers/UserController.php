@@ -6,5 +6,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function profile() {}
+    public function profile()
+    {
+        return response()->json([
+            'user' => auth()->user()
+        ]);
+    }
 }
