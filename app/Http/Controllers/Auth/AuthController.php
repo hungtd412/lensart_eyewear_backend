@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -15,6 +17,7 @@ class AuthController extends Controller
             $validated = $request->validate([
                 'username' => 'required|string|min:6|max:20|unique:users',
                 'password' => 'required|string|min:6',
+                'email' => 'required|string|email|max:255|unique:users',
                 'address' => 'required|string|max:255',
                 'phone' => [
                     'required',
@@ -32,6 +35,12 @@ class AuthController extends Controller
                 'password.required' => 'Mật khẩu là bắt buộc.',
                 'password.string' => 'Mật khẩu phải là một chuỗi.',
                 'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+
+                'email.required' => 'Email là bắt buộc.',
+                'email.string' => 'Email phải là một chuỗi.',
+                'email.email' => 'Email phải là một địa chỉ email hợp lệ.',
+                'email.max' => 'Email không được vượt quá 255 ký tự.',
+                'email.unique' => 'Email này đã được sử dụng.',
 
                 'address.required' => 'Địa chỉ là bắt buộc.',
                 'address.string' => 'Địa chỉ phải là một chuỗi.',
