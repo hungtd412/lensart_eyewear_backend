@@ -26,5 +26,10 @@ class ResetPasswordController extends Controller
                 ])->save();
             }
         );
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Mật khẩu đã được cập nhật thành công!'
+        ], 200);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -95,7 +96,9 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Đăng nhập thành công.',
-                'token' => auth()->user()->createToken('token')->plainTextToken
+                'token' => auth()->user()->createToken('token')->plainTextToken,
+                'x' => $request->x,
+                'user' => auth()->user(),
             ], 200);
         }
 
@@ -108,7 +111,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            if (!auth()->check()) {
+            if (!Auth::check()) {
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'Bạn đã đăng xuất rồi.'

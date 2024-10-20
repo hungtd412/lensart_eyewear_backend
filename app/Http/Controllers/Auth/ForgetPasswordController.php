@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class ForgetPasswordController extends Controller
@@ -13,7 +14,10 @@ class ForgetPasswordController extends Controller
         $request->validate([
             'email' => 'required|string|email|max:255'
         ]);
+
         $status = Password::sendResetLink($request->only('email'));
+
+        // Mail::to($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT ? response()->json([
             'message' => 'Email đã được gửi!'
