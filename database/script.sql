@@ -11,9 +11,6 @@ select * from users
 
 desc users
 
-UPDATE users
-SET email = 'tdhung41204@gmail.com'
-WHERE id = 3;
 
 
 

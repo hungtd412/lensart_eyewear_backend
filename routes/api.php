@@ -1,15 +1,30 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'customGuest'], function () {
-    Route::post('/register', [AuthController::class, 'store']);
+/*
+|--------------------------------
+|Auth Route
+|--------------------------------
+*/
 
-    Route::post('/login', [AuthController::class, 'login']);
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('/register', [AuthController::class, 'store'])->middleware('customGuest');
+
+    Route::post('/login', [AuthController::class, 'login'])->middleware('customGuest');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::group([
+    'prefix' => 'reset-password'
+], function () {
+    Route::post('/email', [ForgetPasswordController::class, 'sendResetEmailLink']);
 
-Route::get('/user', [UserController::class, 'profile'])->middleware('auth:sanctum');
+    Route::post('/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+});

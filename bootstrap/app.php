@@ -4,7 +4,6 @@ use App\Http\Middleware\CustomGuest;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/user.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(CustomGuest::class);
 
         $middleware->alias([
             'customGuest' => CustomGuest::class
