@@ -7,6 +7,7 @@ use App\Models\User;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -65,7 +66,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Tài khoản được tạo thành công',
             'user' => $user
-        ]);
+        ], 200);
     }
 
     public function login(Request $request)
@@ -95,8 +96,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Đăng nhập thành công.',
-                'token' => auth()->user()->createToken('token')->plainTextToken
-            ]);
+                'token' => auth()->user()->createToken('token')->plainTextToken,
+            ], 200);
         }
 
         return response()->json([
@@ -120,11 +121,11 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Đăng xuất thành công.'
-            ]);
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'fail',
-                // 'message' => 'Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại.'
+                // 'message' => 'Đã xảy ra lỗi khi đăng xuất'
                 'message' => $e->getMessage()
             ], 500);
         }
