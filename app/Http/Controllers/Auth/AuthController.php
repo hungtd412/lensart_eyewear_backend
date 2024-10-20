@@ -97,8 +97,6 @@ class AuthController extends Controller
                 'status' => 'success',
                 'message' => 'Đăng nhập thành công.',
                 'token' => auth()->user()->createToken('token')->plainTextToken,
-                'x' => $request->x,
-                'user' => auth()->user(),
             ], 200);
         }
 
@@ -111,7 +109,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            if (!Auth::check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'Bạn đã đăng xuất rồi.'
