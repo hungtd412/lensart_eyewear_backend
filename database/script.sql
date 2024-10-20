@@ -10,6 +10,7 @@ use lensart_eyewear
 select * from users
 
 desc users
+desc lensart_eyewear
 
 
 
