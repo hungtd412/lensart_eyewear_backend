@@ -9,7 +9,7 @@ use lensart_eyewear
 
 select * from users
 
-desc users
+desc glass_detail
 desc lensart_eyewear
 
 
