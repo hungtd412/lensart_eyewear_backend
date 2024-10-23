@@ -22,6 +22,14 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'auth/admin'
+], function () {
+    Route::post('/login', [AuthController::class, 'login'])->middleware('customGuest');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+});
+
+Route::group([
     'prefix' => 'reset-password'
 ], function () {
     Route::post('/email', [ForgetPasswordController::class, 'sendResetEmailLink']);
