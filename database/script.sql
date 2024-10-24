@@ -10,8 +10,7 @@ use lensart_eyewear
 select * from users
 
 desc glass_detail
-desc lensart_eyewear
-
+SELECT * FROM information_schema.columns WHERE table_schema = 'lensart_eyewear';
 
 
 
