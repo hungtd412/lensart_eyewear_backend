@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckIdParameter;
 use App\Http\Middleware\CustomGuest;
 use Illuminate\Foundation\Application;
@@ -34,11 +35,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'customGuest' => CustomGuest::class
-        ]);
-
-        $middleware->alias([
-            'checkIdParameter' => CheckIdParameter::class
+            'customGuest' => CustomGuest::class,
+            'checkIdParameter' => CheckIdParameter::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {})->create();

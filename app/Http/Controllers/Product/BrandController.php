@@ -14,15 +14,6 @@ class BrandController extends Controller
     //add policy for create, update, delete => allow admin only
     // ====> use policy or gate , add it to route for clean
 
-    public function authenAdmin(): bool
-    {
-        if (! Gate::allows('is_admin', auth()->user())) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function create(Request $request)
     {
         try {

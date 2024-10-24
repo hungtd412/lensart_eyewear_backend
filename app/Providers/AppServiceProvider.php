@@ -15,10 +15,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function RegisterGate()
     {
-        Gate::define('is_admin', function (User $user): bool {
-            if ($user->role_id == 1)
-                return (bool) true;
-            return false;
+        Gate::define('is-admin', function (User $user): bool {
+            return $user->role_id === 1;
         });
     }
 
