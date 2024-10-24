@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckIdParameter;
 use App\Http\Middleware\CustomGuest;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -25,11 +26,19 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/user.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/product.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'customGuest' => CustomGuest::class
+        ]);
+
+        $middleware->alias([
+            'checkIdParameter' => CheckIdParameter::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {})->create();
