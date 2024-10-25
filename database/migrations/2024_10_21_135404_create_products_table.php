@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branch', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
-            $table->unsignedBigInteger('manager_id');
+            $table->string('description');
+            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('category_id');
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             //Add foreign key
-            $table->foreign('manager_id')->references('id')->on('users');
+            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->foreign('category_id')->references('id')->on('category');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branch');
+        Schema::dropIfExists('products');
     }
 };

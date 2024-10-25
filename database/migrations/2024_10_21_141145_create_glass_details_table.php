@@ -22,11 +22,11 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
 
             //Add foreign key
-            $table->foreign('product_id')->references('id')->on('product');
-            $table->foreign('branch_id')->references('id')->on('branch');
-            $table->foreign('color_id')->references('id')->on('color');
-            $table->foreign('shape_id')->references('id')->on('shape');
-            $table->foreign('material_id')->references('id')->on('material');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('color_id')->references('id')->on('colors');
+            $table->foreign('shape_id')->references('id')->on('shapes');
+            $table->foreign('material_id')->references('id')->on('materials');
         });
     }
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('glass_detail');
+        Schema::dropIfExists('glass_details');
     }
 };
