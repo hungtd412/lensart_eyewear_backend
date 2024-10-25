@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('color', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
         });
 
-        Schema::create('material', function (Blueprint $table) {
+        Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('name');
         });
 
-        Schema::create('shape', function (Blueprint $table) {
+        Schema::create('shapes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
         });
 
-        Schema::create('feature', function (Blueprint $table) {
+        Schema::create('features', function (Blueprint $table) {
             $table->id();
             $table->string('name');
         });
@@ -37,9 +37,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('color');
-        Schema::dropIfExists('material');
-        Schema::dropIfExists('shape');
-        Schema::dropIfExists('feature');
+        Schema::dropIfExists('colors');
+        Schema::dropIfExists('materials');
+        Schema::dropIfExists('shapes');
+        Schema::dropIfExists('features');
     }
 };
