@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
+use App\Models\Feature;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class BrandController extends Controller
+class FeatureController extends Controller
 {
-    //add policy for create, update, delete => allow admin only
-    // ====> use policy or gate , add it to route for clean
-
     public function create(Request $request)
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100'
+                'name' => 'required|string|min:2|max:50'
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -26,10 +23,8 @@ class BrandController extends Controller
             ], 422);
         }
 
-        //as default, status is status
-        $validated['status'] = 'active';
         try {
-            $brand = Brand::create($validated);
+            $feature = Feature::create($validated);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -38,75 +33,17 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tạo brand mới thành công!',
-            $validated,
-            'brand' => $brand
+            'message' => 'Tạo Feature mới thành công!',
+            'feature' => $feature
         ], 200);
     }
 
-    public function index()
+    public function createMultiple(Request $request)
     {
-        try {
-            //active appear first
-            $brands = Brand::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'brands' => $brands
-        ], 200);
-    }
-
-    public function getById($id)
-    {
-        try {
-            $brand = Brand::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'brand' => $brand
-        ], 200);
-    }
-
-    // public function getByName($name)
-    // {
-    //     try {
-    //         $brand = Brand::where('name', $name)->firstOrFail();
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'error' => $e->getMessage(),
-    //         ], 422);
-    //     }
-
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'brand' => $brand
-    //     ], 200);
-    // }
-
-    public function update(Request $request, $id)
-    {
-        try {
-            $brand = Brand::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
         try {
             $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'status' => 'required|in:active,inactive'
+                'features' => 'required|array',
+                'features.*.name' => 'required|string|min:2|max:50',
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -115,30 +52,85 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $brand->update($validated);
+        $createdFeatures = [];
+
+        try {
+            foreach ($validated['features'] as $featureData) {
+                $feature = Feature::create($featureData);
+                $createdFeatures[] = $feature;
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brand
+            'message' => 'Tạo các features mới thành công!',
+            'features' => $createdFeatures
         ], 200);
     }
 
-    public function delete($id)
+    public function index()
     {
         try {
-            $brand = Brand::findOrFail($id);
+            $features = Feature::all();
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
             ], 422);
         }
 
-        $brand->status = 'inactive';
-        $brand->save();
+        return response()->json([
+            'status' => 'success',
+            'features' => $features
+        ], 200);
+    }
+
+    public function getById($id)
+    {
+        try {
+            $feature = Feature::findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 422);
+        }
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brand
+            'feature' => $feature
+        ], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $feature = Feature::findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 422);
+        }
+
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|min:2|max:50',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => 'fail',
+                'errors' => $e->validator->errors(),
+            ], 422);
+        }
+
+        $feature->update($validated);
+
+        return response()->json([
+            'status' => 'success',
+            'feature' => $feature
         ], 200);
     }
 }
