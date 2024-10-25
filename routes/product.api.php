@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Product\BrandController;
+use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ColorController;
 use App\Http\Controllers\Product\FeatureController;
 use App\Http\Controllers\Product\MaterialController;
@@ -16,6 +17,7 @@ Route::get('/getAllColors', [ColorController::class, 'index']);
 Route::get('/getAllShapes', [ShapeController::class, 'index']);
 Route::get('/getAllMaterials', [MaterialController::class, 'index']);
 Route::get('/getAllFeatures', [FeatureController::class, 'index']);
+Route::get('/getAllCategories', [CategoryController::class, 'index']);
 
 
 
@@ -30,6 +32,7 @@ Route::group([
     Route::post('/shapes/create', [ShapeController::class, 'create']);
     Route::post('/materials/create', [MaterialController::class, 'create']);
     Route::post('/features/create', [FeatureController::class, 'create']);
+    Route::post('/categories/create', [CategoryController::class, 'create']);
 });
 
 
@@ -45,6 +48,7 @@ Route::group([
     Route::post('/shapes/createMultiple', [ShapeController::class, 'createMultiple']);
     Route::post('/materials/createMultiple', [MaterialController::class, 'createMultiple']);
     Route::post('/features/createMultiple', [FeatureController::class, 'createMultiple']);
+    Route::post('/categories/createMultiple', [CategoryController::class, 'createMultiple']);
 });
 
 
@@ -69,6 +73,9 @@ Route::group([
 
     Route::post('/features/update/{id?}', [FeatureController::class, 'update']);
     Route::post('/features/delete/{id?}', [FeatureController::class, 'delete']);
+
+    Route::post('/categories/update/{id?}', [CategoryController::class, 'update']);
+    Route::post('/categories/delete/{id?}', [CategoryController::class, 'delete']);
 });
 
 
@@ -84,6 +91,7 @@ Route::group([
     Route::get('/shapes/getById/{id?}', [ShapeController::class, 'getById']);
     Route::get('/materials/getById/{id?}', [MaterialController::class, 'getById']);
     Route::get('/features/getById/{id?}', [FeatureController::class, 'getById']);
+    Route::get('/categories/getById/{id?}', [CategoryController::class, 'getById']);
 });
 
 // Route::get('/brands/getByName/{name?}', [BrandController::class, 'getByName']);

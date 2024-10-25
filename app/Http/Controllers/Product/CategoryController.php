@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
+use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
-    //add policy for create, update, delete => allow admin only
-    // ====> use policy or gate , add it to route for clean
-
     public function create(Request $request)
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100'
+                'name' => 'required|string|min:2|max:100',
+                'description' => 'required|string|min:2|max:224'
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -27,7 +25,7 @@ class BrandController extends Controller
         }
 
         try {
-            $brand = Brand::create($validated);
+            $category = Category::create($validated);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -36,8 +34,8 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tạo brand mới thành công!',
-            'brand' => $brand
+            'message' => 'Tạo category mới thành công!',
+            'category' => $category
         ], 200);
     }
 
@@ -45,8 +43,9 @@ class BrandController extends Controller
     {
         try {
             $validated = $request->validate([
-                'brands' => 'required|array',
-                'brands.*.name' => 'required|string|min:2|max:100'
+                'categories' => 'required|array',
+                'categories.*.name' => 'required|string|min:2|max:100',
+                'categories.*.description' => 'required|string|min:2|max:224'
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -55,12 +54,12 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $createdBrands = [];
+        $createdCategories = [];
 
         try {
-            foreach ($validated['brands'] as $brandData) {
-                $brand = Brand::create($brandData);
-                $createdBrands[] = $brand;
+            foreach ($validated['categories'] as $categoryData) {
+                $category = Category::create($categoryData);
+                $createdCategories[] = $category;
             }
         } catch (Exception $e) {
             return response()->json([
@@ -71,16 +70,15 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tạo các brands mới thành công!',
-            'brands' => $createdBrands
+            'message' => 'Tạo các categories mới thành công!',
+            'categories' => $createdCategories
         ], 200);
     }
 
     public function index()
     {
         try {
-            //active appear first
-            $brands = Brand::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
+            $categories = Category::all();
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -89,14 +87,14 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'brands' => $brands
+            'categories' => $categories
         ], 200);
     }
 
     public function getById($id)
     {
         try {
-            $brand = Brand::findOrFail($id);
+            $category = Category::findOrFail($id);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -105,30 +103,14 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brand
+            'category' => $category
         ], 200);
     }
-
-    // public function getByName($name)
-    // {
-    //     try {
-    //         $brand = Brand::where('name', $name)->firstOrFail();
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'error' => $e->getMessage(),
-    //         ], 422);
-    //     }
-
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'brand' => $brand
-    //     ], 200);
-    // }
 
     public function update(Request $request, $id)
     {
         try {
-            $brand = Brand::findOrFail($id);
+            $category = Category::findOrFail($id);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -138,7 +120,7 @@ class BrandController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:100',
-                'status' => 'required|in:active,inactive'
+                'description' => 'required|string|min:2|max:224'
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -147,30 +129,11 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $brand->update($validated);
+        $category->update($validated);
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brand
-        ], 200);
-    }
-
-    public function delete($id)
-    {
-        try {
-            $brand = Brand::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        $brand->status = 'inactive';
-        $brand->save();
-
-        return response()->json([
-            'status' => 'success',
-            'brand' => $brand
+            'category' => $category
         ], 200);
     }
 }
