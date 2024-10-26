@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-    // I make this function to enable admin to see profile of users
+    // Enable admin to see profile of users
     public function show(Request $request)
     {
         $user = User::find($request->id);
