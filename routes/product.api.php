@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\Product\BrandController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ColorController;
 use App\Http\Controllers\Product\FeatureController;
 use App\Http\Controllers\Product\MaterialController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ShapeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,9 @@ Route::get('/getAllShapes', [ShapeController::class, 'index']);
 Route::get('/getAllMaterials', [MaterialController::class, 'index']);
 Route::get('/getAllFeatures', [FeatureController::class, 'index']);
 Route::get('/getAllCategories', [CategoryController::class, 'index']);
+Route::get('/getAllBranches', [BranchController::class, 'index']);
+Route::get('/getAllProducts', [ProductController::class, 'index']);
+//check exist parameters in controller (filter)
 
 
 
@@ -33,6 +38,8 @@ Route::group([
     Route::post('/materials/create', [MaterialController::class, 'create']);
     Route::post('/features/create', [FeatureController::class, 'create']);
     Route::post('/categories/create', [CategoryController::class, 'create']);
+    Route::post('/branches/create', [BranchController::class, 'create']);
+    Route::post('/products/create', [ProductController::class, 'create']);
 });
 
 
@@ -49,6 +56,7 @@ Route::group([
     Route::post('/materials/createMultiple', [MaterialController::class, 'createMultiple']);
     Route::post('/features/createMultiple', [FeatureController::class, 'createMultiple']);
     Route::post('/categories/createMultiple', [CategoryController::class, 'createMultiple']);
+    Route::post('/products/createMultiple', [ProductController::class, 'createMultiple']);
 });
 
 
@@ -60,22 +68,28 @@ Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
     Route::post('/brands/update/{id?}', [BrandController::class, 'update']);
-    Route::post('/brands/delete/{id?}', [BrandController::class, 'delete']);
+    // Route::post('/brands/delete/{id?}', [BrandController::class, 'delete']);
 
     Route::post('/colors/update/{id?}', [ColorController::class, 'update']);
-    Route::post('/colors/delete/{id?}', [ColorController::class, 'delete']);
+    // Route::post('/colors/delete/{id?}', [ColorController::class, 'delete']);
 
     Route::post('/shapes/update/{id?}', [ShapeController::class, 'update']);
-    Route::post('/shapes/delete/{id?}', [ShapeController::class, 'delete']);
+    // Route::post('/shapes/delete/{id?}', [ShapeController::class, 'delete']);
 
     Route::post('/materials/update/{id?}', [MaterialController::class, 'update']);
-    Route::post('/materials/delete/{id?}', [MaterialController::class, 'delete']);
+    // Route::post('/materials/delete/{id?}', [MaterialController::class, 'delete']);
 
     Route::post('/features/update/{id?}', [FeatureController::class, 'update']);
-    Route::post('/features/delete/{id?}', [FeatureController::class, 'delete']);
+    // Route::post('/features/delete/{id?}', [FeatureController::class, 'delete']);
 
     Route::post('/categories/update/{id?}', [CategoryController::class, 'update']);
-    Route::post('/categories/delete/{id?}', [CategoryController::class, 'delete']);
+    // Route::post('/categories/delete/{id?}', [CategoryController::class, 'delete']);
+
+    Route::post('/branches/update/{id?}', [BranchController::class, 'update']);
+    // Route::post('/branches/delete/{id?}', [BranchController::class, 'delete']);
+
+    Route::post('/products/update/{id?}', [ProductController::class, 'update']);
+    // Route::post('/products/delete/{id?}', [ProductController::class, 'delete']);
 });
 
 
@@ -92,6 +106,8 @@ Route::group([
     Route::get('/materials/getById/{id?}', [MaterialController::class, 'getById']);
     Route::get('/features/getById/{id?}', [FeatureController::class, 'getById']);
     Route::get('/categories/getById/{id?}', [CategoryController::class, 'getById']);
+    Route::get('/branches/getById/{id?}', [BranchController::class, 'getById']);
+    Route::get('/products/getById/{id?}', [ProductController::class, 'getById']);
 });
 
 // Route::get('/brands/getByName/{name?}', [BrandController::class, 'getByName']);
