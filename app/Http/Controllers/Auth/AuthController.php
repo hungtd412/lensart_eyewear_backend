@@ -5,16 +5,23 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
-
+use App\Services\Auth\AuthService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = $this->authService->store($request->validated());
 
         return response()->json([
             'status' => 'success',
