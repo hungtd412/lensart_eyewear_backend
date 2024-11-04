@@ -10,5 +10,9 @@ class Product extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['name', 'description', 'brand_id', 'category_id', 'status'];
+    protected $fillable = ['name', 'description', 'brand_id', 'category_id', 'created_time', 'status'];
+
+    protected $casts = [
+        'created_time' => 'datetime:H:i',
+    ];
 }
