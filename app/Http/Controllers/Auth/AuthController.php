@@ -3,39 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        try {
-            $validated = $request->validate([
-                'username' => 'required|string|min:6|max:20|unique:users',
-                'password' => 'required|string|min:6',
-                'email' => 'required|string|email|max:255|unique:users',
-                'address' => 'required|string|max:255',
-                'phone' => [
-                    'required',
-                    'string',
-                    'max:11',
-                    'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
-                ],
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-
-        $user = User::create($validated);
+        $user = User::create($request->validated());
 
         return response()->json([
             'status' => 'success',
