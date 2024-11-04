@@ -3,39 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
-
+use App\Services\Auth\AuthService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function store(Request $request)
+    protected $authService;
+
+    public function __construct(AuthService $authService)
     {
-        try {
-            $validated = $request->validate([
-                'username' => 'required|string|min:6|max:20|unique:users',
-                'password' => 'required|string|min:6',
-                'email' => 'required|string|email|max:255|unique:users',
-                'address' => 'required|string|max:255',
-                'phone' => [
-                    'required',
-                    'string',
-                    'max:11',
-                    'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
-                ],
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
+        $this->authService = $authService;
+    }
 
-
-        $user = User::create($validated);
+    public function store(StoreUserRequest $request)
+    {
+        $user = $this->authService->store($request->validated());
 
         return response()->json([
             'status' => 'success',
