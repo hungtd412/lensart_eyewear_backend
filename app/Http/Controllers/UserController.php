@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
-class UserController extends Controller
-{
-    // Enable admin to see profile of users
-    public function show(Request $request)
-    {
-        $user = User::find($request->id);
+class UserController extends Controller {
+    protected $userService;
 
-        $response = Gate::inspect("view", $user);
-
-        if ($response->allowed()) {
-            return response()->json([
-                'user' => $user,
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Bạn không thể xem hồ sơ của người dùng khác!',
-            ]);
-        }
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
     }
 
-    public function profile()
-    {
-        return response()->json([
-            'user' => auth()->user(),
-        ]);;
+    public function show(Request $request) {
+        return $this->userService->show($request->id);
+    }
+
+    public function profile() {
+        return $this->userService->profile();
+    }
+
+    public function update(UpdateUserRequest $request, $id) {
+        return $this->userService->update($request->validated(), $id);
+    }
+
+    public function switchStatus($id) {
+        return $this->userService->switchStatus($id);
     }
 }
