@@ -32,14 +32,14 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/brands/create', [BrandController::class, 'create']);
-    Route::post('/colors/create', [ColorController::class, 'create']);
-    Route::post('/shapes/create', [ShapeController::class, 'create']);
-    Route::post('/materials/create', [MaterialController::class, 'create']);
-    Route::post('/features/create', [FeatureController::class, 'create']);
-    Route::post('/categories/create', [CategoryController::class, 'create']);
-    Route::post('/branches/create', [BranchController::class, 'create']);
-    Route::post('/products/create', [ProductController::class, 'create']);
+    Route::post('/brands/create', [BrandController::class, 'store']);
+    Route::post('/colors/create', [ColorController::class, 'store']);
+    Route::post('/shapes/create', [ShapeController::class, 'store']);
+    Route::post('/materials/create', [MaterialController::class, 'store']);
+    Route::post('/features/create', [FeatureController::class, 'store']);
+    Route::post('/categories/create', [CategoryController::class, 'store']);
+    Route::post('/branches/create', [BranchController::class, 'store']);
+    Route::post('/products/create', [ProductController::class, 'store']);
 });
 
 

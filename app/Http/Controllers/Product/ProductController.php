@@ -8,10 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class ProductController extends Controller
-{
-    public function create(Request $request)
-    {
+class ProductController extends Controller {
+    public function store(Request $request) {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:100',
@@ -41,8 +39,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function index()
-    {
+    public function index() {
         try {
             $products = Product::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
         } catch (Exception $e) {
@@ -57,8 +54,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         try {
             $product = Product::findOrFail($id);
         } catch (Exception $e) {
@@ -73,8 +69,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             $product = Product::findOrFail($id);
         } catch (Exception $e) {
@@ -106,8 +101,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $product = Product::findOrFail($id);
         } catch (Exception $e) {

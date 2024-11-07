@@ -8,13 +8,11 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class BrandController extends Controller
-{
+class BrandController extends Controller {
     //add policy for create, update, delete => allow admin only
     // ====> use policy or gate , add it to route for clean
 
-    public function create(Request $request)
-    {
+    public function store(Request $request) {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:100'
@@ -41,8 +39,7 @@ class BrandController extends Controller
         ], 200);
     }
 
-    public function createMultiple(Request $request)
-    {
+    public function createMultiple(Request $request) {
         try {
             $validated = $request->validate([
                 'brands' => 'required|array',
@@ -76,8 +73,7 @@ class BrandController extends Controller
         ], 200);
     }
 
-    public function index()
-    {
+    public function index() {
         try {
             //active appear first
             $brands = Brand::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
@@ -93,8 +89,7 @@ class BrandController extends Controller
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         try {
             $brand = Brand::findOrFail($id);
         } catch (Exception $e) {
@@ -125,8 +120,7 @@ class BrandController extends Controller
     //     ], 200);
     // }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             $brand = Brand::findOrFail($id);
         } catch (Exception $e) {
@@ -155,8 +149,7 @@ class BrandController extends Controller
         ], 200);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $brand = Brand::findOrFail($id);
         } catch (Exception $e) {

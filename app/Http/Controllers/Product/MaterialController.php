@@ -8,10 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class MaterialController extends Controller
-{
-    public function create(Request $request)
-    {
+class MaterialController extends Controller {
+    public function store(Request $request) {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:50'
@@ -38,8 +36,7 @@ class MaterialController extends Controller
         ], 200);
     }
 
-    public function createMultiple(Request $request)
-    {
+    public function createMultiple(Request $request) {
         try {
             $validated = $request->validate([
                 'materials' => 'required|array',
@@ -73,8 +70,7 @@ class MaterialController extends Controller
         ], 200);
     }
 
-    public function index()
-    {
+    public function index() {
         try {
             $material = Material::all();
         } catch (Exception $e) {
@@ -89,8 +85,7 @@ class MaterialController extends Controller
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         try {
             $material = Material::findOrFail($id);
         } catch (Exception $e) {
@@ -121,8 +116,7 @@ class MaterialController extends Controller
     //     ], 200);
     // }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             $material = Material::findOrFail($id);
         } catch (Exception $e) {

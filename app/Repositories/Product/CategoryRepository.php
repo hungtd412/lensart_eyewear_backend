@@ -10,7 +10,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
     }
 
     public function getAll() {
-        return Category::all();
+        return Category::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
     public function getById($id) {
