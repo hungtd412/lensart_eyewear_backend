@@ -19,7 +19,10 @@ class AuthController extends Controller {
     }
 
     public function login(LoginUserRequest $request) {
-        return $this->userService->login($request->validated());
+        // Get the route prefix from the current request
+        $routePrefix = $request->route()->getPrefix();
+
+        return $this->userService->login($request->validated(), $routePrefix);
     }
 
     public function logout() {

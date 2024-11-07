@@ -13,8 +13,8 @@ class UserController extends Controller {
         $this->userService = $userService;
     }
 
-    public function show(Request $request) {
-        return $this->userService->show($request->id);
+    public function getById(Request $request) {
+        return $this->userService->getById($request->id);
     }
 
     public function profile() {

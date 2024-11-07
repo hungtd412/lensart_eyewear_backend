@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Route;
 //**************************************
 // GET ALL
 //**************************************
-Route::get('/getAllBrands', [BrandController::class, 'index']);
-Route::get('/getAllColors', [ColorController::class, 'index']);
-Route::get('/getAllShapes', [ShapeController::class, 'index']);
-Route::get('/getAllMaterials', [MaterialController::class, 'index']);
-Route::get('/getAllFeatures', [FeatureController::class, 'index']);
-Route::get('/getAllCategories', [CategoryController::class, 'index']);
-Route::get('/getAllBranches', [BranchController::class, 'index']);
-Route::get('/getAllProducts', [ProductController::class, 'index']);
+Route::get('brands', [BrandController::class, 'index']);
+Route::get('/colors', [ColorController::class, 'index']);
+Route::get('/shapes', [ShapeController::class, 'index']);
+Route::get('/materials', [MaterialController::class, 'index']);
+Route::get('/features', [FeatureController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/branches', [BranchController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index']);
 //check exist parameters in controller (filter)
 
 
@@ -110,4 +110,27 @@ Route::group([
     Route::get('/products/getById/{id?}', [ProductController::class, 'getById']);
 });
 
+
+//**************************************
+//  SWITCH STATUS
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
+], function () {
+    Route::post('/brands/switch-status/{id?}', [BrandController::class, 'switchStatus']);
+
+    Route::post('/colors/switch-status/{id?}', [ColorController::class, 'switchStatus']);
+
+    Route::post('/shapes/switch-status/{id?}', [ShapeController::class, 'switchStatus']);
+
+    Route::post('/materials/switch-status/{id?}', [MaterialController::class, 'switchStatus']);
+
+    Route::post('/features/switch-status/{id?}', [FeatureController::class, 'switchStatus']);
+
+    Route::post('/categories/switch-status/{id?}', [CategoryController::class, 'switchStatus']);
+
+    Route::post('/branches/switch-status/{id?}', [BranchController::class, 'switchStatus']);
+
+    Route::post('/products/switch-status/{id?}', [ProductController::class, 'switchStatus']);
+});
 // Route::get('/brands/getByName/{name?}', [BrandController::class, 'getByName']);

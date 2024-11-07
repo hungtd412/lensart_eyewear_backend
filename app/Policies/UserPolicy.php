@@ -5,14 +5,21 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class UserPolicy
-{
+class UserPolicy {
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): Response
-    {
-        return $user->id === $model->id || $user->role_id == 1
+    public function view(User $user, User $model): Response {
+        if ($model->role_id === 1) {
+            return $user->id === $model->id
+                || $user->role_id === 1
+                ? Response::allow()
+                : Response::deny();
+        }
+
+        return $user->id === $model->id
+            || $user->role_id === 1
+            || $user->role_id === 2
             ? Response::allow()
             : Response::deny();
     }
@@ -20,10 +27,17 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): Response
-    {
-        // return $user->id === $model->id || $user->role_id == 1;
-        return $user->id === $model->id || $user->role_id == 1
+    public function update(User $user, User $model): Response {
+        if ($model->role_id === 1) {
+            return $user->id === $model->id
+                || $user->role_id === 1
+                ? Response::allow()
+                : Response::deny();
+        }
+
+        return $user->id === $model->id
+            || $user->role_id == 1
+            || $user->role_id === 2
             ? Response::allow()
             : Response::deny();
     }
