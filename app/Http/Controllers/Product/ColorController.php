@@ -8,10 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class ColorController extends Controller
-{
-    public function create(Request $request)
-    {
+class ColorController extends Controller {
+    public function store(Request $request) {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:50'
@@ -38,8 +36,7 @@ class ColorController extends Controller
         ], 200);
     }
 
-    public function createMultiple(Request $request)
-    {
+    public function createMultiple(Request $request) {
         try {
             $validated = $request->validate([
                 'colors' => 'required|array',
@@ -74,8 +71,7 @@ class ColorController extends Controller
     }
 
 
-    public function index()
-    {
+    public function index() {
         try {
             $colors = Color::all();
         } catch (Exception $e) {
@@ -90,8 +86,7 @@ class ColorController extends Controller
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         try {
             $color = Color::findOrFail($id);
         } catch (Exception $e) {
@@ -106,8 +101,7 @@ class ColorController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             $color = Color::findOrFail($id);
         } catch (Exception $e) {

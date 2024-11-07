@@ -3,7 +3,6 @@
 namespace App\Services\Product;
 
 use App\Repositories\Product\CategoryRepositoryInterface;
-use Illuminate\Support\Facades\Gate;
 
 class CategoryService {
     protected $categoryRepository;
@@ -21,10 +20,17 @@ class CategoryService {
         ], 200);
     }
 
+    public function getAll() {
+        $categories = $this->categoryRepository->getAll();
+
+        return response()->json([
+            'status' => 'success',
+            'category' => $categories
+        ], 200);
+    }
 
     public function getById($id) {
         $category = $this->categoryRepository->getById($id);
-
 
         return response()->json([
             'message' => 'success',

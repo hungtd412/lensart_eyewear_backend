@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Models\Category;
 use App\Services\Product\CategoryService;
 use Exception;
@@ -16,32 +17,8 @@ class CategoryController extends Controller {
         $this->categoryService = $categoryService;
     }
 
-    public function create(Request $request) {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'description' => 'required|string|min:2|max:224'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        try {
-            $category = Category::create($validated);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo category mới thành công!',
-            'category' => $category
-        ], 200);
+    public function create(StoreCategoryRequest $request) {
+        return $this->categoryService->store($request->validated());
     }
 
     // public function createMultiple(Request $request) {
@@ -82,62 +59,15 @@ class CategoryController extends Controller {
 
 
     public function index() {
-        try {
-            $categories = Category::all();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'categories' => $categories
-        ], 200);
+        return $this->categoryService->getAll();
     }
 
     public function getById($id) {
-        try {
-            $category = Category::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'category' => $category
-        ], 200);
+        return $this->categoryService->getById($id);
     }
 
-    public function update(Request $request, $id) {
-        try {
-            $category = Category::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'description' => 'required|string|min:2|max:224'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $category->update($validated);
-
-        return response()->json([
-            'status' => 'success',
-            'category' => $category
-        ], 200);
+    public function update(StoreCategoryRequest $request, $id) {
+        return $this->categoryService->update($request->validated(), $id);
     }
 
     public function switchStatus($id) {

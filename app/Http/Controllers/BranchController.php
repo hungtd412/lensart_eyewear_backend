@@ -7,10 +7,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class BranchController extends Controller
-{
-    public function create(Request $request)
-    {
+class BranchController extends Controller {
+    public function store(Request $request) {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|min:2|max:100',
@@ -39,8 +37,7 @@ class BranchController extends Controller
         ], 200);
     }
 
-    public function index()
-    {
+    public function index() {
         try {
             $branches = Branch::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
         } catch (Exception $e) {
@@ -55,8 +52,7 @@ class BranchController extends Controller
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         try {
             $branch = Branch::findOrFail($id);
         } catch (Exception $e) {
@@ -71,8 +67,7 @@ class BranchController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         try {
             $branch = Branch::findOrFail($id);
         } catch (Exception $e) {
@@ -103,8 +98,7 @@ class BranchController extends Controller
         ], 200);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $branch = Branch::findOrFail($id);
         } catch (Exception $e) {
