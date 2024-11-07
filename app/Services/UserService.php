@@ -23,8 +23,8 @@ class UserService {
         ], 200);
     }
 
-    public function login($data) {
-        if ($this->userRepository->login($data)) {
+    public function login($data, $routePrefix) {
+        if ($this->userRepository->login($data, $routePrefix)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Đăng nhập thành công.',
@@ -61,8 +61,8 @@ class UserService {
         }
     }
 
-    public function show($id) {
-        $user = $this->userRepository->findById($id);
+    public function getById($id) {
+        $user = $this->userRepository->getById($id);
 
         $response = Gate::inspect("view", $user);
 
@@ -72,8 +72,8 @@ class UserService {
             ]);
         } else {
             return response()->json([
-                'message' => 'Bạn không thể xem hồ sơ của người dùng khác!',
-            ], 404);
+                'message' => 'Bạn không thể xem hồ sơ của người dùng này!',
+            ], 403);
         }
     }
 
@@ -85,7 +85,7 @@ class UserService {
     }
 
     public function update($data, $id) {
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->getById($id);
 
         $response = Gate::inspect("view", $user);
 
@@ -95,13 +95,13 @@ class UserService {
             return $user;
         } else {
             return response()->json([
-                'message' => 'Bạn không thể chỉnh sửa hồ sơ của người dùng khác!',
-            ], 404);
+                'message' => 'Bạn không thể chỉnh sửa hồ sơ của người dùng này!',
+            ], 403);
         }
     }
 
     public function switchStatus($id) {
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->getById($id);
 
         $response = Gate::inspect("view", $user);
 
@@ -114,7 +114,7 @@ class UserService {
             ], 200);
         } else {
             return response()->json([
-                'message' => 'Bạn không thể chỉnh sửa hồ sơ của người dùng khác!',
+                'message' => 'Bạn không thể chỉnh sửa hồ sơ của người dùng này!',
             ], 404);
         }
     }

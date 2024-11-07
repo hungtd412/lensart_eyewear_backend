@@ -15,8 +15,22 @@ class UserRepository implements UserRepositoryInterface {
         return User::create($user);
     }
 
-    public function login(array $user): bool {
-        return auth()->attempt($user);
+    public function login(array $user, $routePrefix): bool {
+        if (auth()->attempt($user)) {
+            $user = auth()->user();
+
+            // if user is not admin or manager then logout
+            if (
+                $routePrefix === 'api/auth/admin'
+                && $user->role_id !== 1 && $user->role_id !== 2
+            ) {
+                $this->deleteToken();
+                return false;
+            }
+
+            return true;
+        }
+        return false;
     }
 
     public function isLoggedIn(): bool {
@@ -31,7 +45,7 @@ class UserRepository implements UserRepositoryInterface {
         auth()->user()->tokens()->delete();
     }
 
-    public function findById($id) {
+    public function getById($id) {
         return User::find($id);
     }
 
