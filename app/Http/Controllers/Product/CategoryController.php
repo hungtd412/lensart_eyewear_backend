@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Models\Category;
 use App\Services\Product\CategoryService;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller {
     protected $categoryService;

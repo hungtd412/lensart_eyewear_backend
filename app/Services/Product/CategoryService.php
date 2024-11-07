@@ -32,6 +32,12 @@ class CategoryService {
     public function getById($id) {
         $category = $this->categoryRepository->getById($id);
 
+        if ($category === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ]);
+        }
+
         return response()->json([
             'message' => 'success',
             'category' => $category,

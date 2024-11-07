@@ -56,12 +56,27 @@ class UserSeeder extends Seeder {
             'phone' => '0323456786'
         ]);
 
-
         for ($i = 1; $i <= 10; $i++) {
             $prefix = $faker->randomElement(['03', '05', '07', '08', '09']); // Select a random prefix
             $number = $prefix . $faker->numerify(str_repeat('#', $faker->numberBetween(8, 9))); // Generate 8-9 more digits
 
-            $address = 'Nhà phố, ' . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);
+            $address =
+                $faker->numberBetween(1, 1000)
+                . ' '
+                . $faker->randomElement([
+                    'Đường Lê Lợi',
+                    'Đường Nguyễn Huệ',
+                    'Đường Trần Hưng Đạo',
+                    'Đường Hai Bà Trưng',
+                    'Đường Phạm Ngũ Lão',
+                    'Đường Điện Biên Phủ',
+                    'Đường Lý Thái Tổ',
+                    'Đường Nguyễn Trãi',
+                    'Đường Cách Mạng Tháng Tám',
+                    'Đường Pasteur'
+                ])
+                . ', '
+                . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);
 
             DB::table('users')->insert([
                 'username' => 'customer' . $i,

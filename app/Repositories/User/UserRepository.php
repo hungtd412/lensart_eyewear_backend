@@ -46,7 +46,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function getById($id) {
-        return User::find($id);
+        return User::findOrFail($id);
     }
 
     public function profile() {
