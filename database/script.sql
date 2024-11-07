@@ -10,8 +10,7 @@ use lensart_eyewear
 select * from products
 select * from users
 select * from category
-select * from brands
-drop table products
+select * from branches
 
 desc products
 SELECT * FROM information_schema.columns WHERE table_schema = 'lensart_eyewear';

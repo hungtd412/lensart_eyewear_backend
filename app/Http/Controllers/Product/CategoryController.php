@@ -17,7 +17,7 @@ class CategoryController extends Controller {
         $this->categoryService = $categoryService;
     }
 
-    public function create(StoreCategoryRequest $request) {
+    public function store(StoreCategoryRequest $request) {
         return $this->categoryService->store($request->validated());
     }
 
