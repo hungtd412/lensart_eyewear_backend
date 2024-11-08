@@ -9,16 +9,14 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('product_details', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('branch_id');
-            $table->integer('quantity')->default(0);
-            $table->decimal('price', 10, 2);
+            $table->string('image_url');
+            $table->string('image_public_id')->nullable();
 
             //Add foreign key
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('branch_id')->references('id')->on('branches');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('glass_details');
+        Schema::dropIfExists('product_images');
     }
 };

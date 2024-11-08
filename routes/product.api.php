@@ -7,6 +7,8 @@ use App\Http\Controllers\Product\ColorController;
 use App\Http\Controllers\Product\FeatureController;
 use App\Http\Controllers\Product\MaterialController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\ProductFeatureController;
+use App\Http\Controllers\Product\ProductImageController;
 use App\Http\Controllers\Product\ShapeController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,9 @@ Route::get('/features', [FeatureController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/branches', [BranchController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/product-features', [ProductFeatureController::class, 'index']);
+Route::get('/product-images', [ProductImageController::class, 'index']);
 //check exist parameters in controller (filter)
 
 
@@ -40,6 +45,8 @@ Route::group([
     Route::post('/categories/create', [CategoryController::class, 'store']);
     Route::post('/branches/create', [BranchController::class, 'store']);
     Route::post('/products/create', [ProductController::class, 'store']);
+    Route::post('/product-features/create', [ProductFeatureController::class, 'store']);
+    Route::post('/product-images/create', [ProductImageController::class, 'store']);
 });
 
 
@@ -89,7 +96,9 @@ Route::group([
     // Route::post('/branches/delete/{id?}', [BranchController::class, 'delete']);
 
     Route::post('/products/update/{id?}', [ProductController::class, 'update']);
-    // Route::post('/products/delete/{id?}', [ProductController::class, 'delete']);
+    Route::post('/product-images/update/{id?}', [ProductImageController::class, 'update']);
+
+    Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
 });
 
 
@@ -108,6 +117,21 @@ Route::group([
     Route::get('/categories/getById/{id?}', [CategoryController::class, 'getById']);
     Route::get('/branches/getById/{id?}', [BranchController::class, 'getById']);
     Route::get('/products/getById/{id?}', [ProductController::class, 'getById']);
+    Route::get('/product-images/getById/{id?}', [ProductImageController::class, 'getById']);
+    Route::get('/product-features/getById/{id?}', [ProductFeatureController::class, 'getById']);
+});
+
+
+
+//**************************************
+//  GET BY PRODUCT ID
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter'],
+], function () {
+    Route::get('/products/getById/{id?}', [ProductController::class, 'getById']);
+    Route::get('/product-images/getById/{id?}', [ProductImageController::class, 'getById']);
+    Route::get('/product-features/getById/{id?}', [ProductFeatureController::class, 'getById']);
 });
 
 
@@ -133,4 +157,14 @@ Route::group([
 
     Route::post('/products/switch-status/{id?}', [ProductController::class, 'switchStatus']);
 });
-// Route::get('/brands/getByName/{name?}', [BrandController::class, 'getByName']);
+
+//**************************************
+//  SWITCH STATUS
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
+], function () {
+    Route::post('/product-images/delete/{id?}', [ProductImageController::class, 'delete']);
+
+    Route::post('/product-features/delete/{id?}', [ProductImageController::class, 'delete']);
+});
