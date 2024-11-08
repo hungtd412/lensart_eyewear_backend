@@ -101,6 +101,10 @@ class ProductController extends Controller {
         ], 200);
     }
 
+    public function updateEach(Request $request, $id, $attributeOfProduct) {
+        return $this->productService->updateEach($request, $id, $attributeOfProduct);
+    }
+
     public function delete($id) {
         try {
             $product = Product::findOrFail($id);
