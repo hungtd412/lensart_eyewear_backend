@@ -69,7 +69,7 @@ class UserService {
         if ($response->allowed()) {
             return response()->json([
                 'user' => $user,
-            ]);
+            ], 200);
         } else {
             return response()->json([
                 'message' => 'Bạn không thể xem hồ sơ của người dùng này!',
@@ -81,7 +81,7 @@ class UserService {
         $user = $this->userRepository->profile();
         return response()->json([
             'user' => $user,
-        ]);
+        ], 200);
     }
 
     public function update($data, $id) {

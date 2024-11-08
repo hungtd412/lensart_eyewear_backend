@@ -6,6 +6,10 @@ use App\Repositories\Product\BrandRepository;
 use App\Repositories\Product\BrandRepositoryInterface;
 use App\Repositories\Product\CategoryRepository;
 use App\Repositories\Product\CategoryRepositoryInterface;
+use App\Repositories\Product\ProductFeatureRepository;
+use App\Repositories\Product\ProductFeatureRepositoryInterface;
+use App\Repositories\Product\ProductImageRepository;
+use App\Repositories\Product\ProductImageRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -16,8 +20,14 @@ class RepositoryServiceProvider extends ServiceProvider {
      */
     public function register(): void {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
+
+        $this->app->bind(ProductFeatureRepositoryInterface::class, ProductFeatureRepository::class);
+
+        $this->app->bind(ProductImageRepositoryInterface::class, ProductImageRepository::class);
     }
 
     /**

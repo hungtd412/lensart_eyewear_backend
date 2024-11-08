@@ -35,13 +35,13 @@ class CategoryService {
         if ($category === null) {
             return response()->json([
                 'message' => 'Can not find any data matching these conditions!'
-            ]);
+            ], 404);
         }
 
         return response()->json([
             'message' => 'success',
             'category' => $category,
-        ]);
+        ], 200);
     }
 
     public function update($data, $id) {

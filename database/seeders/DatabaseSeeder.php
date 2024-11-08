@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder {
             AttributesProductSeeder::class,
             BranchSeeder::class,
             ProductSeeder::class,
+            ProductFeatureSeeder::class,
+            ProductImageSeeder::class,
         ]);
     }
 }

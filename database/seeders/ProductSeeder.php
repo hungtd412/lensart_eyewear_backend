@@ -42,7 +42,7 @@ class ProductSeeder extends Seeder {
             $productId = DB::table('products')->insertGetId([
                 'name' => $name . $i,
                 'description' => $faker->sentence(15),
-                'category_id' => 1,
+                'category_id' => $type,
                 'brand_id' => $faker->numberBetween(1, 3),
                 'color_id' => $faker->numberBetween(1, 3),
                 'material_id' => $faker->numberBetween(1, 3),
