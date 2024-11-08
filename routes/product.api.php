@@ -7,6 +7,7 @@ use App\Http\Controllers\Product\ColorController;
 use App\Http\Controllers\Product\FeatureController;
 use App\Http\Controllers\Product\MaterialController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\ProductController2;
 use App\Http\Controllers\Product\ProductFeatureController;
 use App\Http\Controllers\Product\ProductImageController;
 use App\Http\Controllers\Product\ShapeController;
@@ -44,7 +45,7 @@ Route::group([
     Route::post('/features/create', [FeatureController::class, 'store']);
     Route::post('/categories/create', [CategoryController::class, 'store']);
     Route::post('/branches/create', [BranchController::class, 'store']);
-    Route::post('/products/create', [ProductController::class, 'store']);
+    Route::post('/products/create', [ProductController2::class, 'store']);
     Route::post('/product-features/create', [ProductFeatureController::class, 'store']);
     Route::post('/product-images/create', [ProductImageController::class, 'store']);
 });
@@ -69,7 +70,7 @@ Route::group([
 
 
 //**************************************
-//  UPDATE, DELETE
+//  UPDATE
 //**************************************
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
@@ -96,9 +97,12 @@ Route::group([
     // Route::post('/branches/delete/{id?}', [BranchController::class, 'delete']);
 
     Route::post('/products/update/{id?}', [ProductController::class, 'update']);
+
     Route::post('/product-images/update/{id?}', [ProductImageController::class, 'update']);
 
     Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
+
+    Route::post('/products/update-each/{id?}/{attributeOfProduct?}', [ProductController2::class, 'updateEach']);
 });
 
 
@@ -159,7 +163,7 @@ Route::group([
 });
 
 //**************************************
-//  SWITCH STATUS
+//  DELETE
 //**************************************
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
