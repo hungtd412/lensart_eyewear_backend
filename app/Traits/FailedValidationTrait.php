@@ -7,10 +7,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-trait FailedValidationTrait
-{
-    protected function failedValidation(Validator $validator)
-    {
+trait FailedValidationTrait {
+    protected function failedValidation(Validator $validator) {
         $errors = (new ValidationException($validator))->errors();
         throw new HttpResponseException(response()->json(
             [

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Product;
 
-interface BrandRepositoryInterface {
+interface FeatureRepositoryInterface {
     public function store(array $feature);
     public function getAll();
     public function getById(array $feature);

@@ -12,21 +12,25 @@ return new class extends Migration {
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
 
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
 
         Schema::create('shapes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
 
         Schema::create('features', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
 

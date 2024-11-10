@@ -6,6 +6,8 @@ use App\Repositories\Product\BrandRepository;
 use App\Repositories\Product\BrandRepositoryInterface;
 use App\Repositories\Product\CategoryRepository;
 use App\Repositories\Product\CategoryRepositoryInterface;
+use App\Repositories\Product\FeatureRepository;
+use App\Repositories\Product\FeatureRepositoryInterface;
 use App\Repositories\Product\ProductDetailRepository;
 use App\Repositories\Product\ProductDetailRepositoryInterface;
 use App\Repositories\Product\ProductFeatureRepository;
@@ -36,6 +38,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
 
         $this->app->bind(ProductDetailRepositoryInterface::class, ProductDetailRepository::class);
+
+        $this->app->bind(FeatureRepositoryInterface::class, FeatureRepository::class);
     }
 
     /**

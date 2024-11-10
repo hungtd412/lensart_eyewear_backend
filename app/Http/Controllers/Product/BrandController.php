@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreBrandRequest;
+use App\Http\Requests\Product\StoreProductAttributesRequest;
 use App\Services\Product\BrandService;
 
 class BrandController extends Controller {
@@ -13,7 +13,7 @@ class BrandController extends Controller {
         $this->brandService = $brandService;
     }
 
-    public function store(StoreBrandRequest $request) {
+    public function store(StoreProductAttributesRequest $request) {
         return $this->brandService->store($request->validated());
     }
 
@@ -25,7 +25,7 @@ class BrandController extends Controller {
         return $this->brandService->getById($id);
     }
 
-    public function update(StoreBrandRequest $request, $id) {
+    public function update(StoreProductAttributesRequest $request, $id) {
         return $this->brandService->update($request->validated(), $id);
     }
 
