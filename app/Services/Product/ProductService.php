@@ -2,17 +2,29 @@
 
 namespace App\Services\Product;
 
+use App\Repositories\Product\ProductDetailRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 
 class ProductService {
     protected $productRepository;
+    protected $productDetailRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository) {
+    public function __construct(ProductRepositoryInterface $productRepository, ProductDetailRepositoryInterface $productDetailRepository) {
         $this->productRepository = $productRepository;
+        $this->productDetailRepository = $productDetailRepository;
     }
 
     public function store($data) {
         $product = $this->productRepository->store($data);
+
+        $price = $product->price;
+        $dataProductDetail = [
+            'product_id' => $product->id,
+            'branch_ids' => ['1', '2', '3'],
+            'prices' => []
+        ];
+
+        // $this->productDetailRepository->store($data->toArray());
 
         return response()->json([
             'status' => 'success',
@@ -31,7 +43,7 @@ class ProductService {
 
     public function getById($id) {
         $product = $this->productRepository->getById($id);
-
+        // return gettype($product->);
         if ($product === null) {
             return response()->json([
                 'message' => 'Can not find any data matching these conditions!'

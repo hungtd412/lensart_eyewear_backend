@@ -44,6 +44,21 @@ class ProductFeatureService {
         ], 200);
     }
 
+    public function getByProductId($id) {
+        $productFeatures = $this->productFeatureRepository->getByProductId($id);
+
+        if ($productFeatures === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'productFeatures' => $productFeatures,
+        ], 200);
+    }
+
     public function update($data, $id) {
         $productFeature = $this->productFeatureRepository->getById($id);
 

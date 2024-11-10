@@ -5,12 +5,10 @@ use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------
-|Auth Route
-|--------------------------------
-*/
 
+//**************************************
+// CUSTOMER AUTH
+//**************************************
 Route::group([
     'prefix' => 'auth'
 ], function () {
@@ -21,6 +19,11 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
+
+
+//**************************************
+// ADMIN AUTH
+//**************************************
 Route::group([
     'prefix' => 'auth/admin'
 ], function () {
@@ -29,6 +32,11 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
+
+
+//**************************************
+// RESET PASSWORD
+//**************************************
 Route::group([
     'prefix' => 'reset-password'
 ], function () {
