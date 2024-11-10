@@ -3,128 +3,33 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Feature;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\Product\StoreProductAttributesRequest;
+use App\Services\Product\FeatureService;
 
 class FeatureController extends Controller {
-    public function store(Request $request) {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:50'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
+    protected $featureService;
 
-        try {
-            $feature = Feature::create($validated);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo Feature mới thành công!',
-            'feature' => $feature
-        ], 200);
+    public function __construct(FeatureService $featureService) {
+        $this->featureService = $featureService;
     }
 
-    public function createMultiple(Request $request) {
-        try {
-            $validated = $request->validate([
-                'features' => 'required|array',
-                'features.*.name' => 'required|string|min:2|max:50',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $createdFeatures = [];
-
-        try {
-            foreach ($validated['features'] as $featureData) {
-                $feature = Feature::create($featureData);
-                $createdFeatures[] = $feature;
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo các features mới thành công!',
-            'features' => $createdFeatures
-        ], 200);
+    public function store(StoreProductAttributesRequest $request) {
+        return $this->featureService->store($request->validated());
     }
 
     public function index() {
-        try {
-            $features = Feature::all();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'features' => $features
-        ], 200);
+        return $this->featureService->getAll();
     }
 
     public function getById($id) {
-        try {
-            $feature = Feature::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'feature' => $feature
-        ], 200);
+        return $this->featureService->getById($id);
     }
 
-    public function update(Request $request, $id) {
-        try {
-            $feature = Feature::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
+    public function update(StoreProductAttributesRequest $request, $id) {
+        return $this->featureService->update($request->validated(), $id);
+    }
 
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:50',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $feature->update($validated);
-
-        return response()->json([
-            'status' => 'success',
-            'feature' => $feature
-        ], 200);
+    public function switchStatus($id) {
+        return $this->featureService->switchStatus($id);
     }
 }

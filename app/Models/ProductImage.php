@@ -9,5 +9,5 @@ class ProductImage extends Model {
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['product_id', 'image_url', 'image_public_id',  'status'];
+    protected $fillable = ['product_id', 'image_url', 'image_public_id'];
 }

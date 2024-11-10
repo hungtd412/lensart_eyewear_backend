@@ -5,7 +5,7 @@ namespace App\Http\Requests\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationTrait;
 
-class StoreBrandRequest extends FormRequest {
+class StoreProductAttributesRequest extends FormRequest {
     use FailedValidationTrait;
 
     /**
@@ -23,6 +23,7 @@ class StoreBrandRequest extends FormRequest {
     public function rules(): array {
         return [
             'name' => 'required|string|min:2|max:100',
+            'status' => 'required|in:inactive,active',
         ];
     }
 }

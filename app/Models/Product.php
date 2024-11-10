@@ -14,10 +14,10 @@ class Product extends Model {
         'description',
         'brand_id',
         'category_id',
-        'color_id',
         'shape_id',
         'material_id',
         'gender',
+        'price',
         'created_time',
         'status'
     ];

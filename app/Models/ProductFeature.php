@@ -9,5 +9,5 @@ class ProductFeature extends Model {
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['product_id', 'feature_id', 'status'];
+    protected $fillable = ['product_id', 'feature_id'];
 }
