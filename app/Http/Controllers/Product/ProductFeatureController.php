@@ -25,6 +25,10 @@ class ProductFeatureController extends Controller {
         return $this->productFeatureService->getById($id);
     }
 
+    public function getByProductId($id) {
+        return $this->productFeatureService->getByProductId($id);
+    }
+
     public function update(Request $request, $id) {
         return $this->productFeatureService->update($request, $id);
     }

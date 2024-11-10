@@ -10,15 +10,17 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('product_details', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('color_id');
             $table->integer('quantity')->default(0);
-            $table->decimal('price', 10, 2);
+
+            $table->primary(['product_id', 'branch_id', 'color_id']);
 
             //Add foreign key
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('color_id')->references('id')->on('colors');
         });
     }
 

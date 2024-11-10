@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('product_features', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('feature_id');
+
+            $table->primary(['product_id', 'feature_id']);
 
             //Add foreign key
             $table->foreign('product_id')->references('id')->on('products');

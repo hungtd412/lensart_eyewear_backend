@@ -26,6 +26,10 @@ class ProductFeatureRepository implements ProductFeatureRepositoryInterface {
         $productFeature->update($data);
     }
 
+    public function deleteByProductId($id) {
+        ProductFeature::where('product_id', $id)->delete();
+    }
+
     public function delete($productFeature) {
         $productFeature->delete();
     }

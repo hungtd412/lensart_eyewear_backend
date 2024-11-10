@@ -5,9 +5,9 @@ select products.name, branches.name, quantity, price from products, product_deta
 where products.id = product_details.product_id
 and branches.id = product_details.branch_id
 and branch_id = 1
-select * from products ORDER BY created_time desc
-select * from product_images
-select * from colors
+select * from products ORDER BY created_time
+select * from product_features ORDER BY product_id
+select * from branches
 
 desc products
 SELECT * FROM information_schema.columns WHERE table_schema = 'lensart_eyewear';

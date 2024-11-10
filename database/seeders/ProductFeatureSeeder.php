@@ -14,10 +14,12 @@ class ProductFeatureSeeder extends Seeder {
         $featureIds = DB::table('features')->pluck('id')->toArray();
 
         // Loop through each product
-        $products = DB::table('products')->get();
+        $products = DB::table('products')
+            ->whereIn('category_id', [1, 3])
+            ->get();
         foreach ($products as $product) {
             // Select 1–2 random feature IDs for each product
-            $randomFeatureIds = $faker->randomElements($featureIds, $faker->numberBetween(1, 2));
+            $randomFeatureIds = $faker->randomElements($featureIds, $faker->numberBetween(1, 3));
 
             // Insert each selected feature into product_features
             foreach ($randomFeatureIds as $featureId) {

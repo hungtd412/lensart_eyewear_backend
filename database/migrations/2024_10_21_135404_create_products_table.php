@@ -15,17 +15,16 @@ return new class extends Migration {
             $table->string('description', 1000);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('color_id');
             $table->unsignedBigInteger('material_id');
             $table->unsignedBigInteger('shape_id');
             $table->enum('gender', ['male', 'female', 'unisex'])->default('unisex');
+            $table->decimal('price', 10, 2);
             $table->timestamp('created_time');
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             //Add foreign key
             $table->foreign('category_id')->references('id')->on('category');
             $table->foreign('brand_id')->references('id')->on('brands');
-            $table->foreign('color_id')->references('id')->on('colors');
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('shape_id')->references('id')->on('shapes');
         });

@@ -20,6 +20,9 @@ class AttributesProductSeeder extends Seeder {
     public function seedBrand() {
         DB::table('brands')->insert([
             [
+                'name' => 'LensArt',
+            ],
+            [
                 'name' => 'Bevis',
             ],
             [
@@ -41,6 +44,12 @@ class AttributesProductSeeder extends Seeder {
             ],
             [
                 'name' => 'Xám',
+            ],
+            [
+                'name' => 'Tím',
+            ],
+            [
+                'name' => 'Bạch kim',
             ],
         ]);
     }
@@ -76,13 +85,25 @@ class AttributesProductSeeder extends Seeder {
     public function seedFeature() {
         DB::table('features')->insert([
             [
+                'name' => 'Siêu mỏng',
+            ],
+            [
+                'name' => 'Chống ánh sáng xanh',
+            ],
+            [
                 'name' => 'Đổi màu',
             ],
             [
-                'name' => 'Lọc ánh sáng xanh',
+                'name' => 'Cận phổ thông',
             ],
             [
-                'name' => 'Siêu mỏng',
+                'name' => 'Chống tia UV',
+            ],
+            [
+                'name' => 'Đa tròng',
+            ],
+            [
+                'name' => 'Râm cận',
             ],
         ]);
     }
