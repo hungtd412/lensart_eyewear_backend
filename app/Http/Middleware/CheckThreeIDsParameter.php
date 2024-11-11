@@ -18,11 +18,11 @@ class CheckThreeIDsParameter {
         $id3 = $request->route()->parameter('id3');
         if (!$id1 || !$id2 || !$id3) {
             return response()->json([
-                'message' => 'Missing id'
+                'message' => 'Missing id parameters'
             ], 400);
         }
 
-        if (!is_numeric($id1) || !is_numeric($id2)) {
+        if (!is_numeric($id1) || !is_numeric($id2) || !is_numeric($id3)) {
             return response()->json([
                 'message' => 'ID must be a number'
             ], 400);

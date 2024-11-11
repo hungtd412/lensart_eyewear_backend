@@ -103,9 +103,18 @@ class UserService {
     public function update($data, $id) {
         $user = $this->userRepository->getById($id);
 
-        $this->userRepository->update($data, $user);
+        $response = Gate::inspect("update", $user);
 
-        return $user;
+        if ($response->allowed()) {
+            $this->userRepository->update($data, $user);
+            return response()->json([
+                'user' => $user,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không chỉnh sửa hồ sơ của người dùng này!',
+            ], 403);
+        }
     }
 
     public function switchStatus($id) {

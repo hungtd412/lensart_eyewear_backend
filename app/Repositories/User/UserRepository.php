@@ -13,10 +13,14 @@ class UserRepository implements UserRepositoryInterface {
         if (auth()->attempt($user)) {
             $user = auth()->user();
 
+            if ($user->status == 'inactive')
+                return false;
+
             // if user is not admin or manager then logout
             if (
                 $routePrefix === 'api/auth/admin'
-                && $user->role_id !== 1 && $user->role_id !== 2
+                && $user->role_id !== 1
+                && $user->role_id !== 2
             ) {
                 $this->deleteToken();
                 return false;

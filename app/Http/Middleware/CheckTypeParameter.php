@@ -6,24 +6,29 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckTwoIDsParameter {
+class CheckTypeParameter {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response {
-        $id1 = $request->route()->parameter('id1');
-        $id2 = $request->route()->parameter('id2');
-        if (!$id1 || !$id2) {
+        $id = $request->route()->parameter('type');
+        if (!$id) {
             return response()->json([
-                'message' => 'Missing id parameters'
+                'message' => 'Missing type parameter'
             ], 400);
         }
 
-        if (!is_numeric($id1) || !is_numeric($id2)) {
+        if (!is_numeric($id)) {
             return response()->json([
-                'message' => 'ID must be a number'
+                'message' => 'Type must be a number'
+            ], 400);
+        }
+
+        if ($id == 1) {
+            return response()->json([
+                'message' => 'Invalid type'
             ], 400);
         }
 
