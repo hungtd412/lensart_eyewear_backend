@@ -10,6 +10,7 @@ class UserPolicy {
      * Determine whether the user can view the model.
      */
     public function view(User $user, User $model): Response {
+        //if want to view admin profile
         if ($model->role_id === 1) {
             return $user->id === $model->id
                 || $user->role_id === 1
@@ -17,6 +18,7 @@ class UserPolicy {
                 : Response::deny();
         }
 
+        //if want to view manager, customer profile
         return $user->id === $model->id
             || $user->role_id === 1
             || $user->role_id === 2

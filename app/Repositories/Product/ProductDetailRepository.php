@@ -14,10 +14,6 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
         return ProductDetail::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
-    public function getById($id) {
-        return ProductDetail::find($id);
-    }
-
     public function getByProductId($productId) {
         return DB::table('product_details')
             ->join('branches', 'branches.id', '=', 'product_details.branch_id')
@@ -31,17 +27,6 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
     }
 
     public function getByBranchId($branchId) {
-        // return DB::table('product_details')
-        //     ->join('products', 'products.id', '=', 'product_details.product_id')
-        //     ->join('branches', 'branches.id', '=', 'product_details.branch_id')
-        //     ->where('branch_id', $branchId)
-        //     ->select(
-        //         'products.*',
-        //         'product_details.quantity',
-        //         'product_details.price',
-        //         'branches.name as branch_name'
-        //     )
-        //     ->get();
         return DB::table('product_details')
             ->join('branches', 'branches.id', '=', 'product_details.branch_id')
             ->where('branch_id', $branchId)
@@ -60,8 +45,18 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
             ->get();
     }
 
-    public function update(array $data, $productDetail) {
-        $productDetail->update($data);
+    public function getByThreeIds($productId, $branchId, $colorId) {
+        return ProductDetail::where('product_id', $productId)
+            ->where('branch_id', $branchId)
+            ->where('color_id', $colorId)
+            ->first();
+    }
+
+    public function update(array $data, $productId, $branchId, $colorId) {
+        ProductDetail::where('product_id', $productId)
+            ->where('branch_id', $branchId)
+            ->where('color_id', $colorId)
+            ->update($data);
     }
 
     public function updateEach(array $data, $productDetail, $attributeOfProductDetail) {

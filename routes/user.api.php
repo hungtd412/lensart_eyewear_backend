@@ -17,3 +17,12 @@ Route::group([
         Route::post('/switch-status/{id?}', [UserController::class, 'switchStatus']);
     });
 });
+
+//**************************************
+//  UPDATE
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin-manager'],
+], function () {
+    Route::get('/users/{type?}', [UserController::class, 'getUsersByRole']);
+});

@@ -47,6 +47,16 @@ Route::group([
     Route::post('/products/create', [ProductController::class, 'store']);
     Route::post('/product-features/create', [ProductFeatureController::class, 'store']);
     Route::post('/product-images/create', [ProductImageController::class, 'store']);
+});
+
+
+
+//**************************************
+// CREATE
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
+], function () {
     Route::post('/product-details/create', [ProductDetailController::class, 'store']);
     Route::post('/product-details/createForAllBranch', [ProductDetailController::class, 'storeForAllBranch']);
 });
@@ -97,6 +107,19 @@ Route::group([
     Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
 
     Route::post('/products/update-each/{id?}/{attributeOfProduct?}', [ProductController::class, 'updateEach']);
+
+    Route::post('/product-details/createForAllBranch', [ProductDetailController::class, 'storeForAllBranch']);
+});
+
+
+
+//**************************************
+// UPDATE PRODUCT DETAIL
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager', 'checkThreeIdsParameter'],
+], function () {
+    Route::post('/product-details/update/{id1?}/{id2?}/{id3?}', [ProductDetailController::class, 'update']);
 });
 
 

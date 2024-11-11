@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('color_id');
             $table->integer('quantity')->default(0);
+            $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->primary(['product_id', 'branch_id', 'color_id']);
 

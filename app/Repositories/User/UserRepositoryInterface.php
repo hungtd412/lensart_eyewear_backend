@@ -9,6 +9,7 @@ interface UserRepositoryInterface {
     public function createToken();
     public function deleteToken();
     public function getById(array $id);
+    public function getUsersByRole($type);
     public function profile();
     public function update(array $data, $user);
     public function switchStatus($user);

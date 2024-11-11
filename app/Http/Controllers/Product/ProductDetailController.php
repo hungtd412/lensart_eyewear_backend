@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductDetailRequest;
+use App\Http\Requests\Product\UpdateProducDetailRequest;
 use App\Services\BranchService;
 use App\Services\Product\ProductDetailService;
 use Illuminate\Http\Request;
@@ -34,10 +35,6 @@ class ProductDetailController extends Controller {
         return $this->productDetailService->getAll();
     }
 
-    public function getById($id) {
-        return $this->productDetailService->getById($id);
-    }
-
     public function getByProductId($id) {
         return $this->productDetailService->getByProductId($id);
     }
@@ -50,11 +47,7 @@ class ProductDetailController extends Controller {
         return $this->productDetailService->getByProductAndBranchId($productId, $branchId);
     }
 
-    public function update(Request $request, $id) {
-        return $this->productDetailService->update($request, $id);
-    }
-
-    public function delete($id) {
-        return $this->productDetailService->delete($id);
+    public function update(UpdateProducDetailRequest $request, $productId, $branchId, $colorId) {
+        return $this->productDetailService->update($request->validated(), $productId, $branchId, $colorId);
     }
 }
