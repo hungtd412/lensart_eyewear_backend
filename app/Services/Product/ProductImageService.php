@@ -81,20 +81,9 @@ class ProductImageService {
     public function update($data, $id) {
         $productImage = $this->productImageRepository->getById($id);
 
-        Cloudinary::destroy($productImage->image_public_id);
+        $uploadedFile = $this->updateCloudinaryAndGetNewFile($data['image'], $productImage);
 
-        $uploadedFile = Cloudinary::upload($data['image']->getRealPath(), [
-            'folder' => 'products'
-        ]);
-
-        $imageUrl = $uploadedFile->getSecurePath();
-        $imagePublicId = $uploadedFile->getPublicId();
-
-        $data = [
-            'product_id' => $data['product_id'],
-            'image_url' => $imageUrl,
-            'image_public_id' => $imagePublicId,
-        ];
+        $data = $this->prepareDataForUpdate($data['product_id'], $uploadedFile);
 
         $this->productImageRepository->update($data, $productImage);
 
@@ -102,6 +91,24 @@ class ProductImageService {
             'message' => 'success',
             'productImage' => $productImage
         ], 200);
+    }
+
+    public function updateCloudinaryAndGetNewFile($image, $productImage) {
+        Cloudinary::destroy($productImage->image_public_id);
+
+        return Cloudinary::upload($image->getRealPath(), [
+            'folder' => 'products'
+        ]);
+    }
+
+    public function prepareDataForUpdate($productId, $uploadedFile) {
+        $data = [
+            'product_id' => $productId,
+            'image_url' => $uploadedFile->getSecurePath(),
+            'image_public_id' => $uploadedFile->getPublicId(),
+        ];
+
+        return $data;
     }
 
     public function delete($id) {

@@ -25,7 +25,6 @@ Route::get('/features', [FeatureController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/branches', [BranchController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product-features', [ProductFeatureController::class, 'index']);
 Route::get('/product-images', [ProductImageController::class, 'index']);
 Route::get('/product-details', [ProductImageController::class, 'index']);
@@ -48,6 +47,8 @@ Route::group([
     Route::post('/products/create', [ProductController::class, 'store']);
     Route::post('/product-features/create', [ProductFeatureController::class, 'store']);
     Route::post('/product-images/create', [ProductImageController::class, 'store']);
+    Route::post('/product-details/create', [ProductDetailController::class, 'store']);
+    Route::post('/product-details/createForAllBranch', [ProductDetailController::class, 'storeForAllBranch']);
 });
 
 

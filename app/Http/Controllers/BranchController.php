@@ -2,117 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branch;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreBranchRequest;
+use App\Services\BranchService;
 
 class BranchController extends Controller {
-    public function store(Request $request) {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'address' => 'required|string|min:2|max:100',
-                'manager_id' => 'required|integer|min:1|exists:users,id',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
+    protected $branchService;
 
-        try {
-            $branch = Branch::create($validated);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+    public function __construct(BranchService $branchService) {
+        $this->branchService = $branchService;
+    }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo branch mới thành công!',
-            'branch' => $branch
-        ], 200);
+    public function store(StoreBranchRequest $request) {
+        return $this->branchService->store($request->validated());
     }
 
     public function index() {
-        try {
-            $branches = Branch::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'branches' => $branches
-        ], 200);
+        return $this->branchService->getAll();
     }
 
     public function getById($id) {
-        try {
-            $branch = Branch::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'branch' => $branch
-        ], 200);
+        return $this->branchService->getById($id);
     }
 
-    public function update(Request $request, $id) {
-        try {
-            $branch = Branch::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:100',
-                'address' => 'required|string|min:2|max:100',
-                'manager_id' => 'required|integer|min:1|exists:users,id',
-                'status' => 'required|in:active,inactive'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $branch->update($validated);
-
-        return response()->json([
-            'status' => 'success',
-            'branch' => $branch
-        ], 200);
+    public function update(StoreBranchRequest $request, $id) {
+        return $this->branchService->update($request->validated(), $id);
     }
 
-    public function delete($id) {
-        try {
-            $branch = Branch::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        $branch->status = 'inactive';
-        $branch->save();
-
-        return response()->json([
-            'status' => 'success',
-            'branch' => $branch
-        ], 200);
+    public function switchStatus($id) {
+        return $this->branchService->switchStatus($id);
     }
 }

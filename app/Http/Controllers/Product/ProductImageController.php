@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductImageRequest;
 use App\Services\Product\ProductImageService;
-use Illuminate\Http\Request;
 
 class ProductImageController extends Controller {
     protected $productImageService;

@@ -48,7 +48,8 @@ class User extends Authenticatable {
      */
     protected function casts(): array {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at' => 'datetime:Y-m-d H:i:s',
+            'date_of_birth' => 'datetime:Y-m-d',
             'password' => 'hashed',
         ];
     }

@@ -37,7 +37,7 @@ class ProductService {
 
         return response()->json([
             'status' => 'success',
-            'product' => $products
+            'products' => $products
         ], 200);
     }
 

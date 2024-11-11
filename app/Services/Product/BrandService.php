@@ -25,7 +25,7 @@ class BrandService {
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brands
+            'brands' => $brands
         ], 200);
     }
 

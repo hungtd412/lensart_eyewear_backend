@@ -25,7 +25,7 @@ class CategoryService {
 
         return response()->json([
             'status' => 'success',
-            'category' => $categories
+            'categories' => $categories
         ], 200);
     }
 

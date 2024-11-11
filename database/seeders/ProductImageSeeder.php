@@ -12,9 +12,9 @@ class ProductImageSeeder extends Seeder {
     public function run() {
         $faker = Faker::create();
 
-        $cate1Products = Product::where('category_id', 1)->take(3)->get();
-        $cate2Products = Product::where('category_id', 2)->take(5)->get();
-        $cate3Products = Product::where('category_id', 3)->take(6)->get();
+        $cate1Products = Product::where('category_id', 1)->take(2)->get();
+        $cate2Products = Product::where('category_id', 2)->take(3)->get();
+        $cate3Products = Product::where('category_id', 3)->take(3)->get();
 
         $products = $cate1Products
             ->merge($cate2Products)
