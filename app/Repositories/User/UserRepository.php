@@ -5,12 +5,6 @@ namespace App\Repositories\User;
 use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface {
-    // protected $user;
-
-    // public function __construct(User $user) {
-    //     $this->user = $user;
-    // }
-
     public function store(array $user): User {
         return User::create($user);
     }
@@ -45,11 +39,15 @@ class UserRepository implements UserRepositoryInterface {
         auth()->user()->tokens()->delete();
     }
 
+    public function getAll() {
+        return User::all();
+    }
+
     public function getById($id) {
         return User::findOrFail($id);
     }
 
-    public function getUsersByRole($type) {
+    public function getByRole($type) {
         return User::where('role_id', $type)
             ->get();
     }

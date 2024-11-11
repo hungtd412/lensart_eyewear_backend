@@ -8,8 +8,9 @@ interface UserRepositoryInterface {
     public function isLoggedIn(): bool;
     public function createToken();
     public function deleteToken();
-    public function getById(array $id);
-    public function getUsersByRole($type);
+    public function getAll();
+    public function getById($id);
+    public function getByRole($type);
     public function profile();
     public function update(array $data, $user);
     public function switchStatus($user);
