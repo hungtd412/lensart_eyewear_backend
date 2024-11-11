@@ -17,6 +17,10 @@ class UserController extends Controller {
         return $this->userService->getById($id);
     }
 
+    public function getUsersByRole($type) {
+        return $this->userService->getUsersByRole($type);
+    }
+
     public function profile() {
         return $this->userService->profile();
     }

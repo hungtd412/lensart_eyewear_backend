@@ -77,6 +77,14 @@ class UserService {
         }
     }
 
+    public function getUsersByRole($type) {
+        $users = $this->userRepository->getUsersByRole($type);
+
+        return response()->json([
+            'users' => $users,
+        ], 200);
+    }
+
     public function profile() {
         $user = $this->userRepository->profile();
         return response()->json([

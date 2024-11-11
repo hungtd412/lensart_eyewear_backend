@@ -49,6 +49,11 @@ class UserRepository implements UserRepositoryInterface {
         return User::findOrFail($id);
     }
 
+    public function getUsersByRole($type) {
+        return User::where('role_id', $type)
+            ->get();
+    }
+
     public function profile() {
         return auth()->user();
     }

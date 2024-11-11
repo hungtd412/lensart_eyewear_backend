@@ -40,21 +40,6 @@ class ProductDetailService {
         ], 200);
     }
 
-    public function getById($id) {
-        $productDetail = $this->productDetailRepository->getById($id);
-
-        if ($productDetail === null) {
-            return response()->json([
-                'message' => 'Can not find any data matching these conditions!'
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'success',
-            'productDetail' => $productDetail,
-        ], 200);
-    }
-
     public function getByProductId($id) {
         $productDetails = $this->productDetailRepository->getByProductId($id);
 
@@ -100,22 +85,20 @@ class ProductDetailService {
         ], 200);
     }
 
-    public function update($data, $id) {
-        $productDetail = $this->productDetailRepository->getById($id);
+    public function update($data, $productId, $branchId, $colorId) {
+        $productDetails = $this->productDetailRepository->getByThreeIds($productId, $branchId, $colorId);
 
-        $this->productDetailRepository->update($data->toArray(), $productDetail);
+        if ($productDetails === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
 
-        return response()->json([
-            'message' => 'success',
-            'productDetail' => $productDetail
-        ], 200);
-    }
-
-    public function delete($id) {
-        $this->productDetailRepository->delete($id);
+        $this->productDetailRepository->update($data, $productId, $branchId, $colorId);
 
         return response()->json([
             'message' => 'success',
+            'productDetail' => $this->productDetailRepository->getByThreeIds($productId, $branchId, $colorId)
         ], 200);
     }
 }
