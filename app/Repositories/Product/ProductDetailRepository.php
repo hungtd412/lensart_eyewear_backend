@@ -68,4 +68,8 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
         $productDetail->$attributeOfProductDetail = $data[$attributeOfProductDetail];
         $productDetail->save();
     }
+
+    public function delete($id) {
+        ProductDetail::destroy($id);
+    }
 }

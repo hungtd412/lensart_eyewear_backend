@@ -23,6 +23,6 @@ class Product extends Model {
     ];
 
     protected $casts = [
-        'created_time' => 'datetime:H:i',
+        'created_time' => 'datetime:Y-m-d H:i:s',
     ];
 }

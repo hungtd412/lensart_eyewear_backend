@@ -20,6 +20,17 @@ class ProductDetailService {
         ], 200);
     }
 
+    public function storeForAllBranch($data, $idAllBranches) {
+        foreach ($idAllBranches as $id) {
+            $data['branch_id'] = $id;
+            $this->productDetailRepository->store($data);
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ], 200);
+    }
+
     public function getAll() {
         $productDetails = $this->productDetailRepository->getAll();
 
@@ -101,13 +112,10 @@ class ProductDetailService {
     }
 
     public function delete($id) {
-        $productDetail = $this->productDetailRepository->getById($id);
-
-        $this->productDetailRepository->delete($productDetail);
+        $this->productDetailRepository->delete($id);
 
         return response()->json([
             'message' => 'success',
-            'productDetail' => $productDetail
         ], 200);
     }
 }
