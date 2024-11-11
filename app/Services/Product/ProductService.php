@@ -4,6 +4,7 @@ namespace App\Services\Product;
 
 use App\Repositories\Product\ProductDetailRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Models\Product;
 
 class ProductService {
     protected $productRepository;
@@ -88,4 +89,30 @@ class ProductService {
             'product' => $product
         ], 200);
     }
+
+    // Lọc Gọng kính
+    public function filterFrames($request)
+    {
+        $query = Product::query();
+
+        $query = $this->productRepository->filterByType($query, $request->input('type'));
+        $query = $this->productRepository->filterByGender($query, $request->input('gender'));
+        $query = $this->productRepository->filterByMaterial($query, $request->input('material'));
+        $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+
+        return $query->distinct()->get();
+    }
+
+    // Lọc Tròng kính
+    public function filterLenses($request)
+    {
+        $query = Product::query();
+
+        $query = $this->productRepository->filterByBrand($query, $request->input('brand'));
+        $query = $this->productRepository->filterByFeatures($query, $request->input('features'));
+        $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+
+        return $query->distinct()->get();
+    }
+
 }
