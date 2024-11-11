@@ -3,144 +3,33 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Material;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\Product\StoreProductAttributesRequest;
+use App\Services\Product\MaterialService;
 
 class MaterialController extends Controller {
-    public function store(Request $request) {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:50'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
+    protected $materialService;
 
-        try {
-            $material = Material::create($validated);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo Material mới thành công!',
-            'material' => $material
-        ], 200);
+    public function __construct(MaterialService $materialService) {
+        $this->materialService = $materialService;
     }
 
-    public function createMultiple(Request $request) {
-        try {
-            $validated = $request->validate([
-                'materials' => 'required|array',
-                'materials.*.name' => 'required|string|min:2|max:50',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $createdMaterials = [];
-
-        try {
-            foreach ($validated['materials'] as $materialData) {
-                $material = Material::create($materialData);
-                $createdMaterials[] = $material;
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Tạo các materials mới thành công!',
-            'materials' => $createdMaterials
-        ], 200);
+    public function store(StoreProductAttributesRequest $request) {
+        return $this->materialService->store($request->validated());
     }
 
     public function index() {
-        try {
-            $material = Material::all();
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'materials' => $material
-        ], 200);
+        return $this->materialService->getAll();
     }
 
     public function getById($id) {
-        try {
-            $material = Material::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'material' => $material
-        ], 200);
+        return $this->materialService->getById($id);
     }
 
-    // public function getByName($name)
-    // {
-    //     try {
-    //         $material = Material::where('name', $name)->firstOrFail();
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'error' => $e->getMessage(),
-    //         ], 422);
-    //     }
+    public function update(StoreProductAttributesRequest $request, $id) {
+        return $this->materialService->update($request->validated(), $id);
+    }
 
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'material' => $material
-    //     ], 200);
-    // }
-
-    public function update(Request $request, $id) {
-        try {
-            $material = Material::findOrFail($id);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 422);
-        }
-
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|min:2|max:50',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $e->validator->errors(),
-            ], 422);
-        }
-
-        $material->update($validated);
-
-        return response()->json([
-            'status' => 'success',
-            'material' => $material
-        ], 200);
+    public function switchStatus($id) {
+        return $this->materialService->switchStatus($id);
     }
 }
