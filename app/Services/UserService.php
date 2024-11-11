@@ -61,6 +61,14 @@ class UserService {
         }
     }
 
+    public function getAll() {
+        $users = $this->userRepository->getAll();
+
+        return response()->json([
+            'user' => $users,
+        ], 200);
+    }
+
     public function getById($id) {
         $user = $this->userRepository->getById($id);
 
@@ -77,8 +85,8 @@ class UserService {
         }
     }
 
-    public function getUsersByRole($type) {
-        $users = $this->userRepository->getUsersByRole($type);
+    public function getByRole($type) {
+        $users = $this->userRepository->getByRole($type);
 
         return response()->json([
             'users' => $users,
@@ -95,15 +103,16 @@ class UserService {
     public function update($data, $id) {
         $user = $this->userRepository->getById($id);
 
-        $response = Gate::inspect("view", $user);
+        $response = Gate::inspect("update", $user);
 
         if ($response->allowed()) {
             $this->userRepository->update($data, $user);
-
-            return $user;
+            return response()->json([
+                'user' => $user,
+            ], 200);
         } else {
             return response()->json([
-                'message' => 'Bạn không thể chỉnh sửa hồ sơ của người dùng này!',
+                'message' => 'Bạn không chỉnh sửa hồ sơ của người dùng này!',
             ], 403);
         }
     }

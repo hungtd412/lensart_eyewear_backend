@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller {
     protected $userService;
@@ -13,12 +13,20 @@ class UserController extends Controller {
         $this->userService = $userService;
     }
 
+    public function store(StoreUserRequest $request) {
+        return $this->userService->store($request->validated());
+    }
+
+    public function getAll() {
+        return $this->userService->getAll();
+    }
+
     public function getById($id) {
         return $this->userService->getById($id);
     }
 
-    public function getUsersByRole($type) {
-        return $this->userService->getUsersByRole($type);
+    public function getByRole($type) {
+        return $this->userService->getByRole($type);
     }
 
     public function profile() {

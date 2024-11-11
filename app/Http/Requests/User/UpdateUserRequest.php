@@ -24,8 +24,9 @@ class UpdateUserRequest extends FormRequest {
         //unique:users,email,' . $this->route('id') => ignore if updated email is same with current email
         return [
             'password' => 'required|string|min:6',
-            'email' =>
-            'required|string|email|max:255|unique:users,email,' . $this->route('id'),
+            'email' => 'required|string|email|max:255|unique:users,email,' . $this->route('id'),
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'phone' => [
                 'required',
@@ -33,7 +34,8 @@ class UpdateUserRequest extends FormRequest {
                 'max:11',
                 'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
             ],
-            'status' => 'in:active,inactive'
+            'status' => 'in:active,inactive',
+            'role_id' => 'integer|in:2,3'
         ];
     }
 }

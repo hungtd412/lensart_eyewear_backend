@@ -32,6 +32,7 @@ class StoreUserRequest extends FormRequest {
                 'max:11',
                 'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
             ],
+            'role_id' => 'integer|in:2,3'
         ];
     }
 }

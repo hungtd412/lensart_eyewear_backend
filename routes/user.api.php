@@ -18,11 +18,31 @@ Route::group([
     });
 });
 
+
+
+//**************************************
+//  GET USERS
+//**************************************
+Route::group([
+    'middleware' => ['checkTypeParameter', 'auth:sanctum', 'can:is-admin-manager'],
+], function () {
+    Route::get('/users/role/{type?}', [UserController::class, 'getByRole']);
+});
+
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin'],
+], function () {
+    Route::get('/users', [UserController::class, 'getAll']);
+    Route::post('/users/create', [UserController::class, 'store']);
+});
+
+
+
 //**************************************
 //  UPDATE
 //**************************************
 Route::group([
-    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin-manager'],
+    'middleware' => ['checkIdParameter', 'auth:sanctum'],
 ], function () {
-    Route::get('/users/{type?}', [UserController::class, 'getUsersByRole']);
+    Route::post('/users/update/{id?}', [UserController::class, 'update']);
 });

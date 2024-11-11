@@ -4,6 +4,7 @@ use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckIdParameter;
 use App\Http\Middleware\CheckThreeIDsParameter;
 use App\Http\Middleware\CheckTwoIDsParameter;
+use App\Http\Middleware\CheckTypeParameter;
 use App\Http\Middleware\CustomGuest;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -41,6 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkIdParameter' => CheckIdParameter::class,
             'checkTwoIdsParameter' => CheckTwoIDsParameter::class,
             'checkThreeIdsParameter' => CheckThreeIDsParameter::class,
+            'checkTypeParameter' => CheckTypeParameter::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

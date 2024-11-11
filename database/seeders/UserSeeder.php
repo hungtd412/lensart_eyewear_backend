@@ -20,9 +20,10 @@ class UserSeeder extends Seeder {
             'username' => 'admin',
             'password' => Hash::make('123456'),
             'email' => 'admin@gmail.com',
+            'firstname' => $this->getRandomFirstName($faker),
+            'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
             'role_id' => 1,
-            'date_of_birth' => $faker->date('Y-m-d'),
             'phone' => '0323456789'
         ]);
 
@@ -30,9 +31,10 @@ class UserSeeder extends Seeder {
             'username' => 'managerhcm',
             'password' => Hash::make('123456'),
             'email' => 'managerhcm@gmail.com',
+            'firstname' => $this->getRandomFirstName($faker),
+            'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
             'role_id' => 2,
-            'date_of_birth' => $faker->date('Y-m-d'),
             'phone' => '0323456788'
         ]);
 
@@ -40,9 +42,10 @@ class UserSeeder extends Seeder {
             'username' => 'managerdn',
             'password' => Hash::make('123456'),
             'email' => 'managerdn@gmail.com',
+            'firstname' => $this->getRandomFirstName($faker),
+            'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes DN',
             'role_id' => 2,
-            'date_of_birth' => $faker->date('Y-m-d'),
             'phone' => '0323456787'
         ]);
 
@@ -50,46 +53,66 @@ class UserSeeder extends Seeder {
             'username' => 'managerhn',
             'password' => Hash::make('123456'),
             'email' => 'managerhn@gmail.com',
+            'firstname' => $this->getRandomFirstName($faker),
+            'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HN',
             'role_id' => 2,
-            'date_of_birth' => $faker->date('Y-m-d'),
             'phone' => '0323456786'
         ]);
 
         for ($i = 1; $i <= 10; $i++) {
-            $prefix = $faker->randomElement(['03', '05', '07', '08', '09']); // Select a random prefix
-            $number = $prefix . $faker->numerify(str_repeat('#', $faker->numberBetween(8, 9))); // Generate 8-9 more digits
 
-            $address =
-                $faker->numberBetween(1, 1000)
-                . ' '
-                . $faker->randomElement([
-                    'Đường Lê Lợi',
-                    'Đường Nguyễn Huệ',
-                    'Đường Trần Hưng Đạo',
-                    'Đường Hai Bà Trưng',
-                    'Đường Phạm Ngũ Lão',
-                    'Đường Điện Biên Phủ',
-                    'Đường Lý Thái Tổ',
-                    'Đường Nguyễn Trãi',
-                    'Đường Cách Mạng Tháng Tám',
-                    'Đường Pasteur'
-                ])
-                . ', '
-                . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);
+            $phone = $this->getRandomPhone($faker);
+            $address = $this->getRandomAddress($faker);
 
             DB::table('users')->insert([
                 'username' => 'customer' . $i,
-                'password' => Hash::make('123456'), // Default password for all users
+                'password' => Hash::make('123456'),
                 'email' => 'customer' . $i . '@gmail.com',
-                'role_id' => 3, // Default role_id as specified
-                'date_of_birth' => $faker->date('Y-m-d', '2005-12-31'),
-                'avatar' => $faker->imageUrl(200, 200, 'people'), // Random avatar URL
-                'phone' => $number, // Phone number in correct format
+                'firstname' => $this->getRandomFirstName($faker),
+                'lastname' => $this->getRandomLastName($faker),
+                'role_id' => 3,
+                'phone' => $phone,
                 'address' => $address,
                 'status' => $faker->randomElement(['active', 'inactive']),
-                'created_at' => now(),
             ]);
         }
+    }
+
+    public function getRandomFirstName($faker) {
+        return $faker->randomElement([
+            'Phạm',
+            'Trần',
+            'Nguyễn',
+        ]);
+    }
+
+    public function getRandomLastName($faker) {
+        return $faker->randomElement(['Đức Hùng', 'Quang Bảo', 'Minh Chính', 'Văn Thanh']);
+    }
+
+    public function getRandomPhone($faker) {
+        $prefix = $faker->randomElement(['03', '05', '07', '08', '09']); // Select a random prefix
+        return $prefix . $faker->numerify(str_repeat('#', $faker->numberBetween(8, 9)));
+    }
+
+    public function getRandomAddress($faker) {
+        return
+            $faker->numberBetween(1, 1000)
+            . ' '
+            . $faker->randomElement([
+                'Đường Lê Lợi',
+                'Đường Nguyễn Huệ',
+                'Đường Trần Hưng Đạo',
+                'Đường Hai Bà Trưng',
+                'Đường Phạm Ngũ Lão',
+                'Đường Điện Biên Phủ',
+                'Đường Lý Thái Tổ',
+                'Đường Nguyễn Trãi',
+                'Đường Cách Mạng Tháng Tám',
+                'Đường Pasteur'
+            ])
+            . ', '
+            . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);
     }
 }
