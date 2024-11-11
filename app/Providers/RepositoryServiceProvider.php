@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\BranchRepository;
+use App\Repositories\BranchRepositoryInterface;
+use App\Repositories\CouponRepository;
+use App\Repositories\CouponRepositoryInterface;
 use App\Repositories\Product\BrandRepository;
 use App\Repositories\Product\BrandRepositoryInterface;
 use App\Repositories\Product\CategoryRepository;
@@ -22,9 +26,11 @@ use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Product\ShapeRepository;
 use App\Repositories\Product\ShapeRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class ProductRepositoryServiceProvider extends ServiceProvider {
+class RepositoryServiceProvider extends ServiceProvider {
     /**
      * Register services.
      */
@@ -48,6 +54,12 @@ class ProductRepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(MaterialRepositoryInterface::class, MaterialRepository::class);
 
         $this->app->bind(ShapeRepositoryInterface::class, ShapeRepository::class);
+
+        $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+
+        $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
     }
 
     /**
