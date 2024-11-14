@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ProductDetail extends Model {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'product_id, branch_id, color';
+    public $incrementing = false;
 
-    protected $fillable = ['product_id', 'branch_id', 'color_id', 'quantity'];
+    protected $fillable = ['product_id', 'branch_id', 'color', 'quantity', 'status'];
 }

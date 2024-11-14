@@ -45,17 +45,17 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
             ->get();
     }
 
-    public function getByThreeIds($productId, $branchId, $colorId) {
+    public function getByThreeIds($productId, $branchId, $color) {
         return ProductDetail::where('product_id', $productId)
             ->where('branch_id', $branchId)
-            ->where('color_id', $colorId)
+            ->where('color', $color)
             ->first();
     }
 
-    public function update(array $data, $productId, $branchId, $colorId) {
+    public function update(array $data, $productId, $branchId, $color) {
         ProductDetail::where('product_id', $productId)
             ->where('branch_id', $branchId)
-            ->where('color_id', $colorId)
+            ->where('color', $color)
             ->update($data);
     }
 

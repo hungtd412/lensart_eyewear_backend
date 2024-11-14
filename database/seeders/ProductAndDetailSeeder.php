@@ -57,31 +57,28 @@ class ProductAndDetailSeeder extends Seeder {
 
     public function seedProductDetails($productId, $faker) {
         $numbersOfVariant = $faker->numberBetween(1, 3);
-        $used_color_id = [];
-        $color_id = 2;
+        $used_color = [];
+        $color = 'Đỏ';
         for ($i = 1; $i <= $numbersOfVariant; $i++) {
             do {
-                $color_id = $faker->numberBetween(1, 3);
-            } while (in_array($color_id, $used_color_id));
-            array_push($used_color_id, $color_id);
+                $color = $this->getRandomColor();
+            } while (in_array($color, $used_color));
+            array_push($used_color, $color);
             DB::table('product_details')->insert([
                 [
                     'product_id' => $productId,
                     'branch_id' => 1, // HCM
-                    'color_id' => $color_id,
-                    'quantity' => 0,
+                    'color' => $color,
                 ],
                 [
                     'product_id' => $productId,
                     'branch_id' => 2, // DN
-                    'color_id' => $color_id,
-                    'quantity' => 0,
+                    'color' => $color,
                 ],
                 [
                     'product_id' => $productId,
                     'branch_id' => 3, // HN
-                    'color_id' => $color_id,
-                    'quantity' => 0,
+                    'color' => $color,
                 ]
             ]);
         }
@@ -91,5 +88,9 @@ class ProductAndDetailSeeder extends Seeder {
         return DB::table('product_details')
             ->where('branch_id', $branchId)
             ->pluck('index');
+    }
+
+    public function getRandomColor() {
+        return Faker::create()->randomElement(['Đỏ', 'Đen', 'Xám', 'Hồng']);
     }
 }
