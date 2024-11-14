@@ -7,7 +7,6 @@ use App\Http\Requests\Product\StoreProductDetailRequest;
 use App\Http\Requests\Product\UpdateProducDetailRequest;
 use App\Services\BranchService;
 use App\Services\Product\ProductDetailService;
-use Illuminate\Http\Request;
 
 class ProductDetailController extends Controller {
     protected $productDetailService;
@@ -19,7 +18,7 @@ class ProductDetailController extends Controller {
     }
 
     public function store(StoreProductDetailRequest $request) {
-        return $this->productDetailService->store($request);
+        return $this->productDetailService->store($request->validated());
     }
 
     public function storeForAllBranch(StoreProductDetailRequest $request) {
@@ -47,7 +46,7 @@ class ProductDetailController extends Controller {
         return $this->productDetailService->getByProductAndBranchId($productId, $branchId);
     }
 
-    public function update(UpdateProducDetailRequest $request, $productId, $branchId, $colorId) {
-        return $this->productDetailService->update($request->validated(), $productId, $branchId, $colorId);
+    public function update(UpdateProducDetailRequest $request, $productId, $branchId, $color) {
+        return $this->productDetailService->update($request->validated(), $productId, $branchId, $color);
     }
 }

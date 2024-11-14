@@ -12,7 +12,7 @@ class ProductDetailService {
     }
 
     public function store($data) {
-        $productDetail = $this->productDetailRepository->store($data->toArray());
+        $productDetail = $this->productDetailRepository->store($data);
 
         return response()->json([
             'status' => 'success',
@@ -85,8 +85,9 @@ class ProductDetailService {
         ], 200);
     }
 
-    public function update($data, $productId, $branchId, $colorId) {
-        $productDetails = $this->productDetailRepository->getByThreeIds($productId, $branchId, $colorId);
+    public function update($data, $productId, $branchId, $color) {
+        $productDetails = $this->productDetailRepository->getByThreeIds($productId, $branchId, $color);
+        // return $productDetails;
 
         if ($productDetails === null) {
             return response()->json([
@@ -94,11 +95,11 @@ class ProductDetailService {
             ], 404);
         }
 
-        $this->productDetailRepository->update($data, $productId, $branchId, $colorId);
+        $this->productDetailRepository->update($data, $productId, $branchId, $color);
 
         return response()->json([
             'message' => 'success',
-            'productDetail' => $this->productDetailRepository->getByThreeIds($productId, $branchId, $colorId)
+            'productDetail' => $this->productDetailRepository->getByThreeIds($productId, $branchId, $color)
         ], 200);
     }
 }

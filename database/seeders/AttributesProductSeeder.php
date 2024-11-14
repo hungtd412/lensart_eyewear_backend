@@ -11,7 +11,6 @@ class AttributesProductSeeder extends Seeder {
      */
     public function run(): void {
         $this->seedBrand();
-        $this->seedColor();
         $this->seedMaterial();
         $this->seedShape();
         $this->seedFeature();
@@ -30,26 +29,6 @@ class AttributesProductSeeder extends Seeder {
             ],
             [
                 'name' => 'Gucci',
-            ],
-        ]);
-    }
-
-    public function seedColor() {
-        DB::table('colors')->insert([
-            [
-                'name' => 'Đỏ',
-            ],
-            [
-                'name' => 'Xanh',
-            ],
-            [
-                'name' => 'Xám',
-            ],
-            [
-                'name' => 'Tím',
-            ],
-            [
-                'name' => 'Bạch kim',
             ],
         ]);
     }
