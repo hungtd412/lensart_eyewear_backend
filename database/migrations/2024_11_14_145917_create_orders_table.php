@@ -9,17 +9,17 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('product_details', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('date');
             $table->unsignedBigInteger('branch_id');
-            $table->string('color');
-            $table->integer('quantity')->default(0);
+            $table->decimal('total_price', 4, 2);
+            $table->enum('payment_status', ['Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'])->default('Đang xử lý');
             $table->enum('status', ['active', 'inactive'])->default('active');
 
-            $table->primary(['product_id', 'branch_id', 'color']);
-
             //Add foreign key
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('branch_id')->references('id')->on('branches');
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('product_details');
+        Schema::dropIfExists('orders');
     }
 };
