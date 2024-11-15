@@ -194,3 +194,11 @@ Route::group([
 
     Route::post('/product-features/delete/{id?}', [ProductImageController::class, 'delete']);
 });
+
+//**************************************
+//  FILTER
+//**************************************
+Route::get('/products/filter-frames', [ProductController::class, 'filterFrames']);
+Route::get('/products/filter-lenses', [ProductController::class, 'filterLenses']);
+
+

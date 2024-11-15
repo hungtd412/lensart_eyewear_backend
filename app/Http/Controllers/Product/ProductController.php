@@ -37,4 +37,24 @@ class ProductController extends Controller {
     public function switchStatus($id) {
         return $this->productService->switchStatus($id);
     }
+
+    // Lọc Gọng kính
+    public function filterFrames(Request $request)
+    {
+        $products = $this->productService->filterFrames($request);
+        return response()->json([
+            'status' => 'success',
+            'products' => $products
+        ], 200);
+    }
+
+    // Lọc Tròng kính
+    public function filterLenses(Request $request)
+    {
+        $products = $this->productService->filterLenses($request);
+        return response()->json([
+            'status' => 'success',
+            'products' => $products
+        ], 200);
+    }
 }
