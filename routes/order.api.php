@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 
 //**************************************
 // GET ALL
 //**************************************
-Route::get('coupons', [CouponController::class, 'index']);
+Route::get('orders', [OrderController::class, 'index']);
 
 
 
@@ -17,7 +17,7 @@ Route::get('coupons', [CouponController::class, 'index']);
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/coupons/create', [couponController::class, 'store']);
+    Route::post('/orders/create', [OrderController::class, 'store']);
 });
 
 
@@ -28,7 +28,7 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/coupons/update/{id?}', [CouponController::class, 'update']);
+    Route::post('/orders/update/{id?}', [OrderController::class, 'update']);
 });
 
 
@@ -39,7 +39,7 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter'],
 ], function () {
-    Route::get('/coupons/getById/{id?}', [couponController::class, 'getById']);
+    Route::get('/orders/getById/{id?}', [OrderController::class, 'getById']);
 });
 
 
@@ -50,5 +50,5 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/coupons/switch-status/{id?}', [couponController::class, 'switchStatus']);
+    Route::post('/orders/switch-status/{id?}', [OrderController::class, 'switchStatus']);
 });
