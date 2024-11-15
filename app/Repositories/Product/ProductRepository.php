@@ -32,7 +32,7 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
      // Lọc theo kiểu gọng
-     public function filterByType($query, $types)
+     public function filterByShape($query, $types)
      {
          if (!empty($types)) {
              $query->leftJoin('shapes as s1', 'products.shape_id', '=', 's1.id')

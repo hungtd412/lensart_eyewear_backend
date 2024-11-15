@@ -95,10 +95,21 @@ class ProductService {
     {
         $query = Product::query();
 
-        $query = $this->productRepository->filterByType($query, $request->input('type'));
-        $query = $this->productRepository->filterByGender($query, $request->input('gender'));
-        $query = $this->productRepository->filterByMaterial($query, $request->input('material'));
-        $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+        if ($request->has('shape') && !empty($request->input('shape'))) {
+            $query = $this->productRepository->filterByShape($query, $request->input('shape'));
+        }
+
+        if ($request->has('gender') && !empty($request->input('gender'))) {
+            $query = $this->productRepository->filterByGender($query, $request->input('gender'));
+        }
+
+        if ($request->has('material') && !empty($request->input('material'))) {
+            $query = $this->productRepository->filterByMaterial($query, $request->input('material'));
+        }
+
+        if ($request->has('price_range') && !empty($request->input('price_range'))) {
+            $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+        }
 
         return $query->distinct()->get();
     }

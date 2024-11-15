@@ -17,7 +17,7 @@ interface ProductRepositoryInterface {
     // public function updateGender(array $data, $product);
     // public function updateCreatedTime(array $data, $product);
     public function switchStatus($product);
-    public function filterByType($query, $types);
+    public function filterByShape($query, $types);
     public function filterByGender($query, $gender);
     public function filterByMaterial($query, $material);
     public function filterByPriceRange($query, $priceRange);

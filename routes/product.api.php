@@ -174,7 +174,7 @@ Route::group([
 //**************************************
 //  FILTER
 //**************************************
-Route::post('/products/filter-frames', [ProductController::class, 'filterFrames']);
-Route::post('/products/filter-lenses', [ProductController::class, 'filterLenses']);
+Route::get('/products/filter-frames', [ProductController::class, 'filterFrames']);
+Route::get('/products/filter-lenses', [ProductController::class, 'filterLenses']);
 
 
