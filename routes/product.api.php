@@ -208,4 +208,4 @@ Route::get('/products/filter-lenses', [ProductController::class, 'filterLenses']
 //**************************************
 Route::get('/best-selling-products', [ProductController::class, 'getBestSellingProducts']);
 Route::get('/newest-products', [ProductController::class, 'getNewestProducts']);
-Route::get('/blogs', [BlogController::class, 'getBlogs']);
+
