@@ -95,6 +95,8 @@ class ProductService {
     {
         $query = Product::query();
 
+        $query->where('status', 'active');
+
         if ($request->has('shape') && !empty($request->input('shape'))) {
             $query = $this->productRepository->filterByShape($query, $request->input('shape'));
         }
@@ -119,9 +121,19 @@ class ProductService {
     {
         $query = Product::query();
 
-        $query = $this->productRepository->filterByBrand($query, $request->input('brand'));
-        $query = $this->productRepository->filterByFeatures($query, $request->input('features'));
-        $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+        $query->where('status', 'active');
+
+        if ($request->has('brand') && !empty($request->input('brand'))) {
+            $query = $this->productRepository->filterByBrand($query, $request->input('brand'));
+        }
+
+        if ($request->has('features') && !empty($request->input('features'))) {
+            $query = $this->productRepository->filterByFeatures($query, $request->input('features'));
+        }
+
+        if ($request->has('price_range') && !empty($request->input('price_range'))) {
+            $query = $this->productRepository->filterByPriceRange($query, $request->input('price_range'));
+        }
 
         return $query->distinct()->get();
     }
