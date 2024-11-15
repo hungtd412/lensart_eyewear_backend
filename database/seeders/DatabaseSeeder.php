@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder {
             ProductAndDetailSeeder::class,
             ProductFeatureSeeder::class,
             CartAndDetailSeeder::class,
+            OrderAndDetailSeeder::class,
             // ProductImageSeeder::class, tam thoi chua seed product images
             CouponSeeder::class,
         ]);

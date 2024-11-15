@@ -20,7 +20,9 @@ GROUP BY users.id
 ORDER BY users.id;
 
 
-select * from users
+select * from order_details, orders
+where order_details.order_id = orders.id
+and branch_id = 1
 
 desc features
 SELECT * FROM information_schema.columns WHERE table_schema = 'lensart_eyewear';

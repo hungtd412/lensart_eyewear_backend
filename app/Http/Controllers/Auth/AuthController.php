@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
-use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Services\UserService;
 
 class AuthController extends Controller {
