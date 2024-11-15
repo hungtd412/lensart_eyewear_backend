@@ -56,10 +56,10 @@ class ProductAndDetailSeeder extends Seeder {
     }
 
     public function seedProductDetails($productId, $faker) {
-        $numbersOfVariant = $faker->numberBetween(1, 3);
+        $numberOfVariants = $faker->numberBetween(1, 3);
         $used_color = [];
         $color = 'Đỏ';
-        for ($i = 1; $i <= $numbersOfVariant; $i++) {
+        for ($i = 1; $i <= $numberOfVariants; $i++) {
             do {
                 $color = $this->getRandomColor();
             } while (in_array($color, $used_color));
@@ -69,16 +69,19 @@ class ProductAndDetailSeeder extends Seeder {
                     'product_id' => $productId,
                     'branch_id' => 1, // HCM
                     'color' => $color,
+                    'quantity' => $this->getRandomQuantity(),
                 ],
                 [
                     'product_id' => $productId,
                     'branch_id' => 2, // DN
                     'color' => $color,
+                    'quantity' => $this->getRandomQuantity(),
                 ],
                 [
                     'product_id' => $productId,
                     'branch_id' => 3, // HN
                     'color' => $color,
+                    'quantity' => $this->getRandomQuantity(),
                 ]
             ]);
         }
@@ -92,5 +95,9 @@ class ProductAndDetailSeeder extends Seeder {
 
     public function getRandomColor() {
         return Faker::create()->randomElement(['Đỏ', 'Đen', 'Xám', 'Hồng']);
+    }
+
+    public function getRandomQuantity() {
+        return Faker::create()->randomElement([0, 3, 10, 13, 20, 50]);
     }
 }
