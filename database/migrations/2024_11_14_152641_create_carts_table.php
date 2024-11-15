@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('total_price', 10, 2)->default(0);
+            $table->decimal('total_price', 11, 2)->default(0);
 
             //Add foreign key
             $table->foreign('user_id')->references('id')->on('users');
