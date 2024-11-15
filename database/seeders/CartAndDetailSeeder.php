@@ -58,11 +58,11 @@ class CartAndDetailSeeder extends Seeder {
 
     public function getRandomProductDetails() {
         $productDetail = ProductDetail::inRandomOrder()->where('quantity', '>', 0)->first();
-        $productDetail->price = $this->getPriceById($productDetail->product_id);
+        $productDetail->price = $this->getPriceByProducId($productDetail->product_id);
         return $productDetail;
     }
 
-    public function getPriceById($productId) {
+    public function getPriceByProducId($productId) {
         return Product::select('price')->where('id', $productId)->first()->price;
     }
 

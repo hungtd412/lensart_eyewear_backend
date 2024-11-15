@@ -4,11 +4,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Branch;
+use App\Models\Coupon;
 use App\Models\ProductDetail;
 
 class OrderAndDetailSeeder extends Seeder {
@@ -25,20 +25,32 @@ class OrderAndDetailSeeder extends Seeder {
 
                 $branch = Branch::inRandomOrder()->first();
 
-                $orderId = DB::table('orders')->insertGetId([
+                $data = [
                     'user_id' => $user->id,
                     'date' => Carbon::now(),
                     'branch_id' => $branch->id,
                     'payment_status' => $paymentStatuses[array_rand($paymentStatuses)],
                     'order_status' => $orderStatuses[array_rand($orderStatuses)],
-                ]);
+                ];
 
-                $this->seedOrderDetails($orderId, $branch->id);
+
+                $coupon = rand(0, 1) ? Coupon::inRandomOrder()->first() : null;
+                if (!is_null($coupon)) {
+                    $data['coupon_code'] = $coupon->code;
+                }
+
+                $orderId = DB::table('orders')->insertGetId($data);
+
+                if (is_null($coupon)) {
+                    $this->seedOrderDetails($orderId, $branch->id, '');
+                } else {
+                    $this->seedOrderDetails($orderId, $branch->id, $coupon->code);
+                }
             }
         }
     }
 
-    protected function seedOrderDetails($orderId, $branchId) {
+    protected function seedOrderDetails($orderId, $branchId, $couponCode) {
         $productDetails = ProductDetail::where('branch_id', $branchId)
             ->where('quantity', '>', 0)
             ->take(rand(1, 5))->get();
@@ -46,7 +58,7 @@ class OrderAndDetailSeeder extends Seeder {
 
         foreach ($productDetails as $productDetail) {
             $quantity = rand(1, $productDetail->quantity);
-            $price = $this->getPriceById($productDetail->product_id);
+            $price = $this->getPriceByProducId($productDetail->product_id);
             $totalPrice += $price * $quantity;
 
             DB::table('order_details')->insert([
@@ -58,22 +70,28 @@ class OrderAndDetailSeeder extends Seeder {
             ]);
         }
 
-        $this->updateTotalPriceForOrder($orderId, $totalPrice);
+        $this->updateTotalPriceForOrder($orderId, $totalPrice, $couponCode);
     }
 
     public function getRandomProductDetails() {
         $productDetail = ProductDetail::inRandomOrder()->where('quantity', '>', 0)->first();
-        $productDetail->price = $this->getPriceById($productDetail->product_id);
+        $productDetail->price = $this->getPriceByProducId($productDetail->product_id);
         return $productDetail;
     }
 
-    public function getPriceById($productId) {
+    public function getPriceByProducId($productId) {
         return Product::select('price')->where('id', $productId)->first()->price;
     }
 
-    public function updateTotalPriceForOrder($orderId, $totalPrice) {
-        DB::table('orders')
-            ->where('id', $orderId)
-            ->update(['total_price' => $totalPrice]);
+    public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {
+        $coupon = Coupon::where('code', $couponCode)->first();
+
+        if ($coupon) {
+            $discount_price = $coupon->discount_price;
+        } else {
+            $discount_price = 0;
+        }
+
+        DB::table('orders')->where('id', $orderId)->update(['total_price' => $totalPrice - $discount_price]);
     }
 }

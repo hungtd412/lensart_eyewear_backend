@@ -10,10 +10,13 @@ class Coupon extends Model {
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
         'code',
+        'name',
         'discount_price',
         'status',
         'quantity'
     ];
+
+    protected $primaryKey = 'code';
+    public $incrementing = false;
 }

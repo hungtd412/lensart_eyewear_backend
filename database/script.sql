@@ -20,9 +20,20 @@ GROUP BY users.id
 ORDER BY users.id;
 
 
-select * from order_details, orders
-where order_details.order_id = orders.id
-and branch_id = 1
+SELECT
+    orders.id AS order_id,
+    orders.coupon_code,
+    orders.total_price AS order_total_price,
+    SUM(order_details.total_price) AS total_order_details_price
+FROM
+    orders
+JOIN
+    order_details ON orders.id = order_details.order_id
+WHERE
+    orders.branch_id = 1
+GROUP BY
+    orders.id, orders.coupon_code, orders.total_price;
+
 
 desc features
 SELECT * FROM information_schema.columns WHERE table_schema = 'lensart_eyewear';
