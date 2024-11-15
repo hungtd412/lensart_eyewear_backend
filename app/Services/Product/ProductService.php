@@ -138,4 +138,14 @@ class ProductService {
         return $query->distinct()->get();
     }
 
+    public function getBestSellingProducts($limit = 10)
+    {
+        return $this->productRepository->getBestSellingProducts($limit);
+    }
+
+    public function getNewestProducts($limit = 10)
+    {
+        return $this->productRepository->getNewestProducts($limit);
+    }
+
 }
