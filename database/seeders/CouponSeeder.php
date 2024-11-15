@@ -20,8 +20,8 @@ class CouponSeeder extends Seeder {
         for ($i = 1; $i <= $numberOfCoupons; $i++) {
             $price = $this->getRandomPrice($faker);
             DB::table('coupons')->insert([
+                'code' => 'giam' . ($price / 1000) . 'k' . $i,
                 'name' => 'Coupon ' . ($price / 1000) . 'k',
-                'code' => 'coupon' . ($price / 1000) . 'k' . $i,
                 'quantity' => $faker->numberBetween(1, 10),
                 'discount_price' => $price,
                 'status' => $faker->randomElement(['active', 'inactive']),
