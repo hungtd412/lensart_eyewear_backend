@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\Product\BrandController;
 use App\Http\Controllers\Product\CategoryController;
@@ -201,4 +202,10 @@ Route::group([
 Route::get('/products/filter-frames', [ProductController::class, 'filterFrames']);
 Route::get('/products/filter-lenses', [ProductController::class, 'filterLenses']);
 
+
+//**************************************
+//  SHOW PRODUCT ON HOMEPAGE
+//**************************************
+Route::get('/best-selling-products', [ProductController::class, 'getBestSellingProducts']);
+Route::get('/newest-products', [ProductController::class, 'getNewestProducts']);
 

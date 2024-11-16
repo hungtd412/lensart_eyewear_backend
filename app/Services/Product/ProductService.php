@@ -95,7 +95,7 @@ class ProductService {
     {
         $query = Product::query();
 
-        $query->where('status', 'active');
+        $query->where('products.status', 'active');
 
         if ($request->has('shape') && !empty($request->input('shape'))) {
             $query = $this->productRepository->filterByShape($query, $request->input('shape'));
@@ -121,7 +121,7 @@ class ProductService {
     {
         $query = Product::query();
 
-        $query->where('status', 'active');
+        $query->where('products.status', 'active');
 
         if ($request->has('brand') && !empty($request->input('brand'))) {
             $query = $this->productRepository->filterByBrand($query, $request->input('brand'));
@@ -136,6 +136,16 @@ class ProductService {
         }
 
         return $query->distinct()->get();
+    }
+
+    public function getBestSellingProducts($limit = 10)
+    {
+        return $this->productRepository->getBestSellingProducts($limit);
+    }
+
+    public function getNewestProducts($limit = 10)
+    {
+        return $this->productRepository->getNewestProducts($limit);
     }
 
 }

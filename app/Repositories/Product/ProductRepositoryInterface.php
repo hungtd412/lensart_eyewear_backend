@@ -23,4 +23,10 @@ interface ProductRepositoryInterface {
     public function filterByPriceRange($query, $priceRange);
     public function filterByBrand($query, $brands);
     public function filterByFeatures($query, $features);
+
+    public function getBestSellingProducts($limit = 10);
+
+    public function getNewestProducts($limit = 10);
+
+    public function getActiveBlogs($limit = 10);
 }
