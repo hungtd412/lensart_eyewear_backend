@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BlogReposity;
+use App\Repositories\BlogReposityInterface;
 use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryInterface;
 use App\Repositories\CouponRepository;
@@ -60,6 +62,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+
+        $this->app->bind(BlogReposityInterface::class, BlogReposity::class);
     }
 
     /**
