@@ -7,7 +7,8 @@ use App\Models\Product;
 use App\Models\CartDetail;
 use App\Repositories\CartReposityInterface;
 
-class CartReposity implements CartReposityInterface {
+class CartReposity implements CartReposityInterface
+{
 
     public function addToCart(array $data)
     {

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryInterface;
+use App\Repositories\CartReposity;
 use App\Repositories\CouponRepository;
 use App\Repositories\CouponRepositoryInterface;
 use App\Repositories\Product\BrandRepository;
@@ -60,6 +61,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+
+        $this->app->bind(CategoryRepositoryInterface::class, CartReposity::class);
     }
 
     /**
