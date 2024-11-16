@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->string('image_url')->nullable();
+            $table->string('image_public_id')->nullable();
             $table->timestamp('created_time')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
         });
@@ -22,3 +24,4 @@ return new class extends Migration
         Schema::dropIfExists('blogs');
     }
 };
+
