@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 //**************************************
 // GET ALL
 //**************************************
-Route::get('orders', [OrderController::class, 'index']);
+Route::get('orders', [OrderController::class, 'index'])->middleware(['auth:sanctum', 'can:is-admin-manager']);
 
 
 
@@ -15,7 +15,7 @@ Route::get('orders', [OrderController::class, 'index']);
 // CREATE
 //**************************************
 Route::group([
-    'middleware' => ['auth:sanctum', 'can:is-admin'],
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
 ], function () {
     Route::post('/orders/create', [OrderController::class, 'store']);
 });

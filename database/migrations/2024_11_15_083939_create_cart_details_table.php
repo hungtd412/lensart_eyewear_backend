@@ -10,6 +10,7 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('cart_details', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('cart_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('branch_id');
@@ -17,7 +18,7 @@ return new class extends Migration {
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 10, 2);
 
-            $table->primary(['cart_id', 'product_id', 'branch_id', 'color']);
+            $table->unique(['cart_id', 'product_id', 'branch_id', 'color'], 'unique_order_product_branch_color');
 
             //Add foreign key
             $table->foreign('cart_id')->references('id')->on('carts');

@@ -6,6 +6,8 @@ use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryInterface;
 use App\Repositories\CouponRepository;
 use App\Repositories\CouponRepositoryInterface;
+use App\Repositories\OrderRepository;
+use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\Product\BrandRepository;
 use App\Repositories\Product\BrandRepositoryInterface;
 use App\Repositories\Product\CategoryRepository;
@@ -60,6 +62,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
     }
 
     /**
