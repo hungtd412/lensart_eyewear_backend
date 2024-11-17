@@ -19,11 +19,22 @@ class CartDetailService {
     }
 
     public function store(array $data) {
-        $cart = $this->cartDetailRepository->store($data);
+        $cartDetail = $this->cartDetailRepository->store($data);
 
         return response()->json([
             'status' => 'success',
-            'cart' => $cart
+            'cart' => $cartDetail
+        ], 200);
+    }
+
+    public function update($data, $id) {
+        $cartDetail = $this->cartDetailRepository->getById($id);
+
+        $this->cartDetailRepository->update($data, $cartDetail);
+
+        return response()->json([
+            'message' => 'success',
+            'carts' => $cartDetail
         ], 200);
     }
 }

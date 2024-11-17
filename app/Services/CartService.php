@@ -26,4 +26,15 @@ class CartService {
             'cart' => $cart
         ], 200);
     }
+
+    public function update($data, $id) {
+        $carts = $this->cartRepository->getById($id);
+
+        $this->cartRepository->update($data, $carts);
+
+        return response()->json([
+            'message' => 'success',
+            'carts' => $carts
+        ], 200);
+    }
 }

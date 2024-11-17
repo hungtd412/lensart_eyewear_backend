@@ -15,4 +15,12 @@ class CartReposity implements CartReposityInterface {
     public function store(array $cart): Cart {
         return Cart::create($cart);
     }
+
+    public function getById($id) {
+        return Cart::find($id);
+    }
+
+    public function update(array $data, $cart) {
+        $cart->update($data);
+    }
 }

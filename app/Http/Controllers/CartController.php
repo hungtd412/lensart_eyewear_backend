@@ -24,4 +24,8 @@ class CartController extends Controller
     public function store(StoreCartRequest $request) {
         return $this->cartService->store($request->validated());
     }
+
+    public function update(StoreCartRequest $request, $id) {
+        return $this->cartService->update($request->validated(), $id);
+    }
 }
