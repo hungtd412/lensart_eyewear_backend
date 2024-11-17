@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Coupon extends Model {
+class OrderDetail extends Model {
     use HasFactory;
     public $timestamps = false;
 
     protected $fillable = [
-        'code',
-        'name',
-        'discount_price',
-        'status',
-        'quantity'
+        'order_id',
+        'product_id',
+        'color',
+        'quantity',
+        'total_price',
     ];
 }

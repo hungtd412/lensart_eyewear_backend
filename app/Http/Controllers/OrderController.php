@@ -3,33 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreBranchRequest;
-use App\Services\BranchService;
+use App\Http\Requests\Order\StoreOrderRequest;
+use App\Services\OrderService;
 
 class OrderController extends Controller {
-    protected $branchService;
+    protected $orderService;
 
-    public function __construct(BranchService $branchService) {
-        $this->branchService = $branchService;
+    public function __construct(OrderService $orderService) {
+        $this->orderService = $orderService;
     }
 
-    public function store(StoreBranchRequest $request) {
-        return $this->branchService->store($request->validated());
+    public function store(StoreOrderRequest $request) {
+        return $request;
+        return $this->orderService->store($request->validated());
     }
 
     public function index() {
-        return $this->branchService->getAll();
+        return $this->orderService->getAll();
     }
 
     public function getById($id) {
-        return $this->branchService->getById($id);
+        return $this->orderService->getById($id);
     }
 
-    public function update(StoreBranchRequest $request, $id) {
-        return $this->branchService->update($request->validated(), $id);
+    public function update(StoreOrderRequest $request, $id) {
+        return $this->orderService->update($request->validated(), $id);
     }
 
     public function switchStatus($id) {
-        return $this->branchService->switchStatus($id);
+        return $this->orderService->switchStatus($id);
     }
 }
