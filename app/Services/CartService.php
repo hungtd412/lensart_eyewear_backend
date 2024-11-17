@@ -3,21 +3,18 @@
 namespace App\Services;
 
 use App\Repositories\CartReposityInterface;
+use Illuminate\Support\Collection;
 
 class CartService {
     protected $cartRepository;
 
-    public function __construct(CartReposityInterface $cartRepository) {
+    public function __construct(CartReposityInterface $cartRepository)
+    {
         $this->cartRepository = $cartRepository;
     }
 
-    public function addToCart(array $data)
+    public function getAllCarts(): Collection
     {
-        return $this->cartRepository->addToCart($data);
-    }
-
-    public function getCart(int $userId)
-    {
-        return $this->cartRepository->getCart($userId);
+        return $this->cartRepository->getAllCarts();
     }
 }

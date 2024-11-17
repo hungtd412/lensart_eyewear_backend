@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Repositories;
+use Illuminate\Support\Collection;
 
 interface CartReposityInterface {
-    public function addToCart(array $data);
-    public function getCart(int $userId);
+    public function getAllCarts(): Collection;
 }
