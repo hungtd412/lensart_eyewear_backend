@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CartService;
+use App\Http\Requests\Cart\StoreCartRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 class CartController extends Controller
@@ -18,5 +19,9 @@ class CartController extends Controller
     {
         $carts = $this->cartService->getAllCarts();
         return response()->json(['data' => $carts], 200);
+    }
+
+    public function store(StoreCartRequest $request) {
+        return $this->cartService->store($request->validated());
     }
 }
