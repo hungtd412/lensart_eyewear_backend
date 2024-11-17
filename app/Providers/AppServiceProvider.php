@@ -22,8 +22,8 @@ class AppServiceProvider extends ServiceProvider {
             return $user->role_id === 1 || $user->role_id === 2;
         });
 
-        Gate::define('is-customer', function (?User $user): bool {
-            return $user && $user->role_id === 3;
+        Gate::define('is-customer', function (User $user): bool {
+            return $user->role_id === 3;
         });
     }
 
