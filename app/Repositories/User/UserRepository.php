@@ -16,11 +16,14 @@ class UserRepository implements UserRepositoryInterface {
             if ($user->status == 'inactive')
                 return false;
 
-            // if user is not admin or manager then logout
+            // manager and admin can only login to admin web
+            // customer can only login to main web
             if (
-                $routePrefix === 'api/auth/admin'
-                && $user->role_id !== 1
-                && $user->role_id !== 2
+                ($routePrefix === 'api/auth/admin'
+                    && $user->role_id !== 1
+                    && $user->role_id !== 2) ||
+                ($routePrefix === 'api/auth'
+                    && $user->role_id !== 3)
             ) {
                 $this->deleteToken();
                 return false;

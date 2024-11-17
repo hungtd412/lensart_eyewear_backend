@@ -11,28 +11,18 @@ and cart_details.branch_id = branches.id
 and carts.user_id = users.id
 ORDER BY users.id
 
-SELECT DISTINCT users.id AS userid,
-       COUNT(DISTINCT CONCAT(cart_details.product_id, '-', cart_details.branch_id, '-', cart_details.color)) AS detailcart_count
-FROM users
-INNER JOIN carts ON carts.user_id = users.id
-INNER JOIN cart_details ON cart_details.cart_id = carts.id
-GROUP BY users.id
-ORDER BY users.id;
+SELECT coupons.discount_price, orders.total_price, order_details.total_price from coupons, orders, order_details
+where orders.id = order_details.order_id
+and coupons.id = orders.coupon_id
+and orders.id = 10
+
+SELECT * from cart_details
+
+select * from users
 
 
-SELECT
-    orders.id AS order_id,
-    orders.coupon_code,
-    orders.total_price AS order_total_price,
-    SUM(order_details.total_price) AS total_order_details_price
-FROM
-    orders
-JOIN
-    order_details ON orders.id = order_details.order_id
-WHERE
-    orders.branch_id = 1
-GROUP BY
-    orders.id, orders.coupon_code, orders.total_price;
+SELECT users.id as uid, firstName, lastName, address,  phone
+from users,
 
 
 desc features
