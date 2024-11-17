@@ -58,7 +58,7 @@ class OrderAndDetailSeeder extends Seeder {
 
         foreach ($productDetails as $productDetail) {
             $quantity = rand(1, $productDetail->quantity);
-            $price = $this->getPriceByProductId($productDetail->product_id);
+            $price = $this->getPriceByProductAndBranchId($productDetail->product_id, $branchId);
             $totalPrice += $price * $quantity;
 
             DB::table('order_details')->insert([
@@ -73,22 +73,19 @@ class OrderAndDetailSeeder extends Seeder {
         $this->updateTotalPriceForOrder($orderId, $totalPrice, $couponCode);
     }
 
-    public function getRandomProductDetails() {
-        $productDetail = ProductDetail::inRandomOrder()->where('quantity', '>', 0)->first();
-        $productDetail->price = $this->getPriceByProductId($productDetail->product_id);
-        return $productDetail;
-    }
-
     public function getRandomNote() {
         return \Faker\Factory::create()->randomElement([
             'Che tên dùm em ạ',
             'Giao buổi sáng cho em',
             'Anh chị shipper cứ để hàng trên lan can cho em',
+            null
         ]);
     }
 
-    public function getPriceByProductId($productId) {
-        return Product::select('price')->where('id', $productId)->first()->price;
+    public function getPriceByProductAndBranchId($productId, $branchId) {
+        $originalPrice = Product::select('price')->where('id', $productId)->first()->price;
+        $index = Branch::select('index')->where('id', $branchId)->first()->index;
+        return (float)$originalPrice * (float)$index;
     }
 
     public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {

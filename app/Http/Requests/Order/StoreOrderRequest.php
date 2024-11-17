@@ -22,14 +22,16 @@ class StoreOrderRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'user_id' => 'required|integer|min:1',
-            'date' => 'required|date_format:Y/m/d H:i:s',
-            'branch_id' => 'required|integer|min:1',
-            'address' => 'required|string|min:2|max:100',
-            'note' => 'required|string|min:2|max:500',
-            'coupon_code' => 'string|min:2|max:50',
-            'cart_details' => 'required|array',
-            'cart_details.*' => 'integer|min:1',
+            'branch_id' => 'required|exists:branches,id',
+            'address' => 'required|string|max:255',
+            'note' => 'nullable|string|max:1000',
+            'coupon_id' => 'nullable|exists:coupons,id',
+
+            'order_details' => 'required|array|min:1',
+            'order_details.*.product_id' => 'required|exists:products,id',
+            'order_details.*.color' => 'required|string|max:255',
+            'order_details.*.quantity' => 'required|integer|min:1',
+            'order_details.*.total_price' => 'required|numeric|min:0',
         ];
     }
 }

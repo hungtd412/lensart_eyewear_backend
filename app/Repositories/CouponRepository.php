@@ -14,11 +14,16 @@ class CouponRepository implements CouponRepositoryInterface {
     }
 
     public function getById($id) {
-        return Coupon::find($id);
+        return Coupon::find($id)->where('status', 'active')->where('quantity', '>', 0)->first();
     }
 
     public function getByCode($code) {
-        return Coupon::where('code', $code)->first();
+        return Coupon::where('code', $code)->where('status', 'active')->where('quantity', '>', 0)->first();
+    }
+
+    public function decrementCouponQuantityByOne($coupon) {
+        $coupon->quantity -= 1;
+        $coupon->save();
     }
 
     public function update(array $data, $coupon) {
