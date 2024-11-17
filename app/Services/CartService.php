@@ -18,7 +18,7 @@ class CartService {
         return $this->cartRepository->getAllCarts();
     }
 
-    public function store($data) {
+    public function store(array $data) {
         $cart = $this->cartRepository->store($data);
 
         return response()->json([

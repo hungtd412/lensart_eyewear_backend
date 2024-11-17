@@ -11,4 +11,8 @@ class CartReposity implements CartReposityInterface {
     {
         return Cart::all();
     }
+
+    public function store(array $cart): Cart {
+        return Cart::create($cart);
+    }
 }

@@ -11,4 +11,8 @@ class CartDetailReposity implements CartDetailReposityInterface {
     {
         return CartDetail::all();
     }
+
+    public function store(array $cartDetail): CartDetail {
+        return CartDetail::create($cartDetail);
+    }
 }

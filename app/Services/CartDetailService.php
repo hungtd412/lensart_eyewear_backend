@@ -17,4 +17,13 @@ class CartDetailService {
     {
         return $this->cartDetailRepository->getAllCartDetails();
     }
+
+    public function store(array $data) {
+        $cart = $this->cartDetailRepository->store($data);
+
+        return response()->json([
+            'status' => 'success',
+            'cart' => $cart
+        ], 200);
+    }
 }
