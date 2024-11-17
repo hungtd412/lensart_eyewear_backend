@@ -27,12 +27,6 @@ class StoreCartRequest extends FormRequest
         return [
             'user_id' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
-            // 'cart_details' => 'required|array',
-            // 'cart_details.*.product_id' => 'required|integer|min:1',
-            // 'cart_details.*.branch_id' => 'required|integer|min:1',
-            // 'cart_details.*.color' => 'required|string|max:50',
-            // 'cart_details.*.quantity' => 'required|integer|min:1',
-            // 'cart_details.*.total_price' => 'required|numeric|min:0',
         ];
     }
 }
