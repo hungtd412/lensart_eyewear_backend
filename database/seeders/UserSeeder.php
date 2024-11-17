@@ -74,7 +74,6 @@ class UserSeeder extends Seeder {
                 'role_id' => 3,
                 'phone' => $phone,
                 'address' => $address,
-                'status' => $faker->randomElement(['active', 'inactive']),
             ]);
         }
     }

@@ -5,8 +5,8 @@ namespace App\Repositories;
 use App\Models\Order;
 
 class OrderRepository implements OrderRepositoryInterface {
-    public function store(array $order): Order {
-        return Order::create($order);
+    public function store(array $data): Order {
+        return Order::create($data);
     }
 
     public function getAll() {

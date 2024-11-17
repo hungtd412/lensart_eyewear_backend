@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\OrderRepositoryInterface;
+use Carbon\Carbon;
 
 class OrderService {
     protected $orderRepository;
@@ -11,13 +12,27 @@ class OrderService {
         $this->orderRepository = $orderRepository;
     }
 
-    public function store($data) {
+    public function store($data, $discountPrice) {
+        $this->prepareForOrderData($data, $discountPrice);
+
         $order = $this->orderRepository->store($data);
 
         return response()->json([
             'status' => 'success',
             'order' => $order
         ], 200);
+    }
+
+    public function prepareForOrderData(&$data, $discountPrice) {
+        $data['user_id'] = auth()->id();
+        $data['date'] = Carbon::parse(now())->setTimeZone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $data['user_id'] = auth()->id();
+
+        $order_total_price = 0;
+        foreach ($data['order_details'] as $orderdetail) {
+            $order_total_price += $orderdetail['total_price'];
+        }
+        $data['total_price'] = $order_total_price - $discountPrice;
     }
 
     public function getAll() {

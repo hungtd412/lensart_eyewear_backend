@@ -30,8 +30,7 @@ class StoreProductRequest extends FormRequest {
             'shape_id' => 'required|integer|min:1',
             'material_id' => 'required|integer|min:1',
             'gender' => 'required|in:male,female,unisex',
-            'created_time' => 'required|date_format:Y/m/d H:i:s',
-            'features' => 'required|array',
+            'features' => 'array',
             'features.*' => 'integer|min:1',
         ];
     }
