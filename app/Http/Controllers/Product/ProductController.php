@@ -57,4 +57,22 @@ class ProductController extends Controller {
             'products' => $products
         ], 200);
     }
+
+    public function getBestSellingProducts()
+    {
+        $products = $this->productService->getBestSellingProducts(10);
+        return response()->json([
+            'status' => 'success',
+            'products' => $products
+        ], 200);
+    }
+
+    public function getNewestProducts()
+    {
+        $products = $this->productService->getNewestProducts(10);
+        return response()->json([
+            'status' => 'success',
+            'products' => $products
+        ], 200);
+    }
 }

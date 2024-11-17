@@ -3,6 +3,7 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements ProductRepositoryInterface {
     public function store(array $product): Product {
@@ -105,5 +106,33 @@ class ProductRepository implements ProductRepositoryInterface {
                   ->whereIn('f.name', $features);
         }
         return $query;
+    }
+
+    public function getBestSellingProducts($limit = 10)
+    {
+        return Product::select('products.*', DB::raw('SUM(product_details.quantity) as total_sold'))
+            ->join('product_details', 'products.id', '=', 'product_details.product_id')
+            ->where('products.status', 'active')
+            ->where('product_details.status', 'active')
+            ->groupBy('products.id')
+            ->orderBy('total_sold', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
+    public function getNewestProducts($limit = 10)
+    {
+        return Product::where('status', 'active')
+            ->orderBy('id', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
+    public function getActiveBlogs($limit = 10)
+    {
+        return Blog::where('status', 'active')
+            ->orderBy('id', 'desc')
+            ->take($limit)
+            ->get();
     }
 }
