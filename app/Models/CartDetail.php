@@ -19,9 +19,4 @@ class CartDetail extends Model
         'quantity',
         'total_price',
     ];
-
-    public function getTotalPriceAttribute()
-    {
-        return $this->quantity * ($this->product->offer_price ?? $this->product->price);
-    }
 }
