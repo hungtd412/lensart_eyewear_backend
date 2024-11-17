@@ -28,4 +28,16 @@ class CartDetailController extends Controller
     public function update(StoreCartDetailRequest $request, $id) {
         return $this->cartDetailService->update($request->validated(), $id);
     }
+
+    public function delete($cartDetailId)
+    {
+        // Gọi service để xóa mục giỏ hàng
+        return $this->cartDetailService->delete($cartDetailId);
+    }
+
+    public function clearCart($cartId)
+    {
+        // Gọi service để xóa toàn bộ giỏ hàng
+        return $this->cartDetailService->clearCart($cartId);
+    }
 }

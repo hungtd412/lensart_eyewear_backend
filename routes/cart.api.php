@@ -37,3 +37,20 @@ Route::group([
     // Update số lượng trong Cart
     Route::post('/cart_details/update/{id?}', [CartDetailController::class, 'update']);
 });
+
+//**************************************
+//  DELETE
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/cart_details/delete/{id?}', [CartDetailController::class, 'delete']);
+
+
+});
+
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/cart_details/clear/{cartId?}', [CartDetailController::class, 'clearCart']);
+});

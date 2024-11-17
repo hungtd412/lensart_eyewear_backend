@@ -10,4 +10,8 @@ interface CartDetailReposityInterface {
 
     public function getById(array $cartDetail);
     public function update(array $data, $cartDetail);
+
+    public function delete($cartDetailId);
+
+    public function clearCart($cartId);
 }

@@ -37,4 +37,25 @@ class CartDetailService {
             'carts' => $cartDetail
         ], 200);
     }
+
+    public function delete($cartDetailId) {
+        // Xóa mục giỏ hàng
+        $this->cartDetailRepository->delete($cartDetailId);
+
+        return response()->json([
+            'message' => 'Item deleted successfully',
+            'cart_detail_id' => $cartDetailId
+        ], 200);
+    }
+
+
+    public function clearCart($cartId) {
+        // Xóa tất cả các mục giỏ hàng liên quan đến `cartId`
+        $this->cartDetailRepository->clearCart($cartId);
+
+        return response()->json([
+            'message' => 'Cart cleared successfully',
+            'cart_id' => $cartId
+        ], 200);
+    }
 }

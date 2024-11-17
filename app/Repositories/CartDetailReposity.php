@@ -56,4 +56,29 @@ class CartDetailReposity implements CartDetailReposityInterface {
         }
     }
 
+    // Xóa một mục trong giỏ hàng
+    public function delete($cartDetailId) {
+        $cartDetail = CartDetail::find($cartDetailId);
+
+        if ($cartDetail) {
+            $cartId = $cartDetail->cart_id;
+            $cartDetail->delete();
+
+            // Cập nhật lại `total_price` cho `cart`
+            $this->updateCartTotalPrice($cartId);
+        }
+    }
+
+    // Xóa tất cả các mục trong giỏ hàng theo `cart_id`
+    public function clearCart($cartId) {
+        CartDetail::where('cart_id', $cartId)->delete();
+
+        // Cập nhật lại `total_price` cho `cart`
+        $cart = Cart::find($cartId);
+        if ($cart) {
+            $cart->total_price = 0;
+            $cart->save();
+        }
+    }
+
 }
