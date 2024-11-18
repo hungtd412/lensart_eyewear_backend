@@ -1,32 +1,50 @@
 
 --mk: 123456 for all users
-select * from product_details where product_id=4 and branch_id=2 and color="Hồng Cánh Tím"
-select * from shapes ORDER BY product_id
 
-select products.name, branches.name, users.id, users.firstName, users.lastName, color
-from carts, cart_details, products, branches, users
-where cart_details.cart_id = carts.id
-and cart_details.product_id = products.id
+SELECT product_details.quantity, product_details.color, product_details.product_id, (branches.index * products.price) as mainprice
+from products, branches, product_details
+where products.id = product_details.product_id
+and product_details.branch_id = branches.id
+and branches.id = 2
+and ((product_details.product_id = 35 and product_details.color = "Đen") or (product_details.product_id = 11 and product_details.color = "Xám"))
+--50 50
+
+update table
+
+update product_details
+set quantity = 50
+where product_details.product_id = 35 and product_details.color = "Đen"
+and product_details.branch_id = 2
+
+SELECT cart_details.quantity, products.id as proId, cart_details.color, (branches.index * products.price), carts.user_id
+from products, branches, carts, cart_details
+where products.id = cart_details.product_id
 and cart_details.branch_id = branches.id
-and carts.user_id = users.id
-ORDER BY users.id
+and branches.id = 2
+and carts.user_id=6
+and cart_details.cart_id = carts.id
+and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_details.product_id = 11 and cart_details.color = "Xám"))
 
-SELECT coupons.id, orders.*, order_details.*, products.price
-from coupons, orders, order_details, products
-where orders.id = order_details.order_id
-and coupons.id = orders.coupon_id
-and products.id = order_details.product_id
-and orders.id = 33
 
-SELECT orders.*, order_details.*
-from orders, order_details
-where orders.id = order_details.order_id
-and orders.id = 57
 
-SELECT * from orders
-where user_id
+select * from users
+select * from orders, order_details
+where orders.id=49 and order_details.order_id = orders.id
 
-select * from coupons
+SELECT branch_id, user_id
+                FROM orders
+                WHERE id = 49;
+
+select * from carts, cart_details
+where carts.user_id=6 and cart_details.cart_id = carts.id
+
+INSERT INTO cart_details (cart_id, product_id, branch_id, color, quantity, total_price)
+VALUES
+(2, 35, 2, 'Đen', 3, 1821259.2),
+(2, 11, 2, 'Xám', 1, 572532.8);
+
+
+select id, discount_price, quantity from coupons where status = 'active'
 
 
 

@@ -10,6 +10,8 @@ interface ProductDetailRepositoryInterface {
     public function getByProductAndBranchId($productId, $branchId);
     public function getByThreeIds($productId, $branchId, $color);
     public function update(array $data, $productId, $branchId, $color);
+    public function isEnoughQuantity($productId, $branchId, $color, $quantity);
+    public function decreaseQuantityByThreeIds($productId, $branchId, $color, $quantity);
     public function updateEach(array $data, $productDetail, $attributeOfproductDetail);
     public function delete($id);
 }
