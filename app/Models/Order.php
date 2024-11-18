@@ -34,4 +34,8 @@ class Order extends Model {
     public function branch() {
         return $this->belongsTo(Branch::class);
     }
+
+    public function coupon() {
+        return $this->belongsTo(Coupon::class);
+    }
 }

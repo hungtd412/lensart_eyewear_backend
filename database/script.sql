@@ -38,7 +38,7 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
+SELECT * from orders where coupon_id is null
 
 select * from carts, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id
