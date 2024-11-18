@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Repositories;
+
 use Illuminate\Support\Collection;
 
-interface CartDetailReposityInterface {
+interface CartDetailReposityInterface
+{
     public function getAllCartDetails(): Collection;
 
     public function store(array $data);
@@ -14,4 +16,6 @@ interface CartDetailReposityInterface {
     public function delete($cartDetailId);
 
     public function clearCart($cartId);
+
+    public function calculateTotalWithCoupon(array $selectedCartDetailIds, $couponCode = null);
 }

@@ -45,12 +45,18 @@ Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-customer'],
 ], function () {
     Route::post('/cart_details/delete/{id?}', [CartDetailController::class, 'delete']);
-
-
 });
 
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-customer'],
 ], function () {
     Route::post('/cart_details/clear/{cartId?}', [CartDetailController::class, 'clearCart']);
+});
+//**************************************
+//  Tick Product on Carts
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/cart/calculate-total', [CartDetailController::class, 'calculateTotalWithCoupon']);
 });

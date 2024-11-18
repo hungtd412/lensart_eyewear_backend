@@ -106,20 +106,14 @@ class WishlistRepository implements WishlistRepositoryInterface
         // Nếu đã có sản phẩm trong giỏ hàng, tăng số lượng
         if (!$cartDetail->wasRecentlyCreated) {
             $cartDetail->quantity += 1;
+            $this->updateCartDetailTotalPrice($cartDetail);
         }
-
-        // Cập nhật lại `total_price2` cho `cartDetail`
-        $this->updateCartDetailTotalPrice($cartDetail);
-
-        // Cập nhật lại `total_price1` cho `cart`
-        $this->updateCartTotalPrice($cart->id);
 
         // Xóa sản phẩm khỏi wishlist
         $wishlistDetail->delete();
 
         return true;
     }
-
 
     public function moveAllToCart()
     {
@@ -136,35 +130,19 @@ class WishlistRepository implements WishlistRepositoryInterface
             $this->moveProductToCart($wishlistDetail->id);
         }
 
-        // Cập nhật lại `total_price1` cho `cart`
-        $cart = Cart::where('user_id', $userId)->first();
-        if ($cart) {
-            $this->updateCartTotalPrice($cart->id);
-        }
-
         return true;
     }
 
-    // Cập nhật tổng giá cho giỏ hàng
+
     private function updateCartDetailTotalPrice($cartDetail)
     {
         $product = $cartDetail->product;
         $branch = $cartDetail->branch;
 
         if ($product && $branch) {
-            // Tính lại `total_price`
+            // Tính lại `total_price` cho `CartDetail`
             $cartDetail->total_price = $cartDetail->quantity * $product->price * $branch->index;
             $cartDetail->save();
-        }
-    }
-
-    private function updateCartTotalPrice($cartId)
-    {
-        $totalPrice = CartDetail::where('cart_id', $cartId)->sum('total_price');
-        $cart = Cart::find($cartId);
-        if ($cart) {
-            $cart->total_price = $totalPrice;
-            $cart->save();
         }
     }
 }
