@@ -37,7 +37,7 @@ Route::group([
 //  GET BY ID
 //**************************************
 Route::group([
-    'middleware' => ['checkIdParameter'],
+    'middleware' => ['checkIdParameter', 'auth:sanctum'],
 ], function () {
     Route::get('/orders/getById/{id?}', [OrderController::class, 'getById']);
 });
@@ -45,10 +45,25 @@ Route::group([
 
 
 //**************************************
-//  SWITCH STATUS
+//  CHANGE STATUS
 //**************************************
 Route::group([
-    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
+    'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin-manager'],
 ], function () {
+    Route::post('/orders/change-order-status/{id?}', [OrderController::class, 'changeOrderStatus']);
+
+    Route::post('/orders/change-payment-status/{id?}', [OrderController::class, 'changePaymentStatus']);
+
     Route::post('/orders/switch-status/{id?}', [OrderController::class, 'switchStatus']);
+});
+
+
+
+//**************************************
+//  CANCEL ORDER
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter', 'auth:sanctum'],
+], function () {
+    Route::post('/orders/cancel/{id?}', [OrderController::class, 'cancel']);
 });

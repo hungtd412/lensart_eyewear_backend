@@ -31,9 +31,14 @@ select * from users
 select * from orders, order_details
 where orders.id=49 and order_details.order_id = orders.id
 
-SELECT branch_id, user_id
-                FROM orders
-                WHERE id = 49;
+SELECT orders.id, user_id, branch_id
+FROM orders
+WHERE orders.id = 45;
+
+SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
+where order_status <> 'Đã hủy';
+
+SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 
 select * from carts, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id
@@ -46,7 +51,7 @@ VALUES
 
 select id, discount_price, quantity from coupons where status = 'active'
 
-
+select * from branches
 
 
 

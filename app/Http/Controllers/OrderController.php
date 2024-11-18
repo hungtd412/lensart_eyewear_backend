@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Http\Requests\Order\UpdateOrderStatusRequest;
+use App\Http\Requests\Order\UpdatePaymentStatusRequest;
 use App\Services\OrderDetailService;
 use App\Services\OrderService;
 
 class OrderController extends Controller {
     protected $orderService;
-    protected $orderDetailService;
 
-    public function __construct(OrderService $orderService, OrderDetailService $orderDetailService) {
+    public function __construct(OrderService $orderService) {
         $this->orderService = $orderService;
-        $this->orderDetailService = $orderDetailService;
     }
 
     public function store(StoreOrderRequest $request) {
@@ -32,6 +32,18 @@ class OrderController extends Controller {
 
     public function update(StoreOrderRequest $request, $id) {
         return $this->orderService->update($request->validated(), $id);
+    }
+
+    public function changeOrderStatus(UpdateOrderStatusRequest $request, $id) {
+        return $this->orderService->changeOrderStatus($id, $request->validated()['order_status']);
+    }
+
+    public function changePaymentStatus(UpdatePaymentStatusRequest $request, $id) {
+        return $this->orderService->changePaymentStatus($id, $request->validated()['payment_status']);
+    }
+
+    public function cancel($id) {
+        return $this->orderService->cancel($id);
     }
 
     public function switchStatus($id) {

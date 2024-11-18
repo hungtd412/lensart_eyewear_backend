@@ -7,6 +7,8 @@ use App\Repositories\OrderDetailRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\Product\ProductDetailRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class OrderService {
     protected $orderRepository;
@@ -102,28 +104,89 @@ class OrderService {
 
     public function getById($id) {
         $order = $this->orderRepository->getById($id);
+        $response = Gate::inspect("view", $order);
 
-        if ($order === null) {
+        if ($response->allowed()) {
             return response()->json([
-                'message' => 'Can not find any data matching these conditions!'
-            ], 404);
+                'order' => $order,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không thể xem đơn hàng của người dùng này!',
+            ], 403);
         }
-
-        return response()->json([
-            'message' => 'success',
-            'order' => $order,
-        ], 200);
     }
 
     public function update($data, $id) {
         $order = $this->orderRepository->getById($id);
 
-        $this->orderRepository->update($data, $order);
+        $response = Gate::inspect("update", $order);
 
-        return response()->json([
-            'message' => 'success',
-            'order' => $order
-        ], 200);
+        if ($response->allowed()) {
+            $this->orderRepository->update($data, $order);
+            $order = $this->orderRepository->getById($id);
+            return response()->json([
+                'order' => $order,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không thể chỉnh sửa đơn hàng của người dùng này!',
+            ], 403);
+        }
+    }
+
+    public function changeOrderStatus($id, $newOrderStatus) {
+        $order = $this->orderRepository->getById($id);
+
+        $response = Gate::inspect("update", $order);
+
+        if ($response->allowed()) {
+            $this->orderRepository->changeOrderStatus($id, $newOrderStatus);
+            $order = $this->orderRepository->getById($id);
+            return response()->json([
+                'order' => $order,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không thể chỉnh sửa đơn hàng của người dùng này!',
+            ], 403);
+        }
+    }
+
+    public function changePaymentStatus($id, $newPaymentStatus) {
+        $order = $this->orderRepository->getById($id);
+
+        $response = Gate::inspect("update", $order);
+
+        if ($response->allowed()) {
+            $this->orderRepository->changePaymentStatus($id, $newPaymentStatus);
+            $order = $this->orderRepository->getById($id);
+            return response()->json([
+                'order' => $order,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không thể chỉnh sửa đơn hàng của người dùng này!',
+            ], 403);
+        }
+    }
+
+    public function cancel($id) {
+        $order = $this->orderRepository->getById($id);
+
+        $response = Gate::inspect("cancel", $order);
+
+        if ($response->allowed()) {
+            $this->orderRepository->cancel($id);
+            $order = $this->orderRepository->getById($id);
+            return response()->json([
+                'order' => $order,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Bạn không thể hủy đơn hàng của người dùng này!',
+            ], 403);
+        }
     }
 
     public function switchStatus($id) {
