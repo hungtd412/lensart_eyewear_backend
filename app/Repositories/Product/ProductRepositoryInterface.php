@@ -27,6 +27,4 @@ interface ProductRepositoryInterface {
     public function getBestSellingProducts($limit = 10);
 
     public function getNewestProducts($limit = 10);
-
-    public function getActiveBlogs($limit = 10);
 }

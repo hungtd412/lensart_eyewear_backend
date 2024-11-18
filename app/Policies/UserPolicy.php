@@ -24,6 +24,14 @@ class UserPolicy {
             || $user->role_id === 2
             ? Response::allow()
             : Response::deny();
+
+        //if want to view customer profile
+        if ($model->role_id === 3) {
+            return $user->id === $model->id
+                || $user->role_id === 3
+                ? Response::allow()
+                : Response::deny();
+        }
     }
 
     /**
@@ -42,6 +50,13 @@ class UserPolicy {
             || $user->role_id === 2
             ? Response::allow()
             : Response::deny();
+
+            if ($model->role_id === 3) {
+                return $user->id === $model->id
+                    || $user->role_id === 3
+                    ? Response::allow()
+                    : Response::deny();
+            }
     }
 
     public function createOrder(User $user, User $model): Response {

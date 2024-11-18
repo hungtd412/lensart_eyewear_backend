@@ -6,6 +6,10 @@ use App\Repositories\BlogReposity;
 use App\Repositories\BlogReposityInterface;
 use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryInterface;
+use App\Repositories\CartDetailReposity;
+use App\Repositories\CartDetailReposityInterface;
+use App\Repositories\CartReposity;
+use App\Repositories\CartReposityInterface;
 use App\Repositories\CouponRepository;
 use App\Repositories\CouponRepositoryInterface;
 use App\Repositories\OrderDetailRepository;
@@ -70,6 +74,10 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
 
         $this->app->bind(OrderDetailRepositoryInterface::class, OrderDetailRepository::class);
+
+        $this->app->bind(CartReposityInterface::class, CartReposity::class);
+
+        $this->app->bind(CartDetailReposityInterface::class, CartDetailReposity::class);
 
         $this->app->bind(BlogReposityInterface::class, BlogReposity::class);
     }
