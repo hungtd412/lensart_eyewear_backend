@@ -10,13 +10,14 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::create('order_details', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->string('color');
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 10, 2);
 
-            $table->primary(['order_id', 'product_id', 'color']);
+            $table->unique(['order_id', 'product_id', 'color'], 'unique_order_product_color');
 
             //Add foreign key
             $table->foreign('order_id')->references('id')->on('orders');

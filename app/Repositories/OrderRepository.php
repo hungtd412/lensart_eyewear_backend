@@ -2,27 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Models\Branch;
+use App\Models\Order;
 
-class OrderRepository implements BranchRepositoryInterface {
-    public function store(array $branch): Branch {
-        return Branch::create($branch);
+class OrderRepository implements OrderRepositoryInterface {
+    public function store(array $data): Order {
+        return Order::create($data);
     }
 
     public function getAll() {
-        return Branch::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
+        return Order::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
     public function getById($id) {
-        return Branch::find($id);
+        return Order::find($id);
     }
 
-    public function update(array $data, $branch) {
-        $branch->update($data);
+    public function update(array $data, $order) {
+        $order->update($data);
     }
 
-    public function switchStatus($branch) {
-        $branch->status = $branch->status == 'active' ? 'inactive' : 'active';
-        $branch->save();
+    public function switchStatus($order) {
+        $order->status = $order->status == 'active' ? 'inactive' : 'active';
+        $order->save();
     }
 }
