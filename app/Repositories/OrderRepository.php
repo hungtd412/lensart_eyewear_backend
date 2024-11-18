@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 
 class OrderRepository implements OrderRepositoryInterface {
     public function store(array $data): Order {

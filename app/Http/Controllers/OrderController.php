@@ -4,40 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
-use App\Services\CouponService;
 use App\Services\OrderDetailService;
 use App\Services\OrderService;
 
 class OrderController extends Controller {
     protected $orderService;
     protected $orderDetailService;
-    protected $couponService;
-    protected $cartService;
 
-    public function __construct(OrderService $orderService, OrderDetailService $orderDetailService, CouponService $couponService) {
+    public function __construct(OrderService $orderService, OrderDetailService $orderDetailService) {
         $this->orderService = $orderService;
         $this->orderDetailService = $orderDetailService;
-        $this->couponService = $couponService;
     }
 
     public function store(StoreOrderRequest $request) {
         $data = $request->validated();
 
-        $discountPrice = $this->getDiscountPriceByCouponId($data);
-
-        $order = $this->orderService->store($data, $discountPrice)->getData();
-        $this->orderDetailService->store($data, $order->order->id);
-
-        return $order;
-    }
-
-    public function getDiscountPriceByCouponId($data) {
-        if (array_key_exists('coupon_id', $data)) {
-            return $this->couponService->decrementCouponQuantityByOneAndReturn($data['coupon_id'])
-                ->getData()->coupon->discount_price;
-        }
-
-        return 0;
+        return $this->orderService->store($data);
     }
 
     public function index() {

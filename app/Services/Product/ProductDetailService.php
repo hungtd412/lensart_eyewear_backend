@@ -85,9 +85,12 @@ class ProductDetailService {
         ], 200);
     }
 
+    public function decreaseQuantityByThreeIds($productId, $branchId, $color, $quantity) {
+        $this->productDetailRepository->decreaseQuantityByThreeIds($productId, $branchId, $color, $quantity);
+    }
+
     public function update($data, $productId, $branchId, $color) {
         $productDetails = $this->productDetailRepository->getByThreeIds($productId, $branchId, $color);
-        // return $productDetails;
 
         if ($productDetails === null) {
             return response()->json([

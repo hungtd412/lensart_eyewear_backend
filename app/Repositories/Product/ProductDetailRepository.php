@@ -52,6 +52,17 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
             ->first();
     }
 
+    public function isEnoughQuantity($productId, $branchId, $color, $quantity) {
+        $productDetail = $this->getByThreeIds($productId, $branchId, $color);
+        return $productDetail->quantity >= $quantity;
+    }
+
+    public function decreaseQuantityByThreeIds($productId, $branchId, $color, $quantity) {
+        $productDetail = $this->getByThreeIds($productId, $branchId, $color);
+        $productDetail->quantity -= $quantity;
+        $productDetail->save();
+    }
+
     public function update(array $data, $productId, $branchId, $color) {
         ProductDetail::where('product_id', $productId)
             ->where('branch_id', $branchId)
