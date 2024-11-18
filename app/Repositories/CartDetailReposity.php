@@ -14,9 +14,23 @@ class CartDetailReposity implements CartDetailReposityInterface {
         return CartDetail::all();
     }
 
+    // public function store(array $cartDetail): CartDetail {
+    //     return CartDetail::create($cartDetail);
+    // }
+
     public function store(array $cartDetail): CartDetail {
-        return CartDetail::create($cartDetail);
+        // Tạo `CartDetail`
+        $newCartDetail = CartDetail::create($cartDetail);
+
+        // Cập nhật `total_price` cho `CartDetail` vừa tạo
+        $this->updateCartDetailTotalPrice($newCartDetail);
+
+        // Cập nhật `total_price` cho `Cart`
+        $this->updateCartTotalPrice($newCartDetail->cart_id);
+
+        return $newCartDetail;
     }
+
 
     public function getById($id) {
         return CartDetail::find($id);

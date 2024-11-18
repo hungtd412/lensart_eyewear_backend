@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Branch;
 use App\Models\ProductDetail;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class CartAndDetailSeeder extends Seeder {
         foreach ($users as $user) {
             $cartId = DB::table('carts')->insertGetId([
                 'user_id' => $user->id,
+                'total_price' => 0, // Khởi tạo giá trị ban đầu
             ]);
 
             $this->seedCartDetails($cartId, $faker);
@@ -39,6 +41,11 @@ class CartAndDetailSeeder extends Seeder {
         for ($i = 1; $i <= $numberOfItems; $i++) {
             $productDetail = $this->getRandomProductDetails();
             $quantity = $faker->numberBetween(1, $productDetail['quantity'] - 1);
+            $branchIndex = $this->getBranchIndex($productDetail->branch_id);
+
+            // Tính tổng giá dựa trên giá sản phẩm, số lượng và branch index
+            $itemTotalPrice = $quantity * $productDetail->price * $branchIndex;
+
             DB::table('cart_details')->insertOrIgnore([
                 [
                     'cart_id' => $cartId,
@@ -46,11 +53,12 @@ class CartAndDetailSeeder extends Seeder {
                     'branch_id' => $productDetail['branch_id'],
                     'color' => $productDetail['color'],
                     'quantity' => $quantity,
-                    'total_price' => $quantity * $productDetail->price,
+                    'total_price' => $itemTotalPrice,
                 ]
             ]);
 
-            $totalPrice += $quantity * $productDetail->price;
+            // Cộng dồn vào tổng giá của giỏ hàng
+            $totalPrice += $itemTotalPrice;
         }
 
         $this->updateTotalPriceForCart($cartId, $totalPrice);
@@ -60,6 +68,11 @@ class CartAndDetailSeeder extends Seeder {
         $productDetail = ProductDetail::inRandomOrder()->where('quantity', '>', 0)->first();
         $productDetail->price = $this->getPriceByProducId($productDetail->product_id);
         return $productDetail;
+    }
+
+    public function getBranchIndex($branchId) {
+        $branch = Branch::find($branchId);
+        return $branch ? $branch->index : 1; // Nếu không tìm thấy chi nhánh, dùng giá trị mặc định là 1
     }
 
     public function getPriceByProducId($productId) {
