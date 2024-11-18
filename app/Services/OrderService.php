@@ -117,6 +117,35 @@ class OrderService {
         }
     }
 
+    public function getByStatusAndBranch($status, $branchId = null) {
+        if (!is_null($branchId)) {
+            if ($this->isValidUser($branchId)) {
+                return response()->json([
+                    'status' => 'success',
+                    'orders' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => "Bạn không thể xem đơn hàng của chi nhánh khác!"
+                ], 403);
+            }
+        }
+
+        try {
+            $branchId = auth()->user()->branch->id;
+        } catch (\Throwable $th) {
+            $branchId = null;
+        }
+        return $this->orderRepository->getByStatusAndBranch($status, $branchId);
+    }
+
+    public function isValidUser($branchId) {
+        return auth()->user()->role_id === 1
+            || (auth()->user()->role_id === 2
+                && auth()->user()->branch->id === (int)$branchId);
+    }
+
     public function update($data, $id) {
         $order = $this->orderRepository->getById($id);
 
@@ -192,11 +221,17 @@ class OrderService {
     public function switchStatus($id) {
         $order = $this->orderRepository->getById($id);
 
-        $this->orderRepository->switchStatus($order);
-
-        return response()->json([
-            'message' => 'success',
-            'order' => $order
-        ], 200);
+        if ($this->isValidUser($order->branch_id)) {
+            $this->orderRepository->switchStatus($order);
+            return response()->json([
+                'status' => 'success',
+                'orders' => $order
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'fail',
+                'message' => "Bạn không thể chỉnh sửa đơn hàng của chi nhánh khác!"
+            ], 403);
+        }
     }
 }

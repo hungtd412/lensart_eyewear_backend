@@ -59,6 +59,18 @@ Route::group([
 
 
 
+
+//**************************************
+//  GET BY STATUS
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
+], function () {
+    Route::get('/orders/{status?}/{branchId?}', [OrderController::class, 'getByStatusAndBranch']);
+});
+
+
+
 //**************************************
 //  CANCEL ORDER
 //**************************************
