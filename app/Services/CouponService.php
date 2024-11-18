@@ -59,6 +59,27 @@ class CouponService {
         ], 200);
     }
 
+    public function decrementCouponQuantityByOneAndReturn($id) {
+        $coupon = $this->couponRepository->getById($id);
+
+        $this->decrementCouponQuantityByOne($coupon);
+
+        if ($coupon === null) {
+            return response()->json([
+                'message' => 'can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'coupon' => $coupon,
+        ], 200);
+    }
+
+    public function decrementCouponQuantityByOne(&$coupon) {
+        $this->couponRepository->decrementCouponQuantityByOne($coupon);
+    }
+
     public function update($data, $id) {
         $coupon = $this->couponRepository->getById($id);
 

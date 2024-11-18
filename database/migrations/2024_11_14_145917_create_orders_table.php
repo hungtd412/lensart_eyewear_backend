@@ -15,11 +15,11 @@ return new class extends Migration {
             $table->timestamp('date');
             $table->unsignedBigInteger('branch_id');
             $table->string('address');
-            $table->string('note', 1000);
+            $table->string('note', 1000)->nullable();
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->decimal('total_price', 11, 2)->default(0);
 
-            $table->enum('order_status', ['Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'])->default('Đang xử lý');
+            $table->enum('order_status', ['Chưa xử lý', 'Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'])->default('Chưa xử lý');
             $table->enum('payment_status', ['Chưa thanh toán', 'Đã thanh toán'])->default('Chưa thanh toán');
 
             $table->enum('status', ['active', 'inactive'])->default('active');

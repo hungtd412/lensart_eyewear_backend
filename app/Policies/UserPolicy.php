@@ -58,4 +58,10 @@ class UserPolicy {
                     : Response::deny();
             }
     }
+
+    public function createOrder(User $user, User $model): Response {
+        return $user->id === $model->id
+            ? Response::allow()
+            : Response::deny();
+    }
 }
