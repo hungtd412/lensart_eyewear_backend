@@ -38,6 +38,8 @@ use App\Repositories\Product\ShapeRepository;
 use App\Repositories\Product\ShapeRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\WishlistRepository;
+use App\Repositories\WishlistRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider {
@@ -80,6 +82,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(CartDetailReposityInterface::class, CartDetailReposity::class);
 
         $this->app->bind(BlogReposityInterface::class, BlogReposity::class);
+
+        $this->app->bind(WishlistRepositoryInterface::class, WishlistRepository::class);
     }
 
     /**

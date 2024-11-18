@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Wishlist;
 
 class UserRepository implements UserRepositoryInterface {
     public function store(array $user): User {
@@ -14,6 +15,11 @@ class UserRepository implements UserRepositoryInterface {
             Cart::create([
                 'user_id' => $newUser->id,
                 'total_price' => 0,
+            ]);
+
+            // Tạo một wishlist rỗng cho user vừa đăng ký
+            Wishlist::create([
+                'user_id' => $newUser->id,
             ]);
         }
         return $newUser;
