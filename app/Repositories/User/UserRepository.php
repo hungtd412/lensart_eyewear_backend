@@ -3,10 +3,20 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
+use App\Models\Cart;
 
 class UserRepository implements UserRepositoryInterface {
     public function store(array $user): User {
-        return User::create($user);
+        $newUser = User::create($user);
+        // Kiểm tra nếu tạo user thành công
+        if ($newUser) {
+            // Tạo một giỏ hàng rỗng cho user vừa đăng ký
+            Cart::create([
+                'user_id' => $newUser->id,
+                'total_price' => 0,
+            ]);
+        }
+        return $newUser;
     }
 
     public function login(array $user, $routePrefix): bool {

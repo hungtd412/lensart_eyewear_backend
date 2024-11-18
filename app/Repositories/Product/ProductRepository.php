@@ -5,6 +5,7 @@ namespace App\Repositories\Product;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
+
 class ProductRepository implements ProductRepositoryInterface {
     public function store(array $product): Product {
         return Product::create($product);
@@ -128,11 +129,4 @@ class ProductRepository implements ProductRepositoryInterface {
             ->get();
     }
 
-    public function getActiveBlogs($limit = 10)
-    {
-        return Blog::where('status', 'active')
-            ->orderBy('id', 'desc')
-            ->take($limit)
-            ->get();
-    }
 }
