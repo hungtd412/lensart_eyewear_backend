@@ -25,4 +25,10 @@ class Product extends Model {
     protected $casts = [
         'created_time' => 'datetime:Y-m-d H:i:s',
     ];
+
+    // Thiết lập mối quan hệ với bảng Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }
