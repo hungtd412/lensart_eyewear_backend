@@ -22,6 +22,24 @@ class OrderRepository implements OrderRepositoryInterface {
         $order->update($data);
     }
 
+    public function changeOrderStatus($id, $newOrderStatus) {
+        $order = $this->getById($id);
+        $order->order_status = $newOrderStatus;
+        $order->save();
+    }
+
+    public function changePaymentStatus($id, $newPaymentStatus) {
+        $order = $this->getById($id);
+        $order->payment_status = $newPaymentStatus;
+        $order->save();
+    }
+
+    public function cancel($id) {
+        $order = $this->getById($id);
+        $order->order_status = 'Đã hủy';
+        $order->save();
+    }
+
     public function switchStatus($order) {
         $order->status = $order->status == 'active' ? 'inactive' : 'active';
         $order->save();
