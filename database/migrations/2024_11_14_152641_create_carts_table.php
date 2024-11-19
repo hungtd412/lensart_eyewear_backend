@@ -8,11 +8,11 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void {
+    public function up(): void
+    {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('total_price', 11, 2)->default(0);
 
             //Add foreign key
             $table->foreign('user_id')->references('id')->on('users');
@@ -22,7 +22,8 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void {
+    public function down(): void
+    {
         Schema::dropIfExists('carts');
     }
 };

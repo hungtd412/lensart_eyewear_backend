@@ -10,30 +10,33 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class CartAndDetailSeeder extends Seeder {
+class CartAndDetailSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      */
-    public function run(): void {
+    public function run(): void
+    {
         $this->seedCarts();
     }
 
-    public function seedCarts() {
+    public function seedCarts()
+    {
         $faker = Faker::create();
         $users = User::where('role_id', 3)->get();
 
         //create cart for each user
         foreach ($users as $user) {
             $cartId = DB::table('carts')->insertGetId([
-                'user_id' => $user->id,
-                'total_price' => 0, // Khởi tạo giá trị ban đầu
+                'user_id' => $user->id
             ]);
 
             $this->seedCartDetails($cartId, $faker);
         }
     }
 
-    public function seedCartDetails($cartId, $faker) {
+    public function seedCartDetails($cartId, $faker)
+    {
 
         $numberOfItems = $faker->numberBetween(0, 3);
         $totalPrice = 0;
@@ -60,28 +63,23 @@ class CartAndDetailSeeder extends Seeder {
             // Cộng dồn vào tổng giá của giỏ hàng
             $totalPrice += $itemTotalPrice;
         }
-
-        $this->updateTotalPriceForCart($cartId, $totalPrice);
     }
 
-    public function getRandomProductDetails() {
+    public function getRandomProductDetails()
+    {
         $productDetail = ProductDetail::inRandomOrder()->where('quantity', '>', 0)->first();
         $productDetail->price = $this->getPriceByProducId($productDetail->product_id);
         return $productDetail;
     }
 
-    public function getBranchIndex($branchId) {
+    public function getBranchIndex($branchId)
+    {
         $branch = Branch::find($branchId);
         return $branch ? $branch->index : 1; // Nếu không tìm thấy chi nhánh, dùng giá trị mặc định là 1
     }
 
-    public function getPriceByProducId($productId) {
+    public function getPriceByProducId($productId)
+    {
         return Product::select('price')->where('id', $productId)->first()->price;
-    }
-
-    public function updateTotalPriceForCart($cartId, $totalPrice) {
-        DB::table('carts')
-            ->where('id', $cartId)
-            ->update(['total_price' => $totalPrice]);
     }
 }
