@@ -25,12 +25,11 @@ class StoreCartDetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cart_id' => 'integer|exists:carts,id',
-            'product_id' => 'integer|exists:products,id',
-            'branch_id' => 'integer|exists:branches,id',
-            'color' => 'string|max:50',
-            'quantity' => 'required|integer|min:1',
-            // 'total_price' => 'required|numeric|min:0',
+            'cart_id' => 'required|integer|exists:carts,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'branch_id' => 'required|integer|exists:branches,id',
+            'color' => 'required|string|max:50',
+            'quantity' => 'required|integer|min:1'
         ];
     }
 }
