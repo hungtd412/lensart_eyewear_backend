@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Collection;
+use App\Models\CartDetail;
 
 interface CartDetailReposityInterface
 {
@@ -15,6 +16,8 @@ interface CartDetailReposityInterface
     public function getCartByIdAndUser($cartId, $userId);
 
     public function store(array $data);
+
+    public function updateCartDetailTotalPrice(CartDetail $cartDetail);
 
     public function getById(array $cartDetail);
     public function update(array $data, $cartDetail);

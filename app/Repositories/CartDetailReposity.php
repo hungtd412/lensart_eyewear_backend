@@ -6,7 +6,7 @@ namespace App\Repositories;
 use App\Models\CartDetail;
 use App\Models\Cart;
 use App\Models\Coupon;
-use Illuminate\Support\Collection;
+use App\Models\ProductDetail;
 use App\Repositories\CartDetailReposityInterface;
 
 class CartDetailReposity implements CartDetailReposityInterface
@@ -19,8 +19,40 @@ class CartDetailReposity implements CartDetailReposityInterface
         // Kiểm tra nếu cart tồn tại, trả về các cart_details của cart
         if ($cart) {
             return CartDetail::where('cart_id', $cart->id)
-                ->with(['product', 'branch'])
-                ->get();
+                ->with([
+                    'product' => function ($query) {
+                        $query->select('id', 'name', 'price', 'status', 'brand_id', 'category_id') // Chọn các cột cần thiết
+                            ->with([
+                                'category' => function ($q) {
+                                    $q->select('id', 'name'); // Chọn tên danh mục
+                                },
+                                'brand' => function ($q) {
+                                    $q->select('id', 'name'); // Chọn tên thương hiệu
+                                },
+                                'images' => function ($q) {
+                                    $q->select('id', 'product_id', 'image_url'); // Chọn ảnh sản phẩm
+                                }
+                            ]);
+                    },
+                    'branch' => function ($query) {
+                        $query->select('id', 'name', 'index', 'address'); // Chọn chi nhánh
+                    }
+                ])
+                ->get()
+                ->map(function ($cartDetail) {
+                    return [
+                        'id' => $cartDetail->id,
+                        'product_name' => $cartDetail->product->name ?? 'N/A',
+                        'product_price' => $cartDetail->product->price ?? 0,
+                        'brands_name' => $cartDetail->product->brand->name ?? 'N/A', // Lấy tên thương hiệu
+                        'category_name' => $cartDetail->product->category->name ?? 'N/A', // Lấy tên danh mục
+                        'color' => $cartDetail->color,
+                        'quantity' => $cartDetail->quantity,
+                        'image_url' => $cartDetail->product->images->first()->image_url ?? null, // Lấy ảnh đầu tiên
+                        'branches_name' => $cartDetail->branch->name ?? 'N/A', // Lấy tên chi nhánh
+                        'total_price' => $cartDetail->quantity * $cartDetail->product->price * ($cartDetail->branch->index ?? 1),
+                    ];
+                });
         }
 
         // Trả về collection rỗng nếu không tìm thấy cart
@@ -50,7 +82,21 @@ class CartDetailReposity implements CartDetailReposityInterface
 
     public function store(array $cartDetail): CartDetail
     {
-        // Tạo `CartDetail`
+        // Kiểm tra xem có bản ghi nào trùng không
+        $existingCartDetail = CartDetail::where('cart_id', $cartDetail['cart_id'])
+            ->where('product_id', $cartDetail['product_id'])
+            ->where('branch_id', $cartDetail['branch_id'])
+            ->where('color', $cartDetail['color'])
+            ->first();
+
+        // Nếu đã tồn tại, cập nhật số lượng và tổng giá
+        if ($existingCartDetail) {
+            $existingCartDetail->quantity += $cartDetail['quantity'];
+            $this->updateCartDetailTotalPrice($existingCartDetail);
+            return $existingCartDetail;
+        }
+
+        // Nếu không tồn tại, tạo mới
         $newCartDetail = CartDetail::create($cartDetail);
 
         // Cập nhật `total_price` cho `CartDetail` vừa tạo
@@ -59,6 +105,17 @@ class CartDetailReposity implements CartDetailReposityInterface
         return $newCartDetail;
     }
 
+    public function updateCartDetailTotalPrice(CartDetail $cartDetail)
+    {
+        $product = $cartDetail->product;
+        $branch = $cartDetail->branch;
+
+        if ($product && $branch) {
+            // Tính lại `total_price`
+            $cartDetail->total_price = $cartDetail->quantity * $product->price * ($branch->index ?? 1);
+            $cartDetail->save();
+        }
+    }
 
     public function getById($id)
     {
@@ -75,18 +132,6 @@ class CartDetailReposity implements CartDetailReposityInterface
         $this->updateCartDetailTotalPrice($cartDetail);
 
         return $cartDetail;
-    }
-
-    private function updateCartDetailTotalPrice($cartDetail)
-    {
-        $product = $cartDetail->product;
-        $branch = $cartDetail->branch;
-
-        if ($product && $branch) {
-            // Tính lại `total_price`
-            $cartDetail->total_price = $cartDetail->quantity * $product->price * $branch->index;
-            $cartDetail->save();
-        }
     }
 
     // Xóa một mục trong giỏ hàng

@@ -20,6 +20,10 @@ class CartDetail extends Model
         'total_price',
     ];
 
+    protected $attributes = [
+        'total_price' => 0,
+    ];
+
     // Quan hệ với bảng `products`
     public function product()
     {
