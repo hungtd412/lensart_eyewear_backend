@@ -6,6 +6,8 @@ use App\Http\Requests\Cart\StoreCartDetailRequest;
 use App\Services\CartDetailService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class CartDetailController extends Controller
 {
@@ -18,40 +20,44 @@ class CartDetailController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $cartDetails = $this->cartDetailService->getAllCartDetails();
+        $userId = auth()->id();
+        $cartDetails = $this->cartDetailService->getAllCartDetails($userId);
         return response()->json(['data' => $cartDetails], 200);
     }
 
     public function store(StoreCartDetailRequest $request)
     {
-        return $this->cartDetailService->store($request->validated());
+        $userId = auth()->id(); // Lấy user_id
+        $data = $request->validated();
+        $data['user_id'] = $userId; // Thêm user_id vào dữ liệu trước khi gọi service
+        return $this->cartDetailService->store($data);
     }
 
     public function update(StoreCartDetailRequest $request, $id)
     {
-        return $this->cartDetailService->update($request->validated(), $id);
+        $userId = auth()->id(); // Lấy user_id
+        return $this->cartDetailService->update($request->validated(), $id, $userId);
     }
 
     public function delete($cartDetailId)
     {
-        // Gọi service để xóa mục giỏ hàng
-        return $this->cartDetailService->delete($cartDetailId);
+        $userId = auth()->id(); // Lấy user_id
+        return $this->cartDetailService->delete($cartDetailId, $userId);
     }
 
     public function clearCart($cartId)
     {
-        // Gọi service để xóa toàn bộ giỏ hàng
-        return $this->cartDetailService->clearCart($cartId);
+        $userId = auth()->id(); // Lấy user_id
+        return $this->cartDetailService->clearCart($cartId, $userId);
     }
 
     // Tính tổng tiền và áp dụng mã giảm giá
     public function calculateTotalWithCoupon(Request $request)
     {
+        $userId = auth()->id(); // Lấy user_id
         $selectedIds = $request->input('selected_ids', []);
         $couponCode = $request->input('coupon_code');
-
-        $result = $this->cartDetailService->calculateTotalWithCoupon($selectedIds, $couponCode);
-
+        $result = $this->cartDetailService->calculateTotalWithCoupon($userId, $selectedIds, $couponCode);
         return response()->json($result, 200);
     }
 }

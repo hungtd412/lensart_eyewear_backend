@@ -11,14 +11,42 @@ use App\Repositories\CartDetailReposityInterface;
 
 class CartDetailReposity implements CartDetailReposityInterface
 {
-    public function getAllCartDetails(): Collection
+    public function getAllCartDetails($userId)
     {
-        return CartDetail::all();
+        // Lấy cart của user
+        $cart = Cart::where('user_id', $userId)->first();
+
+        // Kiểm tra nếu cart tồn tại, trả về các cart_details của cart
+        if ($cart) {
+            return CartDetail::where('cart_id', $cart->id)
+                ->with(['product', 'branch'])
+                ->get();
+        }
+
+        // Trả về collection rỗng nếu không tìm thấy cart
+        return collect([]);
     }
 
-    // public function store(array $cartDetail): CartDetail {
-    //     return CartDetail::create($cartDetail);
-    // }
+    public function getCartByUserId($userId)
+    {
+        return Cart::where('user_id', $userId)->first();
+    }
+
+    public function getByIdAndUser($id, $userId)
+    {
+        return CartDetail::where('id', $id)
+            ->whereHas('cart', function ($query) use ($userId) {
+                $query->where('user_id', $userId); // Kiểm tra user_id của cart
+            })
+            ->first();
+    }
+
+    public function getCartByIdAndUser($cartId, $userId)
+    {
+        return Cart::where('id', $cartId)
+            ->where('user_id', $userId)
+            ->first();
+    }
 
     public function store(array $cartDetail): CartDetail
     {

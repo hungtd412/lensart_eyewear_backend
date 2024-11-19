@@ -42,11 +42,13 @@ use App\Repositories\WishlistRepository;
 use App\Repositories\WishlistRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider {
+class RepositoryServiceProvider extends ServiceProvider
+{
     /**
      * Register services.
      */
-    public function register(): void {
+    public function register(): void
+    {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
@@ -77,8 +79,6 @@ class RepositoryServiceProvider extends ServiceProvider {
 
         $this->app->bind(OrderDetailRepositoryInterface::class, OrderDetailRepository::class);
 
-        $this->app->bind(CartReposityInterface::class, CartReposity::class);
-
         $this->app->bind(CartDetailReposityInterface::class, CartDetailReposity::class);
 
         $this->app->bind(BlogReposityInterface::class, BlogReposity::class);
@@ -89,7 +89,8 @@ class RepositoryServiceProvider extends ServiceProvider {
     /**
      * Bootstrap services.
      */
-    public function boot(): void {
+    public function boot(): void
+    {
         //
     }
 }

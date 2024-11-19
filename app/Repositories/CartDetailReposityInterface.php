@@ -6,7 +6,13 @@ use Illuminate\Support\Collection;
 
 interface CartDetailReposityInterface
 {
-    public function getAllCartDetails(): Collection;
+    public function getAllCartDetails($userId);
+
+    public function getCartByUserId($userId);
+
+    public function getByIdAndUser($id, $userId);
+
+    public function getCartByIdAndUser($cartId, $userId);
 
     public function store(array $data);
 
