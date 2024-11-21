@@ -14,17 +14,6 @@ Route::get('orders', [OrderController::class, 'index'])->middleware(['auth:sanct
 
 
 //**************************************
-// CREATE
-//**************************************
-Route::group([
-    'middleware' => ['auth:sanctum', 'can:is-customer'],
-], function () {
-    Route::post('/orders/create', [OrderController::class, 'store']);
-});
-
-
-
-//**************************************
 //  UPDATE
 //**************************************
 Route::group([
@@ -85,5 +74,15 @@ Route::group([
 ////////////////////// CUSTOMER ///////////////////////////////////////
 
 //**************************************
-//  
+//  GET ORDERS BY CUSTOMER
 //**************************************
+Route::get('/customer/orders', [OrderController::class, 'getCustomerOrder'])->middleware(['auth:sanctum', 'can:is-customer']);
+
+//**************************************
+// CREATE
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/orders/create', [OrderController::class, 'store']);
+});

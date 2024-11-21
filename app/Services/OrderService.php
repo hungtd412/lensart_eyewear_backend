@@ -250,4 +250,15 @@ class OrderService
             ], 403);
         }
     }
+
+    // CUSTOMER
+    public function getCustomerOrder()
+    {
+        $orders = $this->orderRepository->getCustomerOrder();
+
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders
+        ], 200);
+    }
 }
