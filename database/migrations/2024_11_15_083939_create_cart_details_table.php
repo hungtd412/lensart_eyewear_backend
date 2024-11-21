@@ -8,7 +8,8 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void {
+    public function up(): void
+    {
         Schema::create('cart_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('cart_id');
@@ -30,7 +31,8 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void {
+    public function down(): void
+    {
         Schema::dropIfExists('cart_details');
     }
 };

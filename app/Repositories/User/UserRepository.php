@@ -15,7 +15,6 @@ class UserRepository implements UserRepositoryInterface {
             // Tạo một giỏ hàng rỗng cho user vừa đăng ký
             Cart::create([
                 'user_id' => $newUser->id,
-                'total_price' => 0,
             ]);
 
             // Tạo một wishlist rỗng cho user vừa đăng ký
