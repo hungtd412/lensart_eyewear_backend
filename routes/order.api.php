@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,8 +83,20 @@ Route::group([
     Route::post('/orders/cancel/{id?}', [OrderController::class, 'cancel']);
 });
 
+
+
+//**************************************
+//  MOMO
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/momo_payment/atm', [CheckOutController::class, 'momoATMPayment']);
+    Route::post('/momo_payment/qr', [CheckOutController::class, 'momoQRPayment']);
+});
+
 ////////////////////// CUSTOMER ///////////////////////////////////////
 
 //**************************************
-//  
+//
 //**************************************
