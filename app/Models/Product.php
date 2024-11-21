@@ -25,7 +25,9 @@ class Product extends Model
 
     protected $casts = [
         'created_time' => 'datetime:Y-m-d H:i:s',
+        'price' => 'float',
     ];
+
 
     // Thiết lập mối quan hệ với bảng Category
     public function category()

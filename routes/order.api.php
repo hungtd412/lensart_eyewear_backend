@@ -3,6 +3,8 @@
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
+////////////////////// ADMIN ///////////////////////////////////////
+
 
 //**************************************
 // GET ALL
@@ -79,3 +81,9 @@ Route::group([
 ], function () {
     Route::post('/orders/cancel/{id?}', [OrderController::class, 'cancel']);
 });
+
+////////////////////// CUSTOMER ///////////////////////////////////////
+
+//**************************************
+//  
+//**************************************

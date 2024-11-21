@@ -6,15 +6,16 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\Wishlist;
 
-class UserRepository implements UserRepositoryInterface {
-    public function store(array $user): User {
+class UserRepository implements UserRepositoryInterface
+{
+    public function store(array $user): User
+    {
         $newUser = User::create($user);
         // Kiểm tra nếu tạo user thành công
         if ($newUser) {
             // Tạo một giỏ hàng rỗng cho user vừa đăng ký
             Cart::create([
                 'user_id' => $newUser->id,
-                'total_price' => 0,
             ]);
 
             // Tạo một wishlist rỗng cho user vừa đăng ký
@@ -25,7 +26,8 @@ class UserRepository implements UserRepositoryInterface {
         return $newUser;
     }
 
-    public function login(array $user, $routePrefix): bool {
+    public function login(array $user, $routePrefix): bool
+    {
         if (auth()->attempt($user)) {
             $user = auth()->user();
 
@@ -51,40 +53,49 @@ class UserRepository implements UserRepositoryInterface {
         return false;
     }
 
-    public function isLoggedIn(): bool {
+    public function isLoggedIn(): bool
+    {
         return auth()->check();
     }
 
-    public function createToken() {
+    public function createToken()
+    {
         return auth()->user()->createToken('token')->plainTextToken;
     }
 
-    public function deleteToken() {
+    public function deleteToken()
+    {
         auth()->user()->tokens()->delete();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return User::all();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         return User::findOrFail($id);
     }
 
-    public function getByRole($type) {
+    public function getByRole($type)
+    {
         return User::where('role_id', $type)
             ->get();
     }
 
-    public function profile() {
+    public function profile()
+    {
         return auth()->user();
     }
 
-    public function update(array $data, $user) {
+    public function update(array $data, $user)
+    {
         $user->update($data);
     }
 
-    public function switchStatus($user) {
+    public function switchStatus($user)
+    {
         $user->status = $user->status == 'active' ? 'inactive' : 'active';
         $user->save();
     }
