@@ -7,7 +7,8 @@ where products.id = product_details.product_id
 and product_details.branch_id = branches.id
 and branches.id = 2
 and ((product_details.product_id = 35 and product_details.color = "Đen") or (product_details.product_id = 11 and product_details.color = "Xám"))
---50 50
+--44 32
+--khi order 43 29
 
 update table
 
@@ -29,7 +30,7 @@ and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_det
 
 select * from users
 select * from orders, order_details
-where orders.id=49 and order_details.order_id = orders.id
+where orders.id=66 and order_details.order_id = orders.id
 
 SELECT orders.id, user_id, branch_id
 FROM orders
@@ -53,6 +54,6 @@ select id, discount_price, quantity from coupons where status = 'active'
 
 select * from branches
 
-
+DROP TRIGGER after_order_cancel
 
 
