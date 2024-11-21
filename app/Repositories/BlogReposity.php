@@ -11,6 +11,6 @@ class BlogReposity
         return Blog::where('status', 'active')
             ->orderBy('id', 'desc')
             ->take($limit)
-            ->get();
+            ->first();
     }
 }

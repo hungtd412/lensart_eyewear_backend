@@ -86,28 +86,35 @@ class CartDetailService
     {
         $userId = $data['user_id'];
 
-        // Get or create the cart for the user
+        // Lấy hoặc tạo giỏ hàng cho người dùng
         $cart = $this->cartDetailRepository->getOrCreateCart($userId);
-        $data['cart_id'] = $cart->id;
 
-        // Add or update the product in cart details
+        // Chuẩn bị dữ liệu để thêm sản phẩm vào giỏ hàng
+        $cartDetailData = [
+            'cart_id' => $cart->id,
+            'product_id' => $data['product_id'],
+            'branch_id' => $data['branch_id'],
+            'color' => $data['color'],
+            'quantity' => $data['quantity'],
+        ];
+
+        // Thêm hoặc cập nhật sản phẩm vào giỏ hàng
         $cartDetail = $this->cartDetailRepository->addOrUpdateCartDetail(
-            $data['cart_id'],
-            $data['product_id'],
-            [
-                'branch_id' => $data['branch_id'],
-                'color' => $data['color'],
-                'quantity' => $data['quantity'],
-            ]
+            $cartDetailData['cart_id'],
+            $cartDetailData['product_id'],
+            $cartDetailData
         );
 
-        // Recalculate the total price for the cart detail
-        // $this->cartDetailRepository->updateCartDetailTotalPrice($cartDetail);
+        // Tính tổng tiền các sản phẩm trong giỏ hàng (bao gồm giảm giá nếu có)
+        $selectedCartDetailIds = [$cartDetail->id]; // Chỉ tick sản phẩm vừa thêm
+        $couponCode = $data['coupon_code'] ?? null;
+        $pricingDetails = $this->cartDetailRepository->calculateTotalWithCoupon($selectedCartDetailIds, $couponCode);
 
-        // Return updated cart detail with total price
         return [
-            'cart_detail' => $cartDetail,
-            'total_price' => $cartDetail->total_price,
+            'cart_detail' => $cartDetail, // Trả về chi tiết sản phẩm vừa thêm
+            'total_price' => $pricingDetails['total_price'],
+            'discount' => $pricingDetails['discount'],
+            'final_price' => $pricingDetails['final_price'],
         ];
     }
 }

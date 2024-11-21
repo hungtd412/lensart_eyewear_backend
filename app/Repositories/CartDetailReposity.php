@@ -13,51 +13,53 @@ class CartDetailReposity implements CartDetailReposityInterface
 {
     public function getAllCartDetails($userId)
     {
-        // Lấy cart của user
-        $cart = Cart::where('user_id', $userId)->first();
+        $cart = Cart::where('user_id', $userId)->first(); // Lấy giỏ hàng duy nhất
 
-        // Kiểm tra nếu cart tồn tại, trả về các cart_details của cart
         if ($cart) {
-            return CartDetail::where('cart_id', $cart->id)
+            $cartDetails = CartDetail::where('cart_id', $cart->id)
                 ->with([
                     'product' => function ($query) {
-                        $query->select('id', 'name', 'price', 'status', 'brand_id', 'category_id') // Chọn các cột cần thiết
+                        $query->select('id', 'name', 'price', 'status', 'brand_id', 'category_id')
                             ->with([
                                 'category' => function ($q) {
-                                    $q->select('id', 'name'); // Chọn tên danh mục
+                                    $q->select('id', 'name');
                                 },
                                 'brand' => function ($q) {
-                                    $q->select('id', 'name'); // Chọn tên thương hiệu
+                                    $q->select('id', 'name');
                                 },
                                 'images' => function ($q) {
-                                    $q->select('id', 'product_id', 'image_url'); // Chọn ảnh sản phẩm
+                                    $q->select('id', 'product_id', 'image_url');
                                 }
                             ]);
                     },
                     'branch' => function ($query) {
-                        $query->select('id', 'name', 'index', 'address'); // Chọn chi nhánh
+                        $query->select('id', 'name', 'index', 'address');
                     }
                 ])
-                ->get()
-                ->map(function ($cartDetail) {
-                    return [
-                        'id' => $cartDetail->id,
-                        'product_name' => $cartDetail->product->name ?? 'N/A',
-                        'product_price' => $cartDetail->product->price ?? 0,
-                        'brands_name' => $cartDetail->product->brand->name ?? 'N/A', // Lấy tên thương hiệu
-                        'category_name' => $cartDetail->product->category->name ?? 'N/A', // Lấy tên danh mục
-                        'color' => $cartDetail->color,
-                        'quantity' => $cartDetail->quantity,
-                        'image_url' => $cartDetail->product->images->first()->image_url ?? null, // Lấy ảnh đầu tiên
-                        'branches_name' => $cartDetail->branch->name ?? 'N/A', // Lấy tên chi nhánh
-                        'total_price' => $cartDetail->quantity * $cartDetail->product->price * ($cartDetail->branch->index ?? 1),
-                    ];
-                });
+                ->get(); // Lấy tất cả chi tiết giỏ hàng (dạng Collection)
+
+            // Trả về dữ liệu dưới dạng mảng
+            return $cartDetails->map(function ($cartDetail) {
+                return [
+                    'id' => $cartDetail->id,
+                    'product_name' => $cartDetail->product->name ?? 'N/A',
+                    'product_price' => $cartDetail->product->price ?? 0,
+                    'brands_name' => $cartDetail->product->brand->name ?? 'N/A',
+                    'category_name' => $cartDetail->product->category->name ?? 'N/A',
+                    'color' => $cartDetail->color,
+                    'quantity' => $cartDetail->quantity,
+                    'image_url' => $cartDetail->product->images->first()->image_url ?? null,
+                    'branches_name' => $cartDetail->branch->name ?? 'N/A',
+                    'total_price' => $cartDetail->quantity * $cartDetail->product->price * ($cartDetail->branch->index ?? 1),
+                ];
+            });
         }
 
-        // Trả về collection rỗng nếu không tìm thấy cart
-        return collect([]);
+        return collect([]); // Trả về Collection rỗng nếu không tìm thấy giỏ hàng
     }
+
+
+
 
     public function getCartByUserId($userId)
     {
@@ -218,12 +220,12 @@ class CartDetailReposity implements CartDetailReposityInterface
 
     public function getOrCreateCart($userId)
     {
-        return Cart::firstOrCreate(['user_id' => $userId]);
+        return Cart::firstOrCreate(['user_id' => $userId]); // Tạo giỏ hàng nếu chưa tồn tại
     }
 
     public function addOrUpdateCartDetail($cartId, $productId, array $attributes)
     {
-        // Tìm cart detail dựa trên các tiêu chí duy nhất
+        // Tìm kiếm CartDetail hiện tại
         $cartDetail = CartDetail::where([
             'cart_id' => $cartId,
             'product_id' => $productId,
@@ -232,22 +234,20 @@ class CartDetailReposity implements CartDetailReposityInterface
         ])->first();
 
         if ($cartDetail) {
-            // Nếu tồn tại, cập nhật số lượng
-            $cartDetail->quantity += $attributes['quantity'];
-            $this->updateCartDetailTotalPrice($cartDetail);
-            $cartDetail->save();
+            // Nếu tồn tại, cộng thêm số lượng
+            $attributes['quantity'] = $cartDetail->quantity + $attributes['quantity'];
+            return $this->update($attributes, $cartDetail); // Sử dụng hàm update
         } else {
             // Nếu không tồn tại, tạo mới
-            $cartDetail = CartDetail::create([
+            $newCartDetail = CartDetail::create([
                 'cart_id' => $cartId,
                 'product_id' => $productId,
                 'branch_id' => $attributes['branch_id'],
                 'color' => $attributes['color'],
                 'quantity' => $attributes['quantity'],
             ]);
-            $this->updateCartDetailTotalPrice($cartDetail);
-        }
 
-        return $cartDetail;
+            return $newCartDetail;
+        }
     }
 }
