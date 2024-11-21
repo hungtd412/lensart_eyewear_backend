@@ -24,8 +24,7 @@ class UserSeeder extends Seeder {
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
             'role_id' => 1,
-            'phone' => '0323456789',
-            'status' => 'active'
+            'phone' => '0323456789'
         ]);
 
         DB::table('users')->insert([
@@ -36,8 +35,7 @@ class UserSeeder extends Seeder {
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
             'role_id' => 2,
-            'phone' => '0323456788',
-            'status' => 'active'
+            'phone' => '0323456788'
         ]);
 
         DB::table('users')->insert([
@@ -48,8 +46,7 @@ class UserSeeder extends Seeder {
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes DN',
             'role_id' => 2,
-            'phone' => '0323456787',
-            'status' => 'active'
+            'phone' => '0323456787'
         ]);
 
         DB::table('users')->insert([
@@ -60,8 +57,7 @@ class UserSeeder extends Seeder {
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HN',
             'role_id' => 2,
-            'phone' => '0323456786',
-            'status' => 'active'
+            'phone' => '0323456786'
         ]);
 
         for ($i = 1; $i <= 10; $i++) {
@@ -77,8 +73,7 @@ class UserSeeder extends Seeder {
                 'lastname' => $this->getRandomLastName($faker),
                 'role_id' => 3,
                 'phone' => $phone,
-                'address' => $address,
-                'status' => 'active'
+                'address' => $address
             ]);
         }
     }

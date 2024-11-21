@@ -4,50 +4,37 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SendOTPRequest;
-use App\Models\Otp;
-use App\Models\User;
+use App\Http\Requests\VerifyOTPRequest;
 use App\Services\OTPService;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Services\UserService;
 
 class OTPController extends Controller {
     protected $otpService;
+    protected $userService;
 
-    public function __construct(OTPService $otpService) {
+    public function __construct(OTPService $otpService, UserService $userService) {
         $this->otpService = $otpService;
+        $this->userService = $userService;
     }
 
-    public function verifyOtp(Request $request) {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'otp' => 'required|digits:6',
-        ]);
-
-        $otpRecord = Otp::where('user_id', $request->user_id)->first();
-
-        if (!$otpRecord || (int)$otpRecord->otp !== $request->otp) {
-            return response()->json(['message' => 'Invalid OTP'], 400);
+    public function verifyOtp(VerifyOTPRequest $request) {
+        $message = $this->otpService->verifyOtp($request->validated());
+        if (!is_null($message)) {
+            return $message;
         }
 
-        if (Carbon::now()->greaterThan($otpRecord->expires_at)) {
-            return response()->json(['message' => 'OTP has expired'], 400);
-        }
+        $this->updateMailVerify($request->user_id);
 
-        // Update user status to active
-        $user = User::find($request->user_id);
-        $user->status = 'active';
-        $user->email_verified_at = Carbon::now();
-        $user->save();
-
-        // Delete the OTP record
-        $otpRecord->delete();
+        $this->otpService->deleteByUserId($request->user_id);
 
         return response()->json(['message' => 'User activated successfully'], 200);
     }
 
-    public function sendMailWithOTP(SendOTPRequest $request) {
-        $this->otpService->sendMailWithOTP($request->userId, $request->email);
+    public function updateMailVerify($userId) {
+        $this->userService->setEmailVerified($userId);
+    }
 
-        return response()->json(['message' => 'User registered. OTP sent to email.'], 201);
+    public function sendMailWithOTP(SendOTPRequest $request) {
+        return $this->otpService->sendMailWithOTP($request->userId, $request->email);
     }
 }

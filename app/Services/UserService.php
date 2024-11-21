@@ -117,6 +117,17 @@ class UserService {
         }
     }
 
+    public function setEmailVerified($id) {
+        $user = $this->userRepository->getById($id);
+
+        $this->userRepository->setEmailVerified($user);
+
+        return response()->json([
+            'message' => 'success',
+            'user' => $user
+        ], 200);
+    }
+
     public function switchStatus($id) {
         $user = $this->userRepository->getById($id);
 

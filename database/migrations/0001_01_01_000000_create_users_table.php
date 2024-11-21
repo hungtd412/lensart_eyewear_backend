@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('role_id')->default(3);
             $table->string('phone')->unique();
             $table->string('address');
-            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
         });
 
