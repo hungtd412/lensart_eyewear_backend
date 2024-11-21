@@ -28,7 +28,7 @@ and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_det
 
 
 
-select * from users
+select * from users where id = 15
 select * from orders, order_details
 where orders.id=66 and order_details.order_id = orders.id
 
@@ -57,3 +57,4 @@ select * from branches
 DROP TRIGGER after_order_cancel
 
 
+delete from users where username = 'hunguser4'
