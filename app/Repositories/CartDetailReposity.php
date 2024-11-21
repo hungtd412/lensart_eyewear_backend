@@ -6,7 +6,7 @@ namespace App\Repositories;
 use App\Models\CartDetail;
 use App\Models\Cart;
 use App\Models\Coupon;
-use App\Models\ProductDetail;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\CartDetailReposityInterface;
 
 class CartDetailReposity implements CartDetailReposityInterface
@@ -214,5 +214,40 @@ class CartDetailReposity implements CartDetailReposityInterface
     {
         // Đảm bảo tổng giá cuối cùng không âm
         return max($totalPrice - $discount, 0);
+    }
+
+    public function getOrCreateCart($userId)
+    {
+        return Cart::firstOrCreate(['user_id' => $userId]);
+    }
+
+    public function addOrUpdateCartDetail($cartId, $productId, array $attributes)
+    {
+        // Tìm cart detail dựa trên các tiêu chí duy nhất
+        $cartDetail = CartDetail::where([
+            'cart_id' => $cartId,
+            'product_id' => $productId,
+            'branch_id' => $attributes['branch_id'],
+            'color' => $attributes['color'],
+        ])->first();
+
+        if ($cartDetail) {
+            // Nếu tồn tại, cập nhật số lượng
+            $cartDetail->quantity += $attributes['quantity'];
+            $this->updateCartDetailTotalPrice($cartDetail);
+            $cartDetail->save();
+        } else {
+            // Nếu không tồn tại, tạo mới
+            $cartDetail = CartDetail::create([
+                'cart_id' => $cartId,
+                'product_id' => $productId,
+                'branch_id' => $attributes['branch_id'],
+                'color' => $attributes['color'],
+                'quantity' => $attributes['quantity'],
+            ]);
+            $this->updateCartDetailTotalPrice($cartDetail);
+        }
+
+        return $cartDetail;
     }
 }

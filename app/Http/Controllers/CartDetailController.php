@@ -61,21 +61,12 @@ class CartDetailController extends Controller
         return response()->json($result, 200);
     }
 
-    public function quickBuy(Request $request)
+    public function quickBuy(StoreCartDetailRequest $request)
     {
         $userId = auth()->id();
-        $data = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'branch_id' => 'required|exists:branches,id',
-            'color' => 'required|exists:colors,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
+        $data = $request->validated();
         $data['user_id'] = $userId;
-
-        // Call the service
         $result = $this->cartDetailService->quickBuy($data);
-
         return response()->json($result, 200);
     }
 }

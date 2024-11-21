@@ -81,4 +81,33 @@ class CartDetailService
 
         return $this->cartDetailRepository->calculateTotalWithCoupon($selectedIds, $couponCode);
     }
+
+    public function quickBuy(array $data)
+    {
+        $userId = $data['user_id'];
+
+        // Get or create the cart for the user
+        $cart = $this->cartDetailRepository->getOrCreateCart($userId);
+        $data['cart_id'] = $cart->id;
+
+        // Add or update the product in cart details
+        $cartDetail = $this->cartDetailRepository->addOrUpdateCartDetail(
+            $data['cart_id'],
+            $data['product_id'],
+            [
+                'branch_id' => $data['branch_id'],
+                'color' => $data['color'],
+                'quantity' => $data['quantity'],
+            ]
+        );
+
+        // Recalculate the total price for the cart detail
+        // $this->cartDetailRepository->updateCartDetailTotalPrice($cartDetail);
+
+        // Return updated cart detail with total price
+        return [
+            'cart_detail' => $cartDetail,
+            'total_price' => $cartDetail->total_price,
+        ];
+    }
 }
