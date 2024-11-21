@@ -60,4 +60,22 @@ class CartDetailController extends Controller
         $result = $this->cartDetailService->calculateTotalWithCoupon($userId, $selectedIds, $couponCode);
         return response()->json($result, 200);
     }
+
+    public function quickBuy(Request $request)
+    {
+        $userId = auth()->id();
+        $data = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'branch_id' => 'required|exists:branches,id',
+            'color' => 'required|exists:colors,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $data['user_id'] = $userId;
+
+        // Call the service
+        $result = $this->cartDetailService->quickBuy($data);
+
+        return response()->json($result, 200);
+    }
 }
