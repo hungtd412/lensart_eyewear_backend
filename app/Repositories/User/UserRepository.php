@@ -29,6 +29,9 @@ class UserRepository implements UserRepositoryInterface {
         if (auth()->attempt($user)) {
             $user = auth()->user();
 
+            if (is_null($user->email_verified_at))
+                return false;
+
             if ($user->status == 'inactive')
                 return false;
 

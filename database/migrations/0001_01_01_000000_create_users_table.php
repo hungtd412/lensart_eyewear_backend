@@ -16,10 +16,11 @@ return new class extends Migration {
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('role_id')->default(3);
             $table->string('phone')->unique();
             $table->string('address');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->rememberToken();
         });
 
