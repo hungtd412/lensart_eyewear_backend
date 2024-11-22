@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-interface OrderRepositoryInterface {
+interface OrderRepositoryInterface
+{
     public function store(array $data);
     public function getAll();
     public function getById(array $id);
@@ -12,4 +13,7 @@ interface OrderRepositoryInterface {
     public function changePaymentStatus($id, $newPaymentStatus);
     public function cancel($id);
     public function switchStatus($id);
+
+    // CUSTOMER
+    public function getCustomerOrder();
 }
