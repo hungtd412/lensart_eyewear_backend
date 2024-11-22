@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 ////////////////////// ADMIN ///////////////////////////////////////
@@ -83,6 +84,23 @@ Route::group([
     Route::post('/momo_payment/atm', [CheckOutController::class, 'momoATMPayment']);
     Route::post('/momo_payment/qr', [CheckOutController::class, 'momoQRPayment']);
 });
+
+//**************************************
+//  DASHBOARD
+//**************************************
+
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager']
+], function () {
+    Route::get('/dashboard/todays-orders', [DashboardController::class, 'getTodaysOrders']);
+    Route::get('/dashboard/revenue', [DashboardController::class, 'getRevenue']);
+    Route::get('/dashboard/completed-orders', [DashboardController::class, 'getCompletedOrders']);
+    Route::get('/dashboard/pending-orders', [DashboardController::class, 'getPendingOrders']);
+    Route::get('/dashboard/cancelled-orders', [DashboardController::class, 'getCancelledOrders']);
+    Route::get('/dashboard/products_sold', [DashboardController::class, 'getProductsSold']);
+    Route::get('/dashboard/profit_margin', [DashboardController::class, 'getProfitMargin']);
+});
+
 
 ////////////////////// CUSTOMER ///////////////////////////////////////
 
