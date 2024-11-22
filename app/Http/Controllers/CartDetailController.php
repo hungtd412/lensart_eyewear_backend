@@ -60,4 +60,14 @@ class CartDetailController extends Controller
         $result = $this->cartDetailService->calculateTotalWithCoupon($userId, $selectedIds, $couponCode);
         return response()->json($result, 200);
     }
+
+    public function quickBuy(StoreCartDetailRequest $request)
+    {
+        $userId = auth()->id(); // Lấy ID của người dùng đang đăng nhập
+        $data = $request->validated(); // Validate dữ liệu từ request
+        $data['user_id'] = $userId; // Gắn user_id vào dữ liệu
+        $result = $this->cartDetailService->quickBuy($data); // Gọi Service để xử lý logic
+
+        return response()->json($result, 200); // Trả về kết quả
+    }
 }

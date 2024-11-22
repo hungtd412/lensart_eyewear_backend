@@ -27,4 +27,8 @@ interface CartDetailReposityInterface
     public function clearCart($cartId);
 
     public function calculateTotalWithCoupon(array $selectedCartDetailIds, $couponCode = null);
+
+    public function getOrCreateCart($userId);
+
+    public function addOrUpdateCartDetail($cartId, $productId, array $attributes);
 }

@@ -81,4 +81,40 @@ class CartDetailService
 
         return $this->cartDetailRepository->calculateTotalWithCoupon($selectedIds, $couponCode);
     }
+
+    public function quickBuy(array $data)
+    {
+        $userId = $data['user_id'];
+
+        // Lấy hoặc tạo giỏ hàng cho người dùng
+        $cart = $this->cartDetailRepository->getOrCreateCart($userId);
+
+        // Chuẩn bị dữ liệu để thêm sản phẩm vào giỏ hàng
+        $cartDetailData = [
+            'cart_id' => $cart->id,
+            'product_id' => $data['product_id'],
+            'branch_id' => $data['branch_id'],
+            'color' => $data['color'],
+            'quantity' => $data['quantity'],
+        ];
+
+        // Thêm hoặc cập nhật sản phẩm vào giỏ hàng
+        $cartDetail = $this->cartDetailRepository->addOrUpdateCartDetail(
+            $cartDetailData['cart_id'],
+            $cartDetailData['product_id'],
+            $cartDetailData
+        );
+
+        // Tính tổng tiền các sản phẩm trong giỏ hàng (bao gồm giảm giá nếu có)
+        $selectedCartDetailIds = [$cartDetail->id]; // Chỉ tick sản phẩm vừa thêm
+        $couponCode = $data['coupon_code'] ?? null;
+        $pricingDetails = $this->cartDetailRepository->calculateTotalWithCoupon($selectedCartDetailIds, $couponCode);
+
+        return [
+            'cart_detail' => $cartDetail, // Trả về chi tiết sản phẩm vừa thêm
+            'total_price' => $pricingDetails['total_price'],
+            'discount' => $pricingDetails['discount'],
+            'final_price' => $pricingDetails['final_price'],
+        ];
+    }
 }

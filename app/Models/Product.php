@@ -25,7 +25,9 @@ class Product extends Model
 
     protected $casts = [
         'created_time' => 'datetime:Y-m-d H:i:s',
+        'price' => 'float',
     ];
+
 
     // Thiết lập mối quan hệ với bảng Category
     public function category()
@@ -88,4 +90,10 @@ class Product extends Model
     // {
     //     return $this->hasMany(ProductReview::class, 'product_id');
     // }
+
+    // Định nghĩa mối quan hệ với bảng product_details
+    public function productDetails()
+    {
+        return $this->hasMany(ProductDetail::class, 'product_id');
+    }
 }

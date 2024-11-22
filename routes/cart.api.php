@@ -53,3 +53,12 @@ Route::group([
 ], function () {
     Route::post('/cart/calculate-total', [CartDetailController::class, 'calculateTotalWithCoupon']);
 });
+
+//**************************************
+// Click vào Mua Nhanh
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::post('/cart/quick-buy', [CartDetailController::class, 'quickBuy']);
+});

@@ -5,6 +5,7 @@ namespace App\Repositories\User;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Wishlist;
+use Carbon\Carbon;
 
 class UserRepository implements UserRepositoryInterface {
     public function store(array $user): User {
@@ -14,7 +15,6 @@ class UserRepository implements UserRepositoryInterface {
             // Tạo một giỏ hàng rỗng cho user vừa đăng ký
             Cart::create([
                 'user_id' => $newUser->id,
-                'total_price' => 0,
             ]);
 
             // Tạo một wishlist rỗng cho user vừa đăng ký
@@ -28,6 +28,9 @@ class UserRepository implements UserRepositoryInterface {
     public function login(array $user, $routePrefix): bool {
         if (auth()->attempt($user)) {
             $user = auth()->user();
+
+            if (is_null($user->email_verified_at))
+                return false;
 
             if ($user->status == 'inactive')
                 return false;
@@ -68,6 +71,11 @@ class UserRepository implements UserRepositoryInterface {
         return User::findOrFail($id);
     }
 
+    public function getByEmail($email) {
+        return User::where('email', $email)
+            ->first();
+    }
+
     public function getByRole($type) {
         return User::where('role_id', $type)
             ->get();
@@ -79,6 +87,11 @@ class UserRepository implements UserRepositoryInterface {
 
     public function update(array $data, $user) {
         $user->update($data);
+    }
+
+    public function setEmailVerified($user) {
+        $user->email_verified_at = Carbon::now();
+        $user->save();
     }
 
     public function switchStatus($user) {

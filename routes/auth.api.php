@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgetPasswordController;
+use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,16 @@ Route::group([
     Route::post('/email', [ForgetPasswordController::class, 'sendResetEmailLink']);
 
     Route::post('/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+});
+
+
+
+//**************************************
+// OTP
+//**************************************
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
+    Route::post('/resend-otp', [OTPController::class, 'sendMailWithOTP']);
 });
