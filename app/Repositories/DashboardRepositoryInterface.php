@@ -12,5 +12,7 @@ interface DashboardRepositoryInterface
 
     public function getProductsSold(): int;
 
-    // public function getProfitMargin(): float;
+    public function getStock();
+
+    public function getNewCustomers();
 }

@@ -8,10 +8,10 @@ use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryInterface;
 use App\Repositories\CartDetailReposity;
 use App\Repositories\CartDetailReposityInterface;
-use App\Repositories\CartReposity;
-use App\Repositories\CartReposityInterface;
 use App\Repositories\CouponRepository;
 use App\Repositories\CouponRepositoryInterface;
+use App\Repositories\DashboardRepository;
+use App\Repositories\DashboardRepositoryInterface;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderDetailRepositoryInterface;
 use App\Repositories\OrderRepository;
@@ -44,11 +44,13 @@ use App\Repositories\WishlistRepository;
 use App\Repositories\WishlistRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider {
+class RepositoryServiceProvider extends ServiceProvider
+{
     /**
      * Register services.
      */
-    public function register(): void {
+    public function register(): void
+    {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
@@ -86,12 +88,15 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(WishlistRepositoryInterface::class, WishlistRepository::class);
 
         $this->app->bind(OTPRepositoryInterface::class, OTPRepository::class);
+
+        $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
     }
 
     /**
      * Bootstrap services.
      */
-    public function boot(): void {
+    public function boot(): void
+    {
         //
     }
 }

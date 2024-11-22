@@ -23,8 +23,11 @@ class DashboardRepository implements DashboardRepositoryInterface
 
     public function getCompletedOrders()
     {
-        return Order::where('order_status', 'Đã giao')->count();
+        return Order::where('order_status', 'Đã giao')
+            ->where('payment_status', 'Đã thanh toán')
+            ->count();
     }
+
 
     public function getPendingOrders()
     {
@@ -44,25 +47,21 @@ class DashboardRepository implements DashboardRepositoryInterface
         })->sum('quantity');
     }
 
-    // Calculate profit margin
-    // public function getProfitMargin(): float
-    // {
-    //     // Gọi hàm getRevenue để lấy tổng doanh thu
-    //     $revenue = $this->getRevenue();
+    public function getStock()
+    {
+        return DB::table('product_details')
+            ->join('products', 'product_details.product_id', '=', 'products.id') // Join bảng products
+            ->where('product_details.status', '=', 'active') // Kiểm tra status của product_details
+            ->where('products.status', '=', 'active') // Kiểm tra status của products
+            ->sum('product_details.quantity'); // Tính tổng quantity
+    }
 
-    //     // Tính tổng chi phí sản phẩm từ OrderDetail và Products
-    //     $cost = OrderDetail::whereHas('order', function ($query) {
-    //         $query->where('order_status', '!=', 'Đã hủy'); // Loại bỏ các đơn hàng bị hủy
-    //     })
-    //         ->join('products', 'order_details.product_id', '=', 'products.id')
-    //         ->sum(DB::raw('order_details.quantity * products.cost')); // Assuming 'cost' column exists in `products`
 
-    //     // Tránh trường hợp chia cho 0
-    //     if ($revenue == 0) {
-    //         return 0;
-    //     }
-
-    //     // Tính tỷ lệ lợi nhuận (Profit Margin)
-    //     return (($revenue - $cost) / $revenue) * 100;
-    // }
+    public function getNewCustomers()
+    {
+        return DB::table('users')
+            ->where('role_id', '=', 3) // Assuming role_id = 3 is for customers
+            ->whereDate('email_verified_at', '>=', now()->subMonth()->toDateString()) // New customers in the last month
+            ->count();
+    }
 }

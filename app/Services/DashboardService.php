@@ -44,9 +44,13 @@ class DashboardService
         return $this->dashboardRepository->getProductsSold();
     }
 
-    // Get profit margin
-    // public function calculateProfitMargin(): float
-    // {
-    //     return $this->dashboardRepository->getProfitMargin();
-    // }
+    public function getStock()
+    {
+        return $this->dashboardRepository->getStock();
+    }
+
+    public function getNewCustomers()
+    {
+        return $this->dashboardRepository->getNewCustomers();
+    }
 }

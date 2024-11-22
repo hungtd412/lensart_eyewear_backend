@@ -98,7 +98,8 @@ Route::group([
     Route::get('/dashboard/pending-orders', [DashboardController::class, 'getPendingOrders']);
     Route::get('/dashboard/cancelled-orders', [DashboardController::class, 'getCancelledOrders']);
     Route::get('/dashboard/products_sold', [DashboardController::class, 'getProductsSold']);
-    Route::get('/dashboard/profit_margin', [DashboardController::class, 'getProfitMargin']);
+    Route::get('/dashboard/stock', [DashboardController::class, 'getStock']);
+    Route::get('/dashboard/new_customers', [DashboardController::class, 'getNewCustomers']);
 });
 
 

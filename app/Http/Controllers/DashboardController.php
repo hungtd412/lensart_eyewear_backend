@@ -51,10 +51,15 @@ class DashboardController extends Controller
         return response()->json(['products_sold' => $productsSold], 200);
     }
 
-    // Fetch profit margin
-    // public function getProfitMargin(): JsonResponse
-    // {
-    //     $profitMargin = $this->dashboardService->calculateProfitMargin();
-    //     return response()->json(['profit_margin' => round($profitMargin, 2)], 200); // Round to 2 decimal places
-    // }
+    public function getStock()
+    {
+        $stock = $this->dashboardService->getStock();
+        return response()->json(['stock' => $stock], 200);
+    }
+
+    public function getNewCustomers()
+    {
+        $newCustomers = $this->dashboardService->getNewCustomers();
+        return response()->json(['new_customers' => $newCustomers], 200);
+    }
 }
