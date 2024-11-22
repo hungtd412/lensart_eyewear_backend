@@ -14,6 +14,10 @@ class ProductDetail extends Model
 
     protected $fillable = ['product_id', 'branch_id', 'color', 'quantity', 'status'];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
     public function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
