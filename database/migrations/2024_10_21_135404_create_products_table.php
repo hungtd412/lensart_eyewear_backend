@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('shape_id');
             $table->enum('gender', ['male', 'female', 'unisex'])->default('unisex');
             $table->decimal('price', 10, 2);
+            $table->decimal('offer_price', 10, 2)->nullable();
             $table->timestamp('created_time');
             $table->enum('status', ['active', 'inactive'])->default('active');
 

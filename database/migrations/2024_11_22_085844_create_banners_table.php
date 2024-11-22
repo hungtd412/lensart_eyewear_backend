@@ -9,12 +9,10 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->integer('quantity')->default(0);
-            $table->integer('discount_price');
+            $table->string('image_url')->nullable();
+            $table->string('image_public_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
@@ -23,6 +21,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('banners');
     }
 };
