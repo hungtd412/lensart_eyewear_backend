@@ -64,4 +64,23 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->whereDate('email_verified_at', '>=', now()->subMonth()->toDateString()) // New customers in the last month
             ->count();
     }
+
+    public function getAverageOrderValue(): float
+    {
+        // Tổng doanh thu
+        $totalRevenue = Order::where('order_status', '!=', 'Đã hủy') // Bỏ qua đơn hàng đã hủy
+            ->sum('total_price');
+
+        // Tổng số đơn hàng
+        $totalOrders = Order::where('order_status', '!=', 'Đã hủy') // Bỏ qua đơn hàng đã hủy
+            ->count();
+
+        // Tránh chia cho 0
+        if ($totalOrders === 0) {
+            return 0;
+        }
+
+        // Tính Average Order Value (AOV)
+        return $totalRevenue / $totalOrders;
+    }
 }
