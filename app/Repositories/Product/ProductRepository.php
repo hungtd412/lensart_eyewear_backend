@@ -6,105 +6,155 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 
-class ProductRepository implements ProductRepositoryInterface {
-    public function store(array $product): Product {
+class ProductRepository implements ProductRepositoryInterface
+{
+    public function store(array $product): Product
+    {
         return Product::create($product);
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return Product::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         return Product::find($id);
     }
 
-    public function update(array $data, $product) {
+    public function update(array $data, $product)
+    {
         $product->update($data);
     }
 
-    public function updateEach(array $data, $product, $attributeOfProduct) {
+    public function updateEach(array $data, $product, $attributeOfProduct)
+    {
         $product->$attributeOfProduct = $data[$attributeOfProduct];
         $product->save();
     }
 
-    public function switchStatus($product) {
+    public function switchStatus($product)
+    {
         $product->status = $product->status == 'active' ? 'inactive' : 'active';
         $product->save();
     }
 
-     // Lọc theo kiểu gọng
-     public function filterByShape($query, $types)
-     {
-         if (!empty($types)) {
-             $query->leftJoin('shapes as s1', 'products.shape_id', '=', 's1.id')
-             ->whereIn('s1.name', $types);
-         }
-         return $query;
-     }
+    // Tìm kiếm sản phẩm
 
-     // Lọc theo giới tính
-     public function filterByGender($query, $gender)
-     {
-         if (!empty($gender)) {
-             $query->where('gender', $gender);
-         }
-         return $query;
-     }
+    public function searchProduct($keyword)
+    {
+        // Tách keyword thành mảng các từ khóa con
+        $keywords = explode(' ', $keyword);
 
-     // Lọc theo chất liệu
-     public function filterByMaterial($query, $materials)
-     {
-         if (!empty($materials)) {
+        return Product::where('status', 1) // Kiểm tra sản phẩm có `status = 1`
+            ->whereHas('productDetails', function ($query) {
+                $query->where('status', 1) // Kiểm tra `status` của product_details
+                    ->where('quantity', '>', 0); // Kiểm tra `quantity > 0`
+            })
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $query->where(function ($subQuery) use ($word) {
+                        $subQuery->where('name', 'LIKE', "%{$word}%") // Tìm trong tên sản phẩm
+                            ->orWhere('description', 'LIKE', "%{$word}%") // Tìm trong mô tả sản phẩm
+                            ->orWhereHas('brand', function ($subSubQuery) use ($word) {
+                                $subSubQuery->where('name', 'LIKE', "%{$word}%"); // Tìm trong tên thương hiệu
+                            })
+                            ->orWhereHas('category', function ($subSubQuery) use ($word) {
+                                $subSubQuery->where('name', 'LIKE', "%{$word}%"); // Tìm trong tên danh mục
+                            })
+                            ->orWhere('shape_id', $word) // Tìm theo shape_id
+                            ->orWhere('material_id', $word) // Tìm theo material_id
+                            ->orWhere('gender', 'LIKE', "%{$word}%") // Tìm theo giới tính
+                            ->orWhere('price', $word); // Tìm theo giá
+                    });
+                }
+            })
+            ->with([
+                'brand:id,name', // Lấy thông tin thương hiệu
+                'category:id,name', // Lấy thông tin danh mục
+                'productDetails' => function ($query) {
+                    $query->where('status', 1) // Chỉ lấy product_details đang hoạt động
+                        ->where('quantity', '>', 0) // Lấy product_details có số lượng > 0
+                        ->select('product_id', 'branch_id', 'color', 'quantity', 'status'); // Chọn các cột cần thiết
+                }
+            ])
+            ->get();
+    }
+
+
+    // Lọc theo kiểu gọng
+    public function filterByShape($query, $types)
+    {
+        if (!empty($types)) {
+            $query->leftJoin('shapes as s1', 'products.shape_id', '=', 's1.id')
+                ->whereIn('s1.name', $types);
+        }
+        return $query;
+    }
+
+    // Lọc theo giới tính
+    public function filterByGender($query, $gender)
+    {
+        if (!empty($gender)) {
+            $query->where('gender', $gender);
+        }
+        return $query;
+    }
+
+    // Lọc theo chất liệu
+    public function filterByMaterial($query, $materials)
+    {
+        if (!empty($materials)) {
             $query->leftJoin('materials as m1', 'products.material_id', '=', 'm1.id')
-            ->whereIn('m1.name', $materials);
-         }
-         return $query;
-     }
+                ->whereIn('m1.name', $materials);
+        }
+        return $query;
+    }
 
-     // Lọc theo giá
-     public function filterByPriceRange($query, $priceRange)
-     {
-         if (!empty($priceRange)) {
-             switch ($priceRange) {
-                 case 'Dưới 500000':
-                     $query->where('price', '<', 500000);
-                     break;
-                 case '500000-1500000':
-                     $query->whereBetween('price', [500000, 1500000]);
-                     break;
-                 case '1500000-3000000':
-                     $query->whereBetween('price', [1500000, 3000000]);
-                     break;
-                 case '3000000-5000000':
-                     $query->whereBetween('price', [3000000, 5000000]);
-                     break;
-                 case 'Trên 5000000':
-                     $query->where('price', '>', 5000000);
-                     break;
-             }
-         }
-         return $query;
-     }
+    // Lọc theo giá
+    public function filterByPriceRange($query, $priceRange)
+    {
+        if (!empty($priceRange)) {
+            switch ($priceRange) {
+                case 'Dưới 500000':
+                    $query->where('price', '<', 500000);
+                    break;
+                case '500000-1500000':
+                    $query->whereBetween('price', [500000, 1500000]);
+                    break;
+                case '1500000-3000000':
+                    $query->whereBetween('price', [1500000, 3000000]);
+                    break;
+                case '3000000-5000000':
+                    $query->whereBetween('price', [3000000, 5000000]);
+                    break;
+                case 'Trên 5000000':
+                    $query->where('price', '>', 5000000);
+                    break;
+            }
+        }
+        return $query;
+    }
 
-     // Lọc theo thương hiệu
-     public function filterByBrand($query, $brands)
-     {
-         if (!empty($brands)) {
-             $query->leftJoin('brands as b1', 'products.brand_id', '=', 'b1.id')
-             ->whereIn('b1.name', $brands);
-         }
-         return $query;
-     }
+    // Lọc theo thương hiệu
+    public function filterByBrand($query, $brands)
+    {
+        if (!empty($brands)) {
+            $query->leftJoin('brands as b1', 'products.brand_id', '=', 'b1.id')
+                ->whereIn('b1.name', $brands);
+        }
+        return $query;
+    }
 
-     // Lọc theo tính năng
-     public function filterByFeatures($query, $features)
-     {
+    // Lọc theo tính năng
+    public function filterByFeatures($query, $features)
+    {
         if (!empty($features)) {
 
             $query->join('product_features as pf', 'products.id', '=', 'pf.product_id')
-                  ->join('features as f', 'pf.feature_id', '=', 'f.id')
-                  ->whereIn('f.name', $features);
+                ->join('features as f', 'pf.feature_id', '=', 'f.id')
+                ->whereIn('f.name', $features);
         }
         return $query;
     }
@@ -128,5 +178,4 @@ class ProductRepository implements ProductRepositoryInterface {
             ->take($limit)
             ->get();
     }
-
 }

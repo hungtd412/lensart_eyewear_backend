@@ -196,6 +196,12 @@ Route::group([
     Route::post('/product-features/delete/{id?}', [ProductImageController::class, 'delete']);
 });
 
+// CUSTOMER
+//**************************************
+//  SEARCH PRODUCT ON HOMEPAGE
+//**************************************
+Route::get('/products/search', [ProductController::class, 'searchProduct']);
+
 //**************************************
 //  FILTER
 //**************************************
@@ -208,4 +214,3 @@ Route::get('/products/filter-lenses', [ProductController::class, 'filterLenses']
 //**************************************
 Route::get('/best-selling-products', [ProductController::class, 'getBestSellingProducts']);
 Route::get('/newest-products', [ProductController::class, 'getNewestProducts']);
-
