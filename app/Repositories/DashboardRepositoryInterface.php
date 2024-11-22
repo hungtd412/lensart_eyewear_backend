@@ -15,4 +15,6 @@ interface DashboardRepositoryInterface
     public function getStock();
 
     public function getNewCustomers();
+
+    public function getAverageOrderValue(): float;
 }

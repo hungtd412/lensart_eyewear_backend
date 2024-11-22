@@ -62,4 +62,13 @@ class DashboardController extends Controller
         $newCustomers = $this->dashboardService->getNewCustomers();
         return response()->json(['new_customers' => $newCustomers], 200);
     }
+
+    public function getAverageOrderValue(): JsonResponse
+    {
+        $averageOrderValue = $this->dashboardService->getAverageOrderValue();
+
+        return response()->json([
+            'average_order_value' => round($averageOrderValue, 2), // Làm tròn 2 chữ số thập phân
+        ]);
+    }
 }

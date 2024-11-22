@@ -53,4 +53,9 @@ class DashboardService
     {
         return $this->dashboardRepository->getNewCustomers();
     }
+
+    public function getAverageOrderValue(): float
+    {
+        return $this->dashboardRepository->getAverageOrderValue();
+    }
 }

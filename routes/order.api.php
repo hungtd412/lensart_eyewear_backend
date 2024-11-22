@@ -100,6 +100,7 @@ Route::group([
     Route::get('/dashboard/products_sold', [DashboardController::class, 'getProductsSold']);
     Route::get('/dashboard/stock', [DashboardController::class, 'getStock']);
     Route::get('/dashboard/new_customers', [DashboardController::class, 'getNewCustomers']);
+    Route::get('/dashboard/average-order-value', [DashboardController::class, 'getAverageOrderValue']);
 });
 
 
