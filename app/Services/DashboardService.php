@@ -13,49 +13,17 @@ class DashboardService
         $this->dashboardRepository = $dashboardRepository;
     }
 
-    public function getTodaysOrders()
+    public function getDashboardData($branchName, $month, $year)
     {
-        return $this->dashboardRepository->getTodaysOrders();
-    }
-
-    public function getRevenue()
-    {
-        return $this->dashboardRepository->getRevenue();
-    }
-
-    public function getCompletedOrders()
-    {
-        return $this->dashboardRepository->getCompletedOrders();
-    }
-
-    public function getPendingOrders()
-    {
-        return $this->dashboardRepository->getPendingOrders();
-    }
-
-    public function getCancelledOrders()
-    {
-        return $this->dashboardRepository->getCancelledOrders();
-    }
-
-    // Get products sold
-    public function calculateProductsSold(): int
-    {
-        return $this->dashboardRepository->getProductsSold();
-    }
-
-    public function getStock()
-    {
-        return $this->dashboardRepository->getStock();
-    }
-
-    public function getNewCustomers()
-    {
-        return $this->dashboardRepository->getNewCustomers();
-    }
-
-    public function getAverageOrderValue(): float
-    {
-        return $this->dashboardRepository->getAverageOrderValue();
+        return [
+            'revenue' => $this->dashboardRepository->getRevenue($branchName, $month, $year),
+            'completed_orders' => $this->dashboardRepository->getCompletedOrders($branchName, $month, $year),
+            'pending_orders' => $this->dashboardRepository->getPendingOrders($branchName, $month, $year),
+            'cancelled_orders' => $this->dashboardRepository->getCancelledOrders($branchName, $month, $year),
+            'products_sold' => $this->dashboardRepository->getProductsSold($branchName, $month, $year),
+            'new_customers' => $this->dashboardRepository->getNewCustomers($branchName, $month, $year),
+            'daily_revenue' => $this->dashboardRepository->getDailyRevenue($branchName, $month, $year),
+            'order_status_overview' => $this->dashboardRepository->getOrderStatusOverview($branchName, $month, $year),
+        ];
     }
 }

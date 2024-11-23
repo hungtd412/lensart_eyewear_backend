@@ -2,85 +2,124 @@
 
 namespace App\Repositories;
 
+use App\Models\Branch;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
-    public function getTodaysOrders()
+    private function getBranchIdByName($branchName)
     {
-        return Order::whereDate('date', now()->toDateString())->count();
+        $branch = Branch::where('name', $branchName)->first();
+
+        if (!$branch) {
+            throw new \Exception("Branch '$branchName' not found");
+        }
+
+        return $branch->id;
     }
 
-    public function getRevenue()
+    public function getRevenue($branchName, $month, $year)
     {
-        return Order::whereDate('date', now()->toDateString())
+        $branchId = $this->getBranchIdByName($branchName);
+
+        return Order::where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
             ->where('payment_status', 'Đã thanh toán')
             ->where('order_status', '!=', 'Đã hủy')
             ->sum('total_price');
     }
 
-    public function getCompletedOrders()
+    public function getCompletedOrders($branchName, $month, $year)
     {
-        return Order::where('order_status', 'Đã giao')
+        $branchId = $this->getBranchIdByName($branchName);
+
+        return Order::where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->where('order_status', 'Đã giao')
             ->where('payment_status', 'Đã thanh toán')
             ->count();
     }
 
-
-    public function getPendingOrders()
+    public function getPendingOrders($branchName, $month, $year)
     {
-        return Order::where('order_status', 'Đang xử lý')->count();
+        $branchId = $this->getBranchIdByName($branchName);
+
+        return Order::where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->where('order_status', 'Đang xử lý')
+            ->count();
     }
 
-    public function getCancelledOrders()
+    public function getCancelledOrders($branchName, $month, $year)
     {
-        return Order::where('order_status', 'Đã hủy')->count();
+        $branchId = $this->getBranchIdByName($branchName);
+
+        return Order::where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->where('order_status', 'Đã hủy')
+            ->count();
     }
 
-    // Fetch total products sold
-    public function getProductsSold(): int
+    public function getProductsSold($branchName, $month, $year)
     {
-        return OrderDetail::whereHas('order', function ($query) {
-            $query->where('order_status', '!=', 'Đã hủy'); // Exclude canceled orders
+        $branchId = $this->getBranchIdByName($branchName);
+
+        return OrderDetail::whereHas('order', function ($query) use ($branchId, $month, $year) {
+            $query->where('branch_id', $branchId)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->where('order_status', '!=', 'Đã hủy');
         })->sum('quantity');
     }
 
-    public function getStock()
-    {
-        return DB::table('product_details')
-            ->join('products', 'product_details.product_id', '=', 'products.id') // Join bảng products
-            ->where('product_details.status', '=', 'active') // Kiểm tra status của product_details
-            ->where('products.status', '=', 'active') // Kiểm tra status của products
-            ->sum('product_details.quantity'); // Tính tổng quantity
-    }
-
-
-    public function getNewCustomers()
+    public function getNewCustomers($branchName, $month, $year)
     {
         return DB::table('users')
-            ->where('role_id', '=', 3) // Assuming role_id = 3 is for customers
-            ->whereDate('email_verified_at', '>=', now()->subMonth()->toDateString()) // New customers in the last month
+            ->where('role_id', 3) // Assuming role_id = 3 is for customers
+            ->where('address', 'LIKE', "%$branchName%")
+            ->whereYear('created_time', $year)
+            ->whereMonth('created_time', $month)
             ->count();
     }
 
-    public function getAverageOrderValue(): float
+    public function getDailyRevenue($branchName, $month, $year)
     {
-        // Tổng doanh thu
-        $totalRevenue = Order::where('order_status', '!=', 'Đã hủy') // Bỏ qua đơn hàng đã hủy
-            ->sum('total_price');
+        $branchId = $this->getBranchIdByName($branchName);
 
-        // Tổng số đơn hàng
-        $totalOrders = Order::where('order_status', '!=', 'Đã hủy') // Bỏ qua đơn hàng đã hủy
-            ->count();
+        return Order::select(
+            DB::raw('DAY(date) as day'),
+            DB::raw('SUM(total_price) as revenue')
+        )
+            ->where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->where('payment_status', 'Đã thanh toán')
+            ->groupBy(DB::raw('DAY(date)'))
+            ->orderBy(DB::raw('DAY(date)'))
+            ->get();
+    }
 
-        // Tránh chia cho 0
-        if ($totalOrders === 0) {
-            return 0;
-        }
+    public function getOrderStatusOverview($branchName, $month, $year)
+    {
+        $branchId = $this->getBranchIdByName($branchName);
 
-        // Tính Average Order Value (AOV)
-        return $totalRevenue / $totalOrders;
+        return Order::select(
+            DB::raw('DAY(date) as day'),
+            DB::raw('SUM(CASE WHEN order_status = "Đã giao" THEN 1 ELSE 0 END) as completed_orders'),
+            DB::raw('SUM(CASE WHEN order_status = "Đang xử lý" THEN 1 ELSE 0 END) as processed_orders'),
+            DB::raw('SUM(CASE WHEN order_status = "Đã hủy" THEN 1 ELSE 0 END) as cancelled_orders')
+        )
+            ->where('branch_id', $branchId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->groupBy(DB::raw('DAY(date)'))
+            ->orderBy(DB::raw('DAY(date)'))
+            ->get();
     }
 }
