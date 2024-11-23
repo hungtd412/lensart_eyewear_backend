@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -30,6 +31,7 @@ class User extends Authenticatable {
         'avatar',
         'phone',
         'address',
+        'created_time',
         'status'
     ];
 
@@ -48,7 +50,8 @@ class User extends Authenticatable {
      *
      * @return array<string, string>
      */
-    protected function casts(): array {
+    protected function casts(): array
+    {
         return [
             'email_verified_at' => 'datetime:Y-m-d H:i:s',
             'created_time' => 'datetime:Y-m-d H:i:s',
@@ -56,11 +59,13 @@ class User extends Authenticatable {
         ];
     }
 
-    public function wishlist() {
+    public function wishlist()
+    {
         return $this->hasOne(Wishlist::class);
     }
 
-    public function branch() {
+    public function branch()
+    {
         return $this->hasOne(Branch::class, 'manager_id', 'id');
     }
 }
