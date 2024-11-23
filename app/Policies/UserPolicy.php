@@ -5,11 +5,13 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class UserPolicy {
+class UserPolicy
+{
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): Response {
+    public function view(User $user, User $model): Response
+    {
         //if want to view admin profile
         if ($model->role_id === 1) {
             return $user->id === $model->id
@@ -37,7 +39,8 @@ class UserPolicy {
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): Response {
+    public function update(User $user, User $model): Response
+    {
         if ($model->role_id === 1) {
             return $user->id === $model->id
                 || $user->role_id === 1
@@ -51,15 +54,16 @@ class UserPolicy {
             ? Response::allow()
             : Response::deny();
 
-            if ($model->role_id === 3) {
-                return $user->id === $model->id
-                    || $user->role_id === 3
-                    ? Response::allow()
-                    : Response::deny();
-            }
+        if ($model->role_id === 3) {
+            return $user->id === $model->id
+                || $user->role_id === 3
+                ? Response::allow()
+                : Response::deny();
+        }
     }
 
-    public function createOrder(User $user, User $model): Response {
+    public function createOrder(User $user, User $model): Response
+    {
         return $user->id === $model->id
             ? Response::allow()
             : Response::deny();
