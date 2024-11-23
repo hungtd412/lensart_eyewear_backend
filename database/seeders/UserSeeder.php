@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
             'phone' => '0323456786',
         ]);
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $phone = $this->getRandomPhone($faker);
             $address = $this->getRandomAddress($faker);
 
