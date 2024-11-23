@@ -42,11 +42,26 @@ class WishlistRepository implements WishlistRepositoryInterface
 
     public function store(array $data)
     {
+        // Lấy hoặc tạo wishlist cho người dùng
         $wishlist = Wishlist::firstOrCreate(['user_id' => $data['user_id']]);
+
+        // Kiểm tra xem sản phẩm đã có trong wishlist chưa
+        $existingWishlistDetail = WishlistDetail::where([
+            'wishlist_id' => $wishlist->id,
+            'product_id' => $data['product_id'],
+        ])->first();
+
+        if ($existingWishlistDetail) {
+            // Nếu sản phẩm đã tồn tại trong wishlist, thông báo đã có trong wishlist
+            return response()->json(['message' => 'Product already in wishlist'], 200);
+        }
+
+        // Nếu sản phẩm chưa tồn tại trong wishlist, thêm vào wishlist
         WishlistDetail::create([
             'wishlist_id' => $wishlist->id,
             'product_id' => $data['product_id'],
         ]);
+
         return $wishlist;
     }
 

@@ -10,7 +10,7 @@ Route::group([
     'middleware' => ['auth:sanctum', 'can:is-customer'],
 ], function () {
     Route::get('/wishlists', [WishlistController::class, 'index']);
-    Route::post('/wishlists', [WishlistController::class, 'store']);
+    Route::post('/wishlists/create', [WishlistController::class, 'store']);
     Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy']);
     Route::delete('/wishlists/clear', [WishlistController::class, 'clearWishlist']);
 });
