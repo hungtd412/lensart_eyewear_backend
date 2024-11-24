@@ -11,10 +11,8 @@ use App\Models\Branch;
 use App\Models\Coupon;
 use App\Models\ProductDetail;
 
-class OrderAndDetailSeeder extends Seeder
-{
-    public function run()
-    {
+class OrderAndDetailSeeder extends Seeder {
+    public function run() {
         $users = User::where('role_id', 3)->get();
 
         $orderStatuses = ['Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'];
@@ -23,7 +21,7 @@ class OrderAndDetailSeeder extends Seeder
 
 
         foreach ($users as $user) {
-            $orderCount = rand(5, 20);
+            $orderCount = rand(5, 8);
 
             for ($i = 0; $i < $orderCount; $i++) {
 
@@ -52,8 +50,7 @@ class OrderAndDetailSeeder extends Seeder
         }
     }
 
-    protected function seedOrderDetails($orderId, $branchId, $couponCode)
-    {
+    protected function seedOrderDetails($orderId, $branchId, $couponCode) {
         $productDetails = ProductDetail::where('branch_id', $branchId)
             ->where('quantity', '>', 0)
             ->take(rand(1, 5))->get();
@@ -76,8 +73,7 @@ class OrderAndDetailSeeder extends Seeder
         $this->updateTotalPriceForOrder($orderId, $totalPrice, $couponCode);
     }
 
-    public function getRandomNote()
-    {
+    public function getRandomNote() {
         return \Faker\Factory::create()->randomElement([
             'Che tên dùm em ạ',
             'Giao buổi sáng cho em',
@@ -86,31 +82,21 @@ class OrderAndDetailSeeder extends Seeder
         ]);
     }
 
-    public function getPriceByProductAndBranchId($productId, $branchId)
-    {
+    public function getPriceByProductAndBranchId($productId, $branchId) {
         $originalPrice = Product::select('price')->where('id', $productId)->first()->price;
         $index = Branch::select('index')->where('id', $branchId)->first()->index;
         return (float)$originalPrice * (float)$index;
     }
 
-    public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode)
-    {
-        do {
-            $coupon = Coupon::where('code', $couponCode)->first();
-            $discount_price = $coupon ? $coupon->discount_price : 0;
+    public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {
+        $coupon = Coupon::where('code', $couponCode)->first();
+        $discount_price = $coupon ? $coupon->discount_price : 0;
+        $new_total_price = $totalPrice - $discount_price >= 0 ? $totalPrice - $discount_price : 0;
 
-            // Nếu totalPrice nhỏ hơn discount_price, cần xử lý lại
-            if ($discount_price > $totalPrice) {
-                // Lấy giá trị khác cho totalPrice
-                $totalPrice = $this->recalculateTotalPrice($orderId);
-            }
-        } while ($discount_price > $totalPrice); // Lặp lại cho đến khi totalPrice >= discount_price
-
-        DB::table('orders')->where('id', $orderId)->update(['total_price' => $totalPrice - $discount_price]);
+        DB::table('orders')->where('id', $orderId)->update(['total_price' => $new_total_price]);
     }
 
-    protected function recalculateTotalPrice($orderId)
-    {
+    protected function recalculateTotalPrice($orderId) {
         $orderDetails = DB::table('order_details')->where('order_id', $orderId)->get();
 
         $newTotalPrice = 0;
@@ -124,8 +110,7 @@ class OrderAndDetailSeeder extends Seeder
 
 
 
-    public function addCouponForOrderOrNot(&$data)
-    {
+    public function addCouponForOrderOrNot(&$data) {
         $coupon = rand(0, 1) ? Coupon::inRandomOrder()->first() : null;
         if (!is_null($coupon)) {
             $data['coupon_id'] = $coupon->id;
@@ -133,8 +118,7 @@ class OrderAndDetailSeeder extends Seeder
         return $coupon;
     }
 
-    protected function getRandomDate()
-    {
+    protected function getRandomDate() {
         $startDate = Carbon::create(2024, 1, 1);
         $endDate = Carbon::now();
 

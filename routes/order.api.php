@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -74,16 +73,6 @@ Route::group([
 });
 
 
-
-//**************************************
-//  MOMO
-//**************************************
-Route::group([
-    'middleware' => ['auth:sanctum', 'can:is-customer'],
-], function () {
-    Route::post('/momo_payment/atm', [CheckOutController::class, 'momoATMPayment']);
-    Route::post('/momo_payment/qr', [CheckOutController::class, 'momoQRPayment']);
-});
 
 //**************************************
 //  DASHBOARD

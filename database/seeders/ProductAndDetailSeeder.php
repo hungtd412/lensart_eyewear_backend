@@ -7,13 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
 
-class ProductAndDetailSeeder extends Seeder
-{
+class ProductAndDetailSeeder extends Seeder {
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
+    public function run(): void {
         $faker = Faker::create();
 
         $this->seedProducts(10, $faker, 1);
@@ -21,8 +19,7 @@ class ProductAndDetailSeeder extends Seeder
         $this->seedProducts(20, $faker, 3);
     }
 
-    public function getNameByType($type)
-    {
+    public function getNameByType($type) {
         switch ($type) {
             case 1:
                 return 'Tròng kính ';
@@ -35,15 +32,14 @@ class ProductAndDetailSeeder extends Seeder
         }
     }
 
-    public function seedProducts($numberOfProducts, $faker, $type)
-    {
+    public function seedProducts($numberOfProducts, $faker, $type) {
         $name = $this->getNameByType($type);
 
         if ($name === '')
             return;
 
         for ($i = 1; $i <= $numberOfProducts; $i++) {
-            $price = $faker->numberBetween(200000, 1000000);
+            $price = $faker->numberBetween(100000, 150000);
             $offerPrice = $faker->optional($weight = 0.5, $default = null)
                 ->numberBetween(100000, $price - 1);
             $productId = DB::table('products')->insertGetId([
@@ -63,8 +59,7 @@ class ProductAndDetailSeeder extends Seeder
         }
     }
 
-    public function seedProductDetails($productId, $faker)
-    {
+    public function seedProductDetails($productId, $faker) {
         $numberOfVariants = $faker->numberBetween(1, 3);
         $used_color = [];
         $color = 'Đỏ';
@@ -96,20 +91,17 @@ class ProductAndDetailSeeder extends Seeder
         }
     }
 
-    public function getIndexByBranchId($branchId)
-    {
+    public function getIndexByBranchId($branchId) {
         return DB::table('product_details')
             ->where('branch_id', $branchId)
             ->pluck('index');
     }
 
-    public function getRandomColor()
-    {
+    public function getRandomColor() {
         return Faker::create()->randomElement(['Đỏ', 'Đen', 'Xám', 'Hồng']);
     }
 
-    public function getRandomQuantity()
-    {
+    public function getRandomQuantity() {
         $faker = Faker::create();
 
         // Tăng xác suất để giá trị > 0

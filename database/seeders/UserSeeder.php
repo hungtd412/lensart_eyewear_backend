@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
 
-class UserSeeder extends Seeder
-{
+class UserSeeder extends Seeder {
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
+    public function run(): void {
         $faker = Faker::create();
 
         DB::table('users')->insert([
@@ -69,7 +67,7 @@ class UserSeeder extends Seeder
             'phone' => '0323456786',
         ]);
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $phone = $this->getRandomPhone($faker);
             $address = $this->getRandomAddress($faker);
 
@@ -88,8 +86,7 @@ class UserSeeder extends Seeder
         }
     }
 
-    public function getRandomFirstName($faker)
-    {
+    public function getRandomFirstName($faker) {
         return $faker->randomElement([
             'Phạm',
             'Trần',
@@ -97,19 +94,16 @@ class UserSeeder extends Seeder
         ]);
     }
 
-    public function getRandomLastName($faker)
-    {
+    public function getRandomLastName($faker) {
         return $faker->randomElement(['Đức Hùng', 'Quang Bảo', 'Minh Chính', 'Văn Thanh']);
     }
 
-    public function getRandomPhone($faker)
-    {
+    public function getRandomPhone($faker) {
         $prefix = $faker->randomElement(['03', '05', '07', '08', '09']); // Select a random prefix
         return $prefix . $faker->numerify(str_repeat('#', 8));
     }
 
-    public function getRandomAddress($faker)
-    {
+    public function getRandomAddress($faker) {
         return
             $faker->numberBetween(1, 1000)
             . ' '

@@ -50,9 +50,14 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/cart.api.php'));
+
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/wishlist.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/checkout.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -62,6 +67,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkTwoIdsParameter' => CheckTwoIDsParameter::class,
             'checkThreeIdsParameter' => CheckThreeIDsParameter::class,
             'checkTypeParameter' => CheckTypeParameter::class,
+        ]);
+        $middleware->validateCsrfTokens(except: [
+            '/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
