@@ -14,7 +14,7 @@ class PayOSTransRepository implements PayOSTransRepositoryInterface {
     }
 
     public function getAllUnpaid() {
-        return PayOSTrans::getUnpaidTransactions()->where('amount', '>', 0);
+        return PayOSTrans::getUnpaidTransactions()->where('amount', '=', 0);
     }
 
     public function getByOrderCode($orderCode) {

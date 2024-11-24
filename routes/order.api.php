@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PayOSTransController;
 use Illuminate\Support\Facades\Route;
 
 ////////////////////// ADMIN ///////////////////////////////////////

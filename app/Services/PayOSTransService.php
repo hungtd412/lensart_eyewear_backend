@@ -61,7 +61,7 @@ class PayOSTransService {
 
     public function refresh($checkOutService, $payOS) {
         $payOSTranses = $this->payOSTransRepository->getAllUnpaid();
-
+        $x = 1;
         foreach ($payOSTranses as $payOSTrans) {
             $transInfo = $checkOutService->getPaymentLinkInfoOfOrder($payOSTrans->orderCode, $payOS)->getData()->data;
 
@@ -71,7 +71,6 @@ class PayOSTransService {
                 $payOSTrans = $this->payOSTransRepository->getByOrderCode($transInfo->orderCode);
 
                 $this->payOSTransRepository->updateAmount($payOSTrans, $transInfo->amountPaid);
-                //update payment status of order -> trigger update payos table
             }
         }
     }

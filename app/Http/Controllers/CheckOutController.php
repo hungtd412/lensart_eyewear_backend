@@ -28,6 +28,12 @@ class CheckOutController extends Controller {
     }
 
     public function createTransaction(StorePayOSTransactionRequest $request, $orderId) {
+        if ($this->orderService->canCheckout($orderId) == false) {
+            return response()->json([
+                "error" => 0,
+                "message" => "Bạn không thể thanh toán đơn hàng này!",
+            ]);
+        }
         if ($this->orderService->isPaid($orderId) == true) {
             return response()->json([
                 "error" => 0,

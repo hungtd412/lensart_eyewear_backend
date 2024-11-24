@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StorePayOSTransRequest;
 use App\Services\CheckOutService;
 use App\Services\PayOSTransService;
 

@@ -39,7 +39,7 @@ class ProductAndDetailSeeder extends Seeder {
             return;
 
         for ($i = 1; $i <= $numberOfProducts; $i++) {
-            $price = $faker->numberBetween(10000, 150000);
+            $price = $faker->numberBetween(100000, 150000);
             $offerPrice = $faker->optional($weight = 0.5, $default = null)
                 ->numberBetween(100000, $price - 1);
             $productId = DB::table('products')->insertGetId([

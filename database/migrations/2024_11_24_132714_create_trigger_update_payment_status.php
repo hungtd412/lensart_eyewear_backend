@@ -13,15 +13,19 @@ return new class extends Migration {
             AFTER UPDATE ON payos_transactions
             FOR EACH ROW
             BEGIN
-                DECLARE total_price DECIMAL(11, 2);
+                DECLARE totalPrice DECIMAL(11, 2);
+                DECLARE sumAmount DECIMAL(11, 2);
 
-                -- Fetch the total_price from the orders table
-                SELECT total_price INTO total_price
+                SELECT total_price INTO totalPrice
                 FROM orders
                 WHERE id = NEW.order_id;
 
-                -- Check if the amount is greater than or equal to the total_price
-                IF NEW.amount >= total_price THEN
+                SELECT sum(amount) INTO sumAmount
+                FROM payos_transactions
+                WHERE order_id = NEW.order_id;
+
+
+                IF sumAmount >= totalPrice THEN
                     UPDATE orders
                     SET payment_status = 'Đã thanh toán'
                     WHERE id = NEW.order_id;

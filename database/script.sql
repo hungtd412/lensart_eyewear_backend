@@ -40,9 +40,21 @@ SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from ord
 where status = 'active' and orders.branch_id=3;
 
 SELECT * from payos_transactions
-SELECT * from orders
-where user_id = 5
-and payment_status = 'Chưa thanh toán'
+
+SELECT users.username, orders.id, orders.total_price, orders.payment_status  from orders, users
+where orders.payment_status = 'Chưa thanh toán'
+and users.id = orders.user_id
+
+insert into payos_transactions (orderCode, order_id, amount) VALUES (1, 2, 0);
+insert into payos_transactions (orderCode, order_id, amount) VALUES (2, 2, 0);
+
+SELECT sum(amount)
+FROM payos_transactions
+WHERE order_id = 4;
+
+UPDATE payos_transactions
+SET amount = 500000
+WHERE orderCode = 2;
 
 select * from carts, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id

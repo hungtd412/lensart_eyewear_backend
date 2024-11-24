@@ -89,18 +89,11 @@ class OrderAndDetailSeeder extends Seeder {
     }
 
     public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {
-        do {
-            $coupon = Coupon::where('code', $couponCode)->first();
-            $discount_price = $coupon ? $coupon->discount_price : 0;
+        $coupon = Coupon::where('code', $couponCode)->first();
+        $discount_price = $coupon ? $coupon->discount_price : 0;
+        $new_total_price = $totalPrice - $discount_price >= 0 ? $totalPrice - $discount_price : 0;
 
-            // Nếu totalPrice nhỏ hơn discount_price, cần xử lý lại
-            if ($discount_price > $totalPrice) {
-                // Lấy giá trị khác cho totalPrice
-                $totalPrice = $this->recalculateTotalPrice($orderId);
-            }
-        } while ($discount_price > $totalPrice); // Lặp lại cho đến khi totalPrice >= discount_price
-
-        DB::table('orders')->where('id', $orderId)->update(['total_price' => $totalPrice - $discount_price]);
+        DB::table('orders')->where('id', $orderId)->update(['total_price' => $new_total_price]);
     }
 
     protected function recalculateTotalPrice($orderId) {
@@ -126,10 +119,9 @@ class OrderAndDetailSeeder extends Seeder {
     }
 
     protected function getRandomDate() {
-        // $startDate = Carbon::create(2024, 1, 1);
-        // $endDate = Carbon::now();
+        $startDate = Carbon::create(2024, 1, 1);
+        $endDate = Carbon::now();
 
-        // return Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp));
-        return Carbon::now();
+        return Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp));
     }
 }
