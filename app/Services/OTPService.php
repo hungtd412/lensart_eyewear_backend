@@ -52,7 +52,10 @@ class OTPService {
 
         Mail::to($mail)->send(new OTPMail($otp));
 
-        return response()->json(['message' => 'User registered. OTP sent to email.'], 201);
+        return response()->json([
+            'message' => 'User registered. OTP sent to email.',
+            'user_id' => $userId
+        ], 201);
     }
 
     public function getByUserId($userId) {
