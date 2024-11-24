@@ -55,8 +55,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('api')
                 ->group(base_path('routes/wishlist.api.php'));
 
-            Route::middleware('web')
-                ->group(base_path('routes/payos.api.php'));
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/checkout.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

@@ -125,7 +125,7 @@ class CheckOutService {
         $data = [
             "orderCode" => $order['id'],
             "amount" => $order['total_price'],
-            "description" => "khach hang chuyen tien",
+            "description" => "thanh toan don hang " . $order['id'],
             "returnUrl" => "http://127.0.0.1:8000/",
             "cancelUrl" => "http://127.0.0.1:8000/"
         ];
@@ -135,6 +135,22 @@ class CheckOutService {
             return redirect($response['checkoutUrl']);
         } catch (\Throwable $th) {
             return $th->getMessage();
+        }
+    }
+
+    public function createTransaction($data, $payOS) {
+        $data["amount"] = intval($data["amount"]);
+        $data["orderCode"] = intval(substr(strval(microtime(true) * 10000), -6));
+
+        try {
+            $response = $payOS->createPaymentLink($data);
+            return response()->json([
+                "error" => 0,
+                "message" => "Success",
+                "data" => $response,
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
         }
     }
 
@@ -162,7 +178,7 @@ class CheckOutService {
             return response()->json([
                 "error" => 0,
                 "message" => "Success",
-                "data" => $response["data"]
+                "data" => $response
             ]);
         } catch (\Throwable $th) {
             return $th;
@@ -175,7 +191,7 @@ class CheckOutService {
             return response()->json([
                 "error" => 0,
                 "message" => "success",
-                "data" => $response["data"]
+                "data" => $response
             ]);
         } catch (\Throwable $th) {
             return $th;

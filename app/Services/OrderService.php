@@ -245,9 +245,12 @@ class OrderService {
         }
     }
 
+    public function isPaid($orderId): bool {
+        return $this->orderRepository->getById($orderId)->payment_status == 'Chưa thanh toán' ? false : true;
+    }
+
     // CUSTOMER
-    public function getCustomerOrder()
-    {
+    public function getCustomerOrder() {
         $orders = $this->orderRepository->getCustomerOrder();
 
         return response()->json([

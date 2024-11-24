@@ -29,7 +29,7 @@ and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_det
 
 select * from otps
 select * from users where id = 15
-select * from orders, order_details
+select * from order_details, order_details
 where orders.id=66 and order_details.order_id = orders.id
 
 SELECT orders.id, user_id, branch_id
@@ -39,7 +39,10 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT * from orders where user_id = 6
+SELECT * from payos_transactions
+SELECT * from orders
+where user_id = 5
+and payment_status = 'Chưa thanh toán'
 
 select * from carts, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id
