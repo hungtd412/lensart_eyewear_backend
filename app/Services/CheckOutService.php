@@ -2,7 +2,11 @@
 
 namespace App\Services;
 
+use PayOS\PayOS;
+
+
 class CheckOutService {
+
     public function execPostRequest($url, $data) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -115,5 +119,66 @@ class CheckOutService {
 
         return $jsonResult['payUrl'];
         // return redirect()->to($jsonResult['payUrl']);
+    }
+
+    public function payOSPayment($order, $payOS) {
+        $data = [
+            "orderCode" => $order['id'],
+            "amount" => $order['total_price'],
+            "description" => "khach hang chuyen tien",
+            "returnUrl" => "http://127.0.0.1:8000/",
+            "cancelUrl" => "http://127.0.0.1:8000/"
+        ];
+
+        try {
+            $response = $payOS->createPaymentLink($data);
+            return redirect($response['checkoutUrl']);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    public function createPaymentLink($payOS) {
+        $data = [
+            "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
+            "amount" => 2000,
+            "description" => "Thanh toán đơn hàng",
+            "returnUrl" => "http://127.0.0.1:8000/",
+            "cancelUrl" => "http://127.0.0.1:8000/"
+        ];
+        error_log($data['orderCode']);
+
+        try {
+            $response = $payOS->createPaymentLink($data);
+            return redirect($response['checkoutUrl']);
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function getPaymentLinkInfoOfOrder(string $id, $payOS) {
+        try {
+            $response = $payOS->getPaymentLinkInformation($id);
+            return response()->json([
+                "error" => 0,
+                "message" => "Success",
+                "data" => $response["data"]
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function cancelPaymentLinkOfOrder(string $id, $payOS) {
+        try {
+            $response = $payOS->cancelPaymentLink($id);
+            return response()->json([
+                "error" => 0,
+                "message" => "success",
+                "data" => $response["data"]
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 }
