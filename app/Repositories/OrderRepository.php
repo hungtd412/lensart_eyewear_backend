@@ -5,25 +5,24 @@ namespace App\Repositories;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
-class OrderRepository implements OrderRepositoryInterface
-{
-    public function store(array $data): Order
-    {
+class OrderRepository implements OrderRepositoryInterface {
+    public function store(array $data): Order {
         return Order::create($data);
     }
 
-    public function getAll()
-    {
+    public function getAll() {
         return Order::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         return Order::with(['orderDetails', 'user', 'coupon'])->find($id);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null)
-    {
+    public function getPriceByOrderId($orderId) {
+        return Order::find($orderId)?->total_price;
+    }
+
+    public function getByStatusAndBranch($status, $branchId = null) {
         $orderStatusList = ['Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'];
         $paymentStatusList = ['Chưa thanh toán', 'Đã thanh toán'];
 
@@ -41,41 +40,35 @@ class OrderRepository implements OrderRepositoryInterface
         return $ordersList->get();
     }
 
-    public function update(array $data, $order)
-    {
+    public function update(array $data, $order) {
         $order->update($data);
     }
 
-    public function changeOrderStatus($id, $newOrderStatus)
-    {
+    public function changeOrderStatus($id, $newOrderStatus) {
         $order = $this->getById($id);
         $order->order_status = $newOrderStatus;
         $order->save();
     }
 
-    public function changePaymentStatus($id, $newPaymentStatus)
-    {
+    public function changePaymentStatus($id, $newPaymentStatus) {
         $order = $this->getById($id);
         $order->payment_status = $newPaymentStatus;
         $order->save();
     }
 
-    public function cancel($id)
-    {
+    public function cancel($id) {
         $order = $this->getById($id);
         $order->order_status = 'Đã hủy';
         $order->save();
     }
 
-    public function switchStatus($order)
-    {
+    public function switchStatus($order) {
         $order->status = $order->status == 'active' ? 'inactive' : 'active';
         $order->save();
     }
 
     // CUSTOMER
-    public function getCustomerOrder()
-    {
+    public function getCustomerOrder() {
         return Order::where('user_id', auth()->id())
             ->orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")
             ->get();

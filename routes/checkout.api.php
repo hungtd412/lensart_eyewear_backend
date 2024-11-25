@@ -33,20 +33,20 @@ Route::group([
     Route::post('/orders/{id?}/create', [CheckOutController::class, 'createTransaction']);
 
     //get transaction's info
-    Route::get('/{id?}', [CheckOutController::class, 'getPaymentLinkInfoOfOrder']);
+    Route::get('/{id?}/info', [CheckOutController::class, 'getPaymentLinkInfoOfOrder']);
 
     //cancel transaction
-    Route::post('/{id?}/cancel', [CheckOutController::class, 'cancelPaymentLinkOfOrder']);
+    // Route::post('/{id?}/cancel', [CheckOutController::class, 'cancelPaymentLinkOfOrder']);
 });
 
+
+
 //**************************************
-//  PAYOS
+//  REFRESH TRANSACTION PAGE
 //**************************************
-Route::group(
-    [
-        'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
-    ],
-    function () {
-        Route::post('/transactions/refresh', [PayOSTransController::class, 'refresh']);
-    }
-);
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
+], function () {
+    Route::get('/transactions/all', [PayOSTransController::class, 'index']);
+    Route::post('/transactions/refresh', [PayOSTransController::class, 'refresh']);
+});

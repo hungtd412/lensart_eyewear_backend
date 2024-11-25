@@ -117,6 +117,10 @@ class OrderService {
         }
     }
 
+    public function getPriceByOrderId($orderId) {
+        return $this->orderRepository->getPriceByOrderId($orderId);
+    }
+
     public function getByStatusAndBranch($status, $branchId = null) {
         if (!is_null($branchId)) {
             if ($this->isValidUser($branchId)) {

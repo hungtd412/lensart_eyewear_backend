@@ -21,7 +21,12 @@ class PayOSTransService {
     }
 
     public function getAll() {
-        $payOSTranses = $this->payOSTransRepository->getAll();
+
+        if (auth()->user()->role_id === 1) {
+            $payOSTranses = $this->payOSTransRepository->getAll();
+        } else if (auth()->user()->role_id === 2) {
+            $payOSTranses = $this->payOSTransRepository->getByBranch(auth()->user()->branch->id);
+        }
 
         return response()->json([
             'status' => 'success',

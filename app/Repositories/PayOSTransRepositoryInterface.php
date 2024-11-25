@@ -5,6 +5,7 @@ namespace App\Repositories;
 interface PayOSTransRepositoryInterface {
     public function store(array $payOSTrans);
     public function getAll();
+    public function getByBranch($branchId);
     public function getAllUnpaid();
     public function getByOrderCode($orderCode);
     public function getByOrderId($orderId);
