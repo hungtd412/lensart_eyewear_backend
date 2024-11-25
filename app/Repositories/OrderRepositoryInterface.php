@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-interface OrderRepositoryInterface
-{
+interface OrderRepositoryInterface {
     public function store(array $data);
     public function getAll();
-    public function getById(array $id);
+    public function getById($id);
+    public function getPriceByOrderId($orderId);
     public function getByStatusAndBranch($status, $branchId = null);
     public function update(array $data, $order);
     public function changeOrderStatus($id, $newOrderStatus);

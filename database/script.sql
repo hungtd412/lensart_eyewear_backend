@@ -29,7 +29,7 @@ and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_det
 
 select * from otps
 select * from users where id = 15
-select * from order_details, order_details
+select * from orders, order_details
 where orders.id=66 and order_details.order_id = orders.id
 
 SELECT orders.id, user_id, branch_id
@@ -41,7 +41,7 @@ where status = 'active' and orders.branch_id=3;
 
 SELECT * from payos_transactions
 
-SELECT users.username, orders.id, orders.total_price, orders.payment_status  from orders, users
+SELECT users.username, orders.id, orders.total_price, orders.branch_id  from orders, users
 where orders.payment_status = 'Chưa thanh toán'
 and users.id = orders.user_id
 
@@ -65,11 +65,3 @@ VALUES
 (2, 11, 2, 'Xám', 1, 572532.8);
 
 
-select id, discount_price, quantity from coupons where status = 'active'
-
-select * from branches
-
-DROP TRIGGER after_order_cancel
-
-
-delete from users where username = 'hunguser4'

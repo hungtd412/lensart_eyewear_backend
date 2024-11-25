@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('orderCode')->unique();
             $table->unsignedBigInteger('order_id');
+            $table->enum('payment_method', ['Napas 247', 'Momo ATM', 'Momo QR', 'Tiền mặt'])->default('Napas 247');
             $table->decimal('amount', 11, 2)->default(0);
             $table->timestamps();
 

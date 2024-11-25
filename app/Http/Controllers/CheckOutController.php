@@ -40,9 +40,19 @@ class CheckOutController extends Controller {
                 "message" => "Đơn hàng đã được thanh toán!",
             ]);
         }
+        $total_price = $this->orderService->getPriceByOrderId($orderId);
+        if ($total_price == 0) {
+            return response()->json([
+                "error" => 0,
+                "message" => "Đơn hàng 0 đồng không cần thanh toán!",
+            ]);
+        }
 
-        $response = $this->checkoutService->createTransaction($request->validated(), $this->payOS);
+        $body = $request->validated();
+        $body['description'] = "Thanh toán đơn hàng " . $orderId;
+        $body['amount'] = $total_price;
 
+        $response = $this->checkoutService->createTransaction($body, $this->payOS);
         $data = $this->prepareDataForStoreTransaction($response, $orderId);
         $this->payOSTransService->store($data);
 
@@ -53,7 +63,9 @@ class CheckOutController extends Controller {
         return [
             'orderCode' => $response->getData()->data->orderCode,
             'order_id' => $orderId,
+            'payment_method' => 'Napas 247',
             'amount' => 0
+            //0 is default value, if customer pay successfully, manager or admin refresh transaction, then amount will be equal to amount of money customer already paid
         ];
     }
 

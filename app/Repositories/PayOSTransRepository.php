@@ -13,6 +13,12 @@ class PayOSTransRepository implements PayOSTransRepositoryInterface {
         return PayOSTrans::all();
     }
 
+    public function getByBranch($branchId) {
+        return PayOSTrans::whereHas('order', function ($query) use ($branchId) {
+            $query->where('branch_id', $branchId);
+        })->get();
+    }
+
     public function getAllUnpaid() {
         return PayOSTrans::getUnpaidTransactions()->where('amount', '=', 0);
     }
