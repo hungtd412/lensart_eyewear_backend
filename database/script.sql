@@ -39,7 +39,7 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT * from payos_transactions
+SELECT * from users
 
 SELECT users.username, orders.id, orders.total_price, orders.branch_id  from orders, users
 where orders.payment_status = 'Chưa thanh toán'
