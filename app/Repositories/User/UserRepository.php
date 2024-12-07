@@ -26,14 +26,13 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function login(array $user, $routePrefix): bool {
-        if (auth()->attempt($user)) {
+        if (auth()->attempt(['email' => $user['email'], 'password' => $user['password']])) {
             $user = auth()->user();
 
-            if (is_null($user->email_verified_at))
+            if (is_null($user->email_verified_at) || $user->status == 'inactive') {
+                $this->deleteToken();
                 return false;
-
-            if ($user->status == 'inactive')
-                return false;
+            }
 
             // manager and admin can only login to admin web
             // customer can only login to selling web
