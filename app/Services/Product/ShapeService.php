@@ -5,34 +5,34 @@ namespace App\Services\Product;
 use App\Repositories\Product\ShapeRepositoryInterface;
 
 class ShapeService {
-    protected $ShapeRepository;
+    protected $shapeRepository;
 
-    public function __construct(ShapeRepositoryInterface $ShapeRepository) {
-        $this->ShapeRepository = $ShapeRepository;
+    public function __construct(ShapeRepositoryInterface $shapeRepository) {
+        $this->shapeRepository = $shapeRepository;
     }
 
     public function store($data) {
-        $Shape = $this->ShapeRepository->store($data);
+        $shape = $this->shapeRepository->store($data);
 
         return response()->json([
             'status' => 'success',
-            'Shape' => $Shape
+            'shape' => $shape
         ], 200);
     }
 
     public function getAll() {
-        $Shapes = $this->ShapeRepository->getAll();
+        $shapes = $this->shapeRepository->getAll();
 
         return response()->json([
             'status' => 'success',
-            'Shapes' => $Shapes
+            'shapes' => $shapes
         ], 200);
     }
 
     public function getById($id) {
-        $Shape = $this->ShapeRepository->getById($id);
+        $shape = $this->shapeRepository->getById($id);
 
-        if ($Shape === null) {
+        if ($shape === null) {
             return response()->json([
                 'message' => 'Can not find any data matching these conditions!'
             ], 404);
@@ -40,29 +40,29 @@ class ShapeService {
 
         return response()->json([
             'message' => 'success',
-            'Shape' => $Shape,
+            'shape' => $shape,
         ], 200);
     }
 
     public function update($data, $id) {
-        $Shape = $this->ShapeRepository->getById($id);
+        $shape = $this->shapeRepository->getById($id);
 
-        $this->ShapeRepository->update($data, $Shape);
+        $this->shapeRepository->update($data, $shape);
 
         return response()->json([
             'message' => 'success',
-            'Shape' => $Shape
+            'shape' => $shape
         ], 200);
     }
 
     public function switchStatus($id) {
-        $Shape = $this->ShapeRepository->getById($id);
+        $shape = $this->shapeRepository->getById($id);
 
-        $this->ShapeRepository->switchStatus($Shape);
+        $this->shapeRepository->switchStatus($shape);
 
         return response()->json([
             'message' => 'success',
-            'Shape' => $Shape
+            'shape' => $shape
         ], 200);
     }
 }
