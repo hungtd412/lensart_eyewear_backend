@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // CUSTOMER AUTH
 //**************************************
 Route::group([
-    'prefix' => 'auth'
+    'prefix' => 'api'
 ], function () {
     Route::post('/register', [AuthController::class, 'store'])->middleware('customGuest');
 

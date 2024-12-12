@@ -14,11 +14,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('/register', [AuthController::class, 'store'])->middleware('customGuest');
-
-    Route::post('/login', [AuthController::class, 'login'])->middleware('customGuest');
-
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 });
 
 
