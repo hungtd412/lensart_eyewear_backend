@@ -38,4 +38,13 @@ class OrderPolicy {
             ? Response::allow()
             : Response::deny();
     }
+
+    /**
+     * Determine whether the user can checkout the model.
+     */
+    public function checkout(User $user, Order $order): Response {
+        return $user->id === $order->user_id
+            ? Response::allow()
+            : Response::deny();
+    }
 }

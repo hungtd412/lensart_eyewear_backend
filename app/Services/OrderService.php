@@ -117,6 +117,10 @@ class OrderService {
         }
     }
 
+    public function getPriceByOrderId($orderId) {
+        return $this->orderRepository->getPriceByOrderId($orderId);
+    }
+
     public function getByStatusAndBranch($status, $branchId = null) {
         if (!is_null($branchId)) {
             if ($this->isValidUser($branchId)) {
@@ -245,9 +249,22 @@ class OrderService {
         }
     }
 
+    public function isPaid($orderId): bool {
+        return $this->orderRepository->getById($orderId)->payment_status == 'Chưa thanh toán' ? false : true;
+    }
+
+    public function canCheckout($orderId) {
+        $order = $this->orderRepository->getById($orderId);
+        $response = Gate::inspect("checkout", $order);
+        if ($response->allowed()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // CUSTOMER
-    public function getCustomerOrder()
-    {
+    public function getCustomerOrder() {
         $orders = $this->orderRepository->getCustomerOrder();
 
         return response()->json([

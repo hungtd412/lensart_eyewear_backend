@@ -21,7 +21,7 @@ class OrderAndDetailSeeder extends Seeder {
 
 
         foreach ($users as $user) {
-            $orderCount = rand(0, 10);
+            $orderCount = rand(5, 8);
 
             for ($i = 0; $i < $orderCount; $i++) {
 
@@ -29,7 +29,7 @@ class OrderAndDetailSeeder extends Seeder {
 
                 $data = [
                     'user_id' => $user->id,
-                    'date' => Carbon::now(),
+                    'date' => $this->getRandomDate(),
                     'branch_id' => $branch->id,
                     'address' => $user->address,
                     'note' => $this->getRandomNote(),
@@ -90,15 +90,25 @@ class OrderAndDetailSeeder extends Seeder {
 
     public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {
         $coupon = Coupon::where('code', $couponCode)->first();
+        $discount_price = $coupon ? $coupon->discount_price : 0;
+        $new_total_price = $totalPrice - $discount_price >= 0 ? $totalPrice - $discount_price : 0;
 
-        if ($coupon) {
-            $discount_price = $coupon->discount_price;
-        } else {
-            $discount_price = 0;
+        DB::table('orders')->where('id', $orderId)->update(['total_price' => $new_total_price]);
+    }
+
+    protected function recalculateTotalPrice($orderId) {
+        $orderDetails = DB::table('order_details')->where('order_id', $orderId)->get();
+
+        $newTotalPrice = 0;
+
+        foreach ($orderDetails as $detail) {
+            $newTotalPrice += $detail->total_price;
         }
 
-        DB::table('orders')->where('id', $orderId)->update(['total_price' => $totalPrice - $discount_price]);
+        return $newTotalPrice;
     }
+
+
 
     public function addCouponForOrderOrNot(&$data) {
         $coupon = rand(0, 1) ? Coupon::inRandomOrder()->first() : null;
@@ -106,5 +116,12 @@ class OrderAndDetailSeeder extends Seeder {
             $data['coupon_id'] = $coupon->id;
         }
         return $coupon;
+    }
+
+    protected function getRandomDate() {
+        $startDate = Carbon::create(2024, 1, 1);
+        $endDate = Carbon::now();
+
+        return Carbon::createFromTimestamp(rand($startDate->timestamp, $endDate->timestamp));
     }
 }

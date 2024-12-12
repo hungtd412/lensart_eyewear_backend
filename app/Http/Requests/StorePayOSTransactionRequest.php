@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\FailedValidationTrait;
 
-class LoginUserRequest extends FormRequest {
-    use FailedValidationTrait;
-
+class StorePayOSTransactionRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,8 +19,8 @@ class LoginUserRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'email' => 'required|string|email|exists:users,email',
-            'password' => 'required|string|min:6',
+            'returnUrl' => 'required|string|max:1000',
+            'cancelUrl' => 'required|string|max:1000',
         ];
     }
 }

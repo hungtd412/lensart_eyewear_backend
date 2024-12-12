@@ -13,7 +13,6 @@ class UserSeeder extends Seeder {
      * Run the database seeds.
      */
     public function run(): void {
-
         $faker = Faker::create();
 
         DB::table('users')->insert([
@@ -24,8 +23,9 @@ class UserSeeder extends Seeder {
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
+            'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 1,
-            'phone' => '0323456789'
+            'phone' => '0323456789',
         ]);
 
         DB::table('users')->insert([
@@ -36,8 +36,9 @@ class UserSeeder extends Seeder {
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HCM',
+            'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
-            'phone' => '0323456788'
+            'phone' => '0323456788',
         ]);
 
         DB::table('users')->insert([
@@ -48,8 +49,9 @@ class UserSeeder extends Seeder {
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes DN',
+            'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
-            'phone' => '0323456787'
+            'phone' => '0323456787',
         ]);
 
         DB::table('users')->insert([
@@ -60,12 +62,12 @@ class UserSeeder extends Seeder {
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
             'address' => 'Vinhomes HN',
+            'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
-            'phone' => '0323456786'
+            'phone' => '0323456786',
         ]);
 
-        for ($i = 1; $i <= 10; $i++) {
-
+        for ($i = 1; $i <= 5; $i++) {
             $phone = $this->getRandomPhone($faker);
             $address = $this->getRandomAddress($faker);
 
@@ -78,7 +80,8 @@ class UserSeeder extends Seeder {
                 'lastname' => $this->getRandomLastName($faker),
                 'role_id' => 3,
                 'phone' => $phone,
-                'address' => $address
+                'address' => $address,
+                'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             ]);
         }
     }
@@ -97,7 +100,7 @@ class UserSeeder extends Seeder {
 
     public function getRandomPhone($faker) {
         $prefix = $faker->randomElement(['03', '05', '07', '08', '09']); // Select a random prefix
-        return $prefix . $faker->numerify(str_repeat('#', $faker->numberBetween(8, 9)));
+        return $prefix . $faker->numerify(str_repeat('#', 8));
     }
 
     public function getRandomAddress($faker) {
@@ -114,7 +117,7 @@ class UserSeeder extends Seeder {
                 'Đường Lý Thái Tổ',
                 'Đường Nguyễn Trãi',
                 'Đường Cách Mạng Tháng Tám',
-                'Đường Pasteur'
+                'Đường Pasteur',
             ])
             . ', '
             . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);

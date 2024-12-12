@@ -4,17 +4,15 @@ namespace App\Repositories;
 
 interface DashboardRepositoryInterface
 {
-    public function getTodaysOrders();
-    public function getRevenue();
-    public function getCompletedOrders();
-    public function getPendingOrders();
-    public function getCancelledOrders();
+    public function getRevenue($branchId, $month, $year);
+    public function getCompletedOrders($branchId, $month, $year);
+    public function getPendingOrders($branchId, $month, $year);
+    public function getCancelledOrders($branchId, $month, $year);
+    public function getProductsSold($branchId, $month, $year);
+    public function getNewCustomers($branchId, $month, $year);
+    public function getDailyRevenue($branchId, $month, $year);
 
-    public function getProductsSold(): int;
+    public function getOrderStatusOverview($branchId, $month, $year);
 
-    public function getStock();
-
-    public function getNewCustomers();
-
-    public function getAverageOrderValue(): float;
+    public function getBranchIdByName(string $branchName): ?int;
 }

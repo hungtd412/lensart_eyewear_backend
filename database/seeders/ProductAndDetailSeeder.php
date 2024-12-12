@@ -39,6 +39,9 @@ class ProductAndDetailSeeder extends Seeder {
             return;
 
         for ($i = 1; $i <= $numberOfProducts; $i++) {
+            $price = $faker->numberBetween(100000, 150000);
+            $offerPrice = $faker->optional($weight = 0.5, $default = null)
+                ->numberBetween(100000, $price - 1);
             $productId = DB::table('products')->insertGetId([
                 'name' => $name . $i,
                 'description' => $faker->sentence(15),
@@ -47,7 +50,8 @@ class ProductAndDetailSeeder extends Seeder {
                 'material_id' => $faker->numberBetween(1, 3),
                 'shape_id' => $faker->numberBetween(1, 3),
                 'gender' => $faker->randomElement(['male', 'female', 'unisex']),
-                'price' => $faker->numberBetween(200000, 1000000),
+                'price' => $price,
+                'offer_price' => $offerPrice,
                 'created_time' => Carbon::now(),
             ]);
 
@@ -98,6 +102,13 @@ class ProductAndDetailSeeder extends Seeder {
     }
 
     public function getRandomQuantity() {
-        return Faker::create()->randomElement([0, 3, 10, 13, 20, 50]);
+        $faker = Faker::create();
+
+        // Tăng xác suất để giá trị > 0
+        if ($faker->boolean(90)) { // 90% khả năng lấy giá trị > 0
+            return $faker->randomElement([3, 10, 13, 20, 50]);
+        }
+
+        return 0;
     }
 }

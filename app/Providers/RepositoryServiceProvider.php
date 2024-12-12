@@ -18,6 +18,8 @@ use App\Repositories\OrderRepository;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OTPRepository;
 use App\Repositories\OTPRepositoryInterface;
+use App\Repositories\PayOSTransRepository;
+use App\Repositories\PayOSTransRepositoryInterface;
 use App\Repositories\Product\BrandRepository;
 use App\Repositories\Product\BrandRepositoryInterface;
 use App\Repositories\Product\CategoryRepository;
@@ -44,13 +46,11 @@ use App\Repositories\WishlistRepository;
 use App\Repositories\WishlistRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider
-{
+class RepositoryServiceProvider extends ServiceProvider {
     /**
      * Register services.
      */
-    public function register(): void
-    {
+    public function register(): void {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
@@ -90,13 +90,14 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OTPRepositoryInterface::class, OTPRepository::class);
 
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
+
+        $this->app->bind(PayOSTransRepositoryInterface::class, PayOSTransRepository::class);
     }
 
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
+    public function boot(): void {
         //
     }
 }

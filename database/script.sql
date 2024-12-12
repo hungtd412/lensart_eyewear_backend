@@ -39,7 +39,22 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT * from orders where coupon_id is null
+SELECT * from users
+
+SELECT users.username, orders.id, orders.total_price, orders.branch_id  from orders, users
+where orders.payment_status = 'Chưa thanh toán'
+and users.id = orders.user_id
+
+insert into payos_transactions (orderCode, order_id, amount) VALUES (1, 2, 0);
+insert into payos_transactions (orderCode, order_id, amount) VALUES (2, 2, 0);
+
+SELECT sum(amount)
+FROM payos_transactions
+WHERE order_id = 4;
+
+UPDATE payos_transactions
+SET amount = 500000
+WHERE orderCode = 2;
 
 select * from carts, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id
@@ -50,11 +65,3 @@ VALUES
 (2, 11, 2, 'Xám', 1, 572532.8);
 
 
-select id, discount_price, quantity from coupons where status = 'active'
-
-select * from branches
-
-DROP TRIGGER after_order_cancel
-
-
-delete from users where username = 'hunguser4'
