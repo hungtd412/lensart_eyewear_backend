@@ -6,44 +6,41 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 
-class ProductRepository implements ProductRepositoryInterface
-{
-    public function store(array $product): Product
-    {
+class ProductRepository implements ProductRepositoryInterface {
+    public function store(array $product): Product {
         return Product::create($product);
     }
 
-    public function getAll()
-    {
+    public function getAll() {
         return Product::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         return Product::find($id);
     }
 
-    public function update(array $data, $product)
-    {
+    public function getByCategoryId($categoryId) {
+        return Product::where('category_id', $categoryId)
+            ->get();
+    }
+
+    public function update(array $data, $product) {
         $product->update($data);
     }
 
-    public function updateEach(array $data, $product, $attributeOfProduct)
-    {
+    public function updateEach(array $data, $product, $attributeOfProduct) {
         $product->$attributeOfProduct = $data[$attributeOfProduct];
         $product->save();
     }
 
-    public function switchStatus($product)
-    {
+    public function switchStatus($product) {
         $product->status = $product->status == 'active' ? 'inactive' : 'active';
         $product->save();
     }
 
     // Tìm kiếm sản phẩm
 
-    public function searchProduct($keyword)
-    {
+    public function searchProduct($keyword) {
         // Tách keyword thành mảng các từ khóa con
         $keywords = explode(' ', $keyword);
 
@@ -84,8 +81,7 @@ class ProductRepository implements ProductRepositoryInterface
 
 
     // Lọc theo kiểu gọng
-    public function filterByShape($query, $types)
-    {
+    public function filterByShape($query, $types) {
         if (!empty($types)) {
             $query->leftJoin('shapes as s1', 'products.shape_id', '=', 's1.id')
                 ->whereIn('s1.name', $types);
@@ -94,8 +90,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lọc theo giới tính
-    public function filterByGender($query, $gender)
-    {
+    public function filterByGender($query, $gender) {
         if (!empty($gender)) {
             $query->where('gender', $gender);
         }
@@ -103,8 +98,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lọc theo chất liệu
-    public function filterByMaterial($query, $materials)
-    {
+    public function filterByMaterial($query, $materials) {
         if (!empty($materials)) {
             $query->leftJoin('materials as m1', 'products.material_id', '=', 'm1.id')
                 ->whereIn('m1.name', $materials);
@@ -113,8 +107,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lọc theo giá
-    public function filterByPriceRange($query, $priceRange)
-    {
+    public function filterByPriceRange($query, $priceRange) {
         if (!empty($priceRange)) {
             switch ($priceRange) {
                 case 'Dưới 500000':
@@ -138,8 +131,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lọc theo thương hiệu
-    public function filterByBrand($query, $brands)
-    {
+    public function filterByBrand($query, $brands) {
         if (!empty($brands)) {
             $query->leftJoin('brands as b1', 'products.brand_id', '=', 'b1.id')
                 ->whereIn('b1.name', $brands);
@@ -148,8 +140,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     // Lọc theo tính năng
-    public function filterByFeatures($query, $features)
-    {
+    public function filterByFeatures($query, $features) {
         if (!empty($features)) {
 
             $query->join('product_features as pf', 'products.id', '=', 'pf.product_id')
@@ -159,8 +150,7 @@ class ProductRepository implements ProductRepositoryInterface
         return $query;
     }
 
-    public function getBestSellingProducts($limit = 10)
-    {
+    public function getBestSellingProducts($limit = 10) {
         return Product::select('products.*', DB::raw('SUM(product_details.quantity) as total_sold'))
             ->join('product_details', 'products.id', '=', 'product_details.product_id')
             ->where('products.status', 'active')
@@ -171,8 +161,7 @@ class ProductRepository implements ProductRepositoryInterface
             ->get();
     }
 
-    public function getNewestProducts($limit = 10)
-    {
+    public function getNewestProducts($limit = 10) {
         return Product::where('status', 'active')
             ->orderBy('id', 'desc')
             ->take($limit)
