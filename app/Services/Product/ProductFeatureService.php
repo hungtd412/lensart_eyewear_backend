@@ -16,7 +16,7 @@ class ProductFeatureService {
 
         return response()->json([
             'status' => 'success',
-            'productFeature' => $productFeature
+            'data' => $productFeature
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class ProductFeatureService {
 
         return response()->json([
             'status' => 'success',
-            'productFeatures' => $productFeatures
+            'data' => $productFeatures
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class ProductFeatureService {
 
         return response()->json([
             'message' => 'success',
-            'productFeature' => $productFeature,
+            'data' => $productFeature,
         ], 200);
     }
 
@@ -55,7 +55,7 @@ class ProductFeatureService {
 
         return response()->json([
             'message' => 'success',
-            'productFeatures' => $productFeatures,
+            'data' => $productFeatures,
         ], 200);
     }
 
@@ -66,7 +66,7 @@ class ProductFeatureService {
 
         return response()->json([
             'message' => 'success',
-            'productFeature' => $productFeature
+            'data' => $productFeature
         ], 200);
     }
 
@@ -77,7 +77,7 @@ class ProductFeatureService {
 
         return response()->json([
             'message' => 'success',
-            'productFeature' => $productFeature
+            'data' => $productFeature
         ], 200);
     }
 }

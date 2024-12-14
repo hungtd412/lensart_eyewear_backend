@@ -18,7 +18,7 @@ class AuthController extends Controller {
     }
 
     public function store(StoreUserRequest $request) {
-        $user = $this->userService->store($request->validated())->getData()->user;
+        $user = $this->userService->store($request->validated())->getData()->data;
 
         return $this->otpService->sendMailWithOTP($user->id, $user->email);
     }

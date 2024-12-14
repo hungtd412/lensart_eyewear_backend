@@ -16,7 +16,7 @@ class MaterialService {
 
         return response()->json([
             'status' => 'success',
-            'material' => $material
+            'data' => $material
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class MaterialService {
 
         return response()->json([
             'status' => 'success',
-            'materials' => $materials
+            'data' => $materials
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class MaterialService {
 
         return response()->json([
             'message' => 'success',
-            'material' => $material,
+            'data' => $material,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class MaterialService {
 
         return response()->json([
             'message' => 'success',
-            'material' => $material
+            'data' => $material
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class MaterialService {
 
         return response()->json([
             'message' => 'success',
-            'material' => $material
+            'data' => $material
         ], 200);
     }
 }

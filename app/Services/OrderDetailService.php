@@ -25,7 +25,7 @@ class OrderDetailService {
 
     public function prepareDataForOrderDetail($data) {
         return [
-            'order_details' => $data['order_details']
+            'data' => $data['order_details']
         ];
     }
 
@@ -34,7 +34,7 @@ class OrderDetailService {
 
         return response()->json([
             'status' => 'success',
-            'orderDetails' => $orderDetails
+            'data' => $orderDetails
         ], 200);
     }
 
@@ -49,7 +49,7 @@ class OrderDetailService {
 
         return response()->json([
             'message' => 'success',
-            'orderDetail' => $orderDetail,
+            'data' => $orderDetail,
         ], 200);
     }
 
@@ -64,7 +64,7 @@ class OrderDetailService {
 
         return response()->json([
             'message' => 'success',
-            'orderDetails' => $orderDetails,
+            'data' => $orderDetails,
         ], 200);
     }
 }

@@ -28,7 +28,9 @@ and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_det
 
 
 select * from otps
-select * from users where id = 15
+select * from users where id = 10
+delete from users where id = 10
+delete from carts where user_id = 10
 select * from orders, order_details
 where orders.id=66 and order_details.order_id = orders.id
 

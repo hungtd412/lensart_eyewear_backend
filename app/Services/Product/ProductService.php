@@ -29,7 +29,7 @@ class ProductService {
 
         return response()->json([
             'status' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
@@ -38,7 +38,7 @@ class ProductService {
 
         return response()->json([
             'status' => 'success',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 
@@ -53,7 +53,7 @@ class ProductService {
 
         return response()->json([
             'message' => 'success',
-            'product' => $product,
+            'data' => $product,
         ], 200);
     }
 
@@ -68,7 +68,7 @@ class ProductService {
 
         return response()->json([
             'message' => 'success',
-            'products' => $products,
+            'data' => $products,
         ], 200);
     }
 
@@ -79,7 +79,7 @@ class ProductService {
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
@@ -90,7 +90,7 @@ class ProductService {
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
@@ -101,7 +101,7 @@ class ProductService {
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 

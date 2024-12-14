@@ -54,7 +54,7 @@ class OTPService {
 
         return response()->json([
             'message' => 'User registered. OTP sent to email.',
-            'user_id' => $userId
+            'userId' => $userId
         ], 201);
     }
 

@@ -16,7 +16,7 @@ class BranchService {
 
         return response()->json([
             'status' => 'success',
-            'branch' => $branch
+            'data' => $branch
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class BranchService {
 
         return response()->json([
             'status' => 'success',
-            'branches' => $branches
+            'data' => $branches
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class BranchService {
 
         return response()->json([
             'message' => 'success',
-            'branch' => $branch,
+            'data' => $branch,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class BranchService {
 
         return response()->json([
             'message' => 'success',
-            'branch' => $branch
+            'data' => $branch
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class BranchService {
 
         return response()->json([
             'message' => 'success',
-            'branch' => $branch
+            'data' => $branch
         ], 200);
     }
 }

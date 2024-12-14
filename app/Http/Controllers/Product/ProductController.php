@@ -65,7 +65,7 @@ class ProductController extends Controller {
         $products = $this->productService->filterLenses($request);
         return response()->json([
             'status' => 'success',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 
@@ -73,7 +73,7 @@ class ProductController extends Controller {
         $products = $this->productService->getBestSellingProducts(10);
         return response()->json([
             'status' => 'success',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 
@@ -81,7 +81,7 @@ class ProductController extends Controller {
         $products = $this->productService->getNewestProducts(10);
         return response()->json([
             'status' => 'success',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 }

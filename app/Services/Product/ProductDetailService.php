@@ -16,7 +16,7 @@ class ProductDetailService {
 
         return response()->json([
             'status' => 'success',
-            'productDetail' => $productDetail
+            'data' => $productDetail
         ], 200);
     }
 
@@ -36,7 +36,7 @@ class ProductDetailService {
 
         return response()->json([
             'status' => 'success',
-            'productDetails' => $productDetails
+            'data' => $productDetails
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class ProductDetailService {
 
         return response()->json([
             'message' => 'success',
-            'productDetails' => $productDetails,
+            'data' => $productDetails,
         ], 200);
     }
 
@@ -66,7 +66,7 @@ class ProductDetailService {
 
         return response()->json([
             'message' => 'success',
-            'productDetails' => $productDetails,
+            'data' => $productDetails,
         ], 200);
     }
 
@@ -81,7 +81,7 @@ class ProductDetailService {
 
         return response()->json([
             'message' => 'success',
-            'productDetails' => $productDetails,
+            'data' => $productDetails,
         ], 200);
     }
 

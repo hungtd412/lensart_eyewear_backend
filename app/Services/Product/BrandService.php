@@ -16,7 +16,7 @@ class BrandService {
 
         return response()->json([
             'status' => 'success',
-            'brand' => $brand
+            'data' => $brand
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class BrandService {
 
         return response()->json([
             'status' => 'success',
-            'brands' => $brands
+            'data' => $brands
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class BrandService {
 
         return response()->json([
             'message' => 'success',
-            'brand' => $brand,
+            'data' => $brand,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class BrandService {
 
         return response()->json([
             'message' => 'success',
-            'brand' => $brand
+            'data' => $brand
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class BrandService {
 
         return response()->json([
             'message' => 'success',
-            'brand' => $brand
+            'data' => $brand
         ], 200);
     }
 }
