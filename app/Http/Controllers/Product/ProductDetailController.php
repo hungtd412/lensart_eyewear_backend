@@ -49,4 +49,20 @@ class ProductDetailController extends Controller {
     public function update(UpdateProducDetailRequest $request, $productId, $branchId, $color) {
         return $this->productDetailService->update($request->validated(), $productId, $branchId, $color);
     }
+
+    public function indexActive() {
+        return $this->productDetailService->getAllActive();
+    }
+
+    public function getByProductIdActive($id) {
+        return $this->productDetailService->getByProductIdActive($id);
+    }
+
+    public function getByBranchIdActive($id) {
+        return $this->productDetailService->getByBranchIdActive($id);
+    }
+
+    public function getByProductAndBranchIdActive($productId, $branchId) {
+        return $this->productDetailService->getByProductAndBranchIdActive($productId, $branchId);
+    }
 }

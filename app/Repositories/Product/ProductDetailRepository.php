@@ -14,19 +14,12 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface
 
     public function getAll()
     {
-        return ProductDetail::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
+        return ProductDetail::all();
     }
 
     public function getByProductId($productId)
     {
-        return DB::table('product_details')
-            ->join('branches', 'branches.id', '=', 'product_details.branch_id')
-            ->where('product_id', $productId)
-            ->select(
-                'product_details.*',
-                'branches.id',
-                'branches.name as branch_name'
-            )
+        return ProductDetail::where('product_id', $productId)
             ->get();
     }
 
@@ -89,5 +82,41 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface
     public function delete($id)
     {
         ProductDetail::destroy($id);
+    }
+
+    public function getAllActive()
+    {
+        return ProductDetail::where('status', 'active')->get();
+    }
+
+    public function getByProductIdActive($productId)
+    {
+        return ProductDetail::where('product_id', $productId)
+            ->where('status', 'active')
+            ->get();
+    }
+
+    public function getByBranchIdActive($branchId)
+    {
+        return DB::table('product_details')
+            ->join('branches', 'branches.id', '=', 'product_details.branch_id')
+            ->where('product_details.branch_id', $branchId)
+            ->where('product_details.status', 'active')
+            ->where('branches.status', 'active')
+            ->select(
+                'product_details.*',
+                'branches.id',
+                'branches.name as branch_name'
+            )
+            ->groupBy('branch_name')
+            ->get();
+    }
+
+    public function getByProductAndBranchIdActive($productId, $branchId)
+    {
+        return ProductDetail::where('product_id', $productId)
+            ->where('branch_id', $branchId)
+            ->where('status', 'active')
+            ->get();
     }
 }

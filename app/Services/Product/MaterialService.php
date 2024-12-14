@@ -65,4 +65,28 @@ class MaterialService {
             'data' => $material
         ], 200);
     }
+
+    public function getAllActive() {
+        $materials = $this->materialRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $materials
+        ], 200);
+    }
+
+    public function getByIdActive($id) {
+        $material = $this->materialRepository->getByIdActive($id);
+
+        if ($material === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $material,
+        ], 200);
+    }
 }
