@@ -40,17 +40,23 @@ use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Product\ShapeRepository;
 use App\Repositories\Product\ShapeRepositoryInterface;
+use App\Repositories\ProductReviewRepositoryInterface;
+use App\Repositories\ProductReviewReposity;
+use App\Repositories\ProductReviewReposityInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\WishlistRepository;
 use App\Repositories\WishlistRepositoryInterface;
+use App\Repositories\WishlistReposityInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider {
+class RepositoryServiceProvider extends ServiceProvider
+{
     /**
      * Register services.
      */
-    public function register(): void {
+    public function register(): void
+    {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
@@ -94,12 +100,15 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
 
         $this->app->bind(PayOSTransRepositoryInterface::class, PayOSTransRepository::class);
+
+        $this->app->bind(ProductReviewReposityInterface::class, ProductReviewReposity::class);
     }
 
     /**
      * Bootstrap services.
      */
-    public function boot(): void {
+    public function boot(): void
+    {
         //
     }
 }
