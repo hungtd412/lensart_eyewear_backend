@@ -58,6 +58,10 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/checkout.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/review.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -72,5 +76,4 @@ return Application::configure(basePath: dirname(__DIR__))
             '/*',
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-    })->create();
+    ->withExceptions(function (Exceptions $exceptions) {})->create();
