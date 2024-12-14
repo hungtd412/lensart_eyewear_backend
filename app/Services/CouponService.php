@@ -16,7 +16,7 @@ class CouponService {
 
         return response()->json([
             'status' => 'success',
-            'coupon' => $coupon
+            'data' => $coupon
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class CouponService {
 
         return response()->json([
             'status' => 'success',
-            'coupons' => $coupons
+            'data' => $coupons
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class CouponService {
 
         return response()->json([
             'message' => 'success',
-            'coupon' => $coupon,
+            'data' => $coupon,
         ], 200);
     }
 
@@ -55,7 +55,7 @@ class CouponService {
 
         return response()->json([
             'message' => 'success',
-            'coupon' => $coupon,
+            'data' => $coupon,
         ], 200);
     }
 
@@ -72,7 +72,7 @@ class CouponService {
 
         return response()->json([
             'message' => 'success',
-            'coupon' => $coupon,
+            'data' => $coupon,
         ], 200);
     }
 
@@ -87,7 +87,7 @@ class CouponService {
 
         return response()->json([
             'message' => 'success',
-            'coupon' => $coupon
+            'data' => $coupon
         ], 200);
     }
 
@@ -98,7 +98,7 @@ class CouponService {
 
         return response()->json([
             'message' => 'success',
-            'coupon' => $coupon
+            'data' => $coupon
         ], 200);
     }
 }

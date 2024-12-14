@@ -16,7 +16,7 @@ class CategoryService {
 
         return response()->json([
             'status' => 'success',
-            'category' => $category
+            'data' => $category
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class CategoryService {
 
         return response()->json([
             'status' => 'success',
-            'categories' => $categories
+            'data' => $categories
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class CategoryService {
 
         return response()->json([
             'message' => 'success',
-            'category' => $category,
+            'data' => $category,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class CategoryService {
 
         return response()->json([
             'message' => 'success',
-            'category' => $category
+            'data' => $category
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class CategoryService {
 
         return response()->json([
             'message' => 'success',
-            'category' => $category
+            'data' => $category
         ], 200);
     }
 }

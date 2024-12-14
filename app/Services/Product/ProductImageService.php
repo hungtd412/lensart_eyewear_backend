@@ -30,7 +30,7 @@ class ProductImageService {
 
         return response()->json([
             'status' => 'success',
-            'productImage' => $productImage
+            'data' => $productImage
         ], 200);
     }
 
@@ -39,7 +39,7 @@ class ProductImageService {
 
         return response()->json([
             'status' => 'success',
-            'productImages' => $productImages
+            'data' => $productImages
         ], 200);
     }
 
@@ -54,7 +54,7 @@ class ProductImageService {
 
         return response()->json([
             'message' => 'success',
-            'productImage' => $productImage,
+            'data' => $productImage,
         ], 200);
     }
 
@@ -69,7 +69,7 @@ class ProductImageService {
 
         return response()->json([
             'message' => 'success',
-            'productImages' => $productImage,
+            'data' => $productImage,
         ], 200);
     }
 
@@ -89,7 +89,7 @@ class ProductImageService {
 
         return response()->json([
             'message' => 'success',
-            'productImage' => $productImage
+            'data' => $productImage
         ], 200);
     }
 
@@ -120,7 +120,7 @@ class ProductImageService {
 
         return response()->json([
             'message' => 'success',
-            'productImage' => $productImage
+            'data' => $productImage
         ], 200);
     }
 }

@@ -16,7 +16,7 @@ class FeatureService {
 
         return response()->json([
             'status' => 'success',
-            'feature' => $feature
+            'data' => $feature
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class FeatureService {
 
         return response()->json([
             'status' => 'success',
-            'features' => $features
+            'data' => $features
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class FeatureService {
 
         return response()->json([
             'message' => 'success',
-            'feature' => $feature,
+            'data' => $feature,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class FeatureService {
 
         return response()->json([
             'message' => 'success',
-            'feature' => $feature
+            'data' => $feature
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class FeatureService {
 
         return response()->json([
             'message' => 'success',
-            'feature' => $feature
+            'data' => $feature
         ], 200);
     }
 }

@@ -42,7 +42,7 @@ class OrderService {
 
         return response()->json([
             'status' => 'success',
-            'order' => $order
+            'data' => $order
         ], 200);
     }
 
@@ -66,7 +66,7 @@ class OrderService {
         try {
             $discount_price = $data['coupon_id'] ?? false
                 ? $this->couponRepository->getById($data['coupon_id'])
-                ->getData()->coupon->discount_price
+                ->getData()->data->discount_price
                 : 0.0;
         } catch (\Throwable $th) {
             $discount_price = 0;
@@ -98,7 +98,7 @@ class OrderService {
 
         return response()->json([
             'status' => 'success',
-            'orders' => $orders
+            'data' => $orders
         ], 200);
     }
 
@@ -108,7 +108,7 @@ class OrderService {
 
         if ($response->allowed()) {
             return response()->json([
-                'order' => $order,
+                'data' => $order,
             ], 200);
         } else {
             return response()->json([
@@ -126,7 +126,7 @@ class OrderService {
             if ($this->isValidUser($branchId)) {
                 return response()->json([
                     'status' => 'success',
-                    'orders' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
+                    'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
                 ], 200);
             } else {
                 return response()->json([
@@ -159,7 +159,7 @@ class OrderService {
             $this->orderRepository->update($data, $order);
             $order = $this->orderRepository->getById($id);
             return response()->json([
-                'order' => $order,
+                'data' => $order,
             ], 200);
         } else {
             return response()->json([
@@ -177,7 +177,7 @@ class OrderService {
             $this->orderRepository->changeOrderStatus($id, $newOrderStatus);
             $order = $this->orderRepository->getById($id);
             return response()->json([
-                'order' => $order,
+                'data' => $order,
             ], 200);
         } else {
             return response()->json([
@@ -195,7 +195,7 @@ class OrderService {
             $this->orderRepository->changePaymentStatus($id, $newPaymentStatus);
             $order = $this->orderRepository->getById($id);
             return response()->json([
-                'order' => $order,
+                'data' => $order,
             ], 200);
         } else {
             return response()->json([
@@ -214,7 +214,7 @@ class OrderService {
                 $this->orderRepository->cancel($id);
                 $order = $this->orderRepository->getById($id);
                 return response()->json([
-                    'order' => $order,
+                    'data' => $order,
                 ], 200);
             } else if ($order->order_status === 'Đã hủy') {
                 return response()->json([
@@ -239,7 +239,7 @@ class OrderService {
             $this->orderRepository->switchStatus($order);
             return response()->json([
                 'status' => 'success',
-                'orders' => $order
+                'data' => $order
             ], 200);
         } else {
             return response()->json([
@@ -269,7 +269,7 @@ class OrderService {
 
         return response()->json([
             'status' => 'success',
-            'orders' => $orders
+            'data' => $orders
         ], 200);
     }
 }

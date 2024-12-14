@@ -16,7 +16,7 @@ class ShapeService {
 
         return response()->json([
             'status' => 'success',
-            'shape' => $shape
+            'data' => $shape
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class ShapeService {
 
         return response()->json([
             'status' => 'success',
-            'shapes' => $shapes
+            'data' => $shapes
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class ShapeService {
 
         return response()->json([
             'message' => 'success',
-            'shape' => $shape,
+            'data' => $shape,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class ShapeService {
 
         return response()->json([
             'message' => 'success',
-            'shape' => $shape
+            'data' => $shape
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class ShapeService {
 
         return response()->json([
             'message' => 'success',
-            'shape' => $shape
+            'data' => $shape
         ], 200);
     }
 }
