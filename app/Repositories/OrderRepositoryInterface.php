@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-interface OrderRepositoryInterface {
+interface OrderRepositoryInterface
+{
     public function store(array $data);
     public function getAll();
     public function getById($id);
