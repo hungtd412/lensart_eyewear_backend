@@ -60,7 +60,7 @@ class PayOSTransService {
 
         return response()->json([
             'message' => 'success',
-            'payOSTrans' => $payOSTrans,
+            'data' => $payOSTrans,
         ], 200);
     }
 

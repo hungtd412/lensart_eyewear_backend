@@ -16,7 +16,7 @@ class ColorService {
 
         return response()->json([
             'status' => 'success',
-            'color' => $color
+            'data' => $color
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class ColorService {
 
         return response()->json([
             'status' => 'success',
-            'colors' => $colors
+            'data' => $colors
         ], 200);
     }
 
@@ -40,7 +40,7 @@ class ColorService {
 
         return response()->json([
             'message' => 'success',
-            'color' => $color,
+            'data' => $color,
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class ColorService {
 
         return response()->json([
             'message' => 'success',
-            'color' => $color
+            'data' => $color
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class ColorService {
 
         return response()->json([
             'message' => 'success',
-            'color' => $color
+            'data' => $color
         ], 200);
     }
 }

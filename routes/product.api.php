@@ -139,6 +139,7 @@ Route::group([
     Route::get('/categories/getById/{id?}', [CategoryController::class, 'getById']);
     Route::get('/branches/getById/{id?}', [BranchController::class, 'getById']);
     Route::get('/products/getById/{id?}', [ProductController::class, 'getById']);
+    Route::get('/products/getByCategoryId/{id?}', [ProductController::class, 'getByCategoryId']);
     Route::get('/product-images/getById/{id?}', [ProductImageController::class, 'getById']);
     Route::get('/product-features/getById/{id?}', [ProductFeatureController::class, 'getById']);
 

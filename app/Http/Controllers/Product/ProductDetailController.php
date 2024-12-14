@@ -26,7 +26,7 @@ class ProductDetailController extends Controller {
 
         //convert to array
         $data = $allBranches->getData(true);
-        $idAllBranches = array_column($data['branches'], 'id');;
+        $idAllBranches = array_column($data['data'], 'id');;
         return $this->productDetailService->storeForAllBranch($request->validated(), $idAllBranches);
     }
 

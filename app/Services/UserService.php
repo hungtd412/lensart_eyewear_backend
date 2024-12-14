@@ -19,7 +19,7 @@ class UserService {
         return response()->json([
             'status' => 'success',
             'message' => 'Tài khoản được tạo thành công',
-            'user' => $user
+            'data' => $user
         ], 200);
     }
 
@@ -65,7 +65,7 @@ class UserService {
         $users = $this->userRepository->getAll();
 
         return response()->json([
-            'user' => $users,
+            'data' => $users,
         ], 200);
     }
 
@@ -76,7 +76,7 @@ class UserService {
 
         if ($response->allowed()) {
             return response()->json([
-                'user' => $user,
+                'data' => $user,
             ], 200);
         } else {
             return response()->json([
@@ -89,14 +89,14 @@ class UserService {
         $users = $this->userRepository->getByRole($type);
 
         return response()->json([
-            'users' => $users,
+            'data' => $users,
         ], 200);
     }
 
     public function profile() {
         $user = $this->userRepository->profile();
         return response()->json([
-            'user' => $user,
+            'data' => $user,
         ], 200);
     }
 
@@ -108,7 +108,7 @@ class UserService {
         if ($response->allowed()) {
             $this->userRepository->update($data, $user);
             return response()->json([
-                'user' => $user,
+                'data' => $user,
             ], 200);
         } else {
             return response()->json([
@@ -124,7 +124,7 @@ class UserService {
 
         return response()->json([
             'message' => 'success',
-            'user' => $user
+            'data' => $user
         ], 200);
     }
 
@@ -138,7 +138,7 @@ class UserService {
 
             return response()->json([
                 'message' => 'success',
-                'user' => $user
+                'data' => $user
             ], 200);
         } else {
             return response()->json([

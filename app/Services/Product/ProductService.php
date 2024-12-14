@@ -6,19 +6,16 @@ use App\Repositories\Product\ProductDetailRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Models\Product;
 
-class ProductService
-{
+class ProductService {
     protected $productRepository;
     protected $productDetailRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository, ProductDetailRepositoryInterface $productDetailRepository)
-    {
+    public function __construct(ProductRepositoryInterface $productRepository, ProductDetailRepositoryInterface $productDetailRepository) {
         $this->productRepository = $productRepository;
         $this->productDetailRepository = $productDetailRepository;
     }
 
-    public function store($data)
-    {
+    public function store($data) {
         $product = $this->productRepository->store($data);
 
         $price = $product->price;
@@ -32,22 +29,20 @@ class ProductService
 
         return response()->json([
             'status' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
-    public function getAll()
-    {
+    public function getAll() {
         $products = $this->productRepository->getAll();
 
         return response()->json([
             'status' => 'success',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         $product = $this->productRepository->getById($id);
         // return gettype($product->);
         if ($product === null) {
@@ -58,55 +53,65 @@ class ProductService
 
         return response()->json([
             'message' => 'success',
-            'product' => $product,
+            'data' => $product,
         ], 200);
     }
 
-    public function update($data, $id)
-    {
+    public function getByCategoryId($categoryId) {
+        $products = $this->productRepository->getByCategoryId($categoryId);
+
+        if ($products === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $products,
+        ], 200);
+    }
+
+    public function update($data, $id) {
         $product = $this->productRepository->getById($id);
 
         $this->productRepository->update($data, $product);
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
-    public function updateEach($data, $id, $attributeOfProduct)
-    {
+    public function updateEach($data, $id, $attributeOfProduct) {
         $product = $this->productRepository->getById($id);
 
         $this->productRepository->updateEach($data->toArray(), $product, $attributeOfProduct);
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
-    public function switchStatus($id)
-    {
+    public function switchStatus($id) {
         $product = $this->productRepository->getById($id);
 
         $this->productRepository->switchStatus($product);
 
         return response()->json([
             'message' => 'success',
-            'product' => $product
+            'data' => $product
         ], 200);
     }
 
     // Search Product
-    public function searchProduct($keyword)
-    {
+    public function searchProduct($keyword) {
         return $this->productRepository->searchProduct($keyword); // Gọi repository
     }
 
     // Lọc Gọng kính
-    public function filterFrames($request)
-    {
+    public function filterFrames($request) {
         $query = Product::query();
 
         $query->where('products.status', 'active');
@@ -131,8 +136,7 @@ class ProductService
     }
 
     // Lọc Tròng kính
-    public function filterLenses($request)
-    {
+    public function filterLenses($request) {
         $query = Product::query();
 
         $query->where('products.status', 'active');
@@ -152,13 +156,11 @@ class ProductService
         return $query->distinct()->get();
     }
 
-    public function getBestSellingProducts($limit = 10)
-    {
+    public function getBestSellingProducts($limit = 10) {
         return $this->productRepository->getBestSellingProducts($limit);
     }
 
-    public function getNewestProducts($limit = 10)
-    {
+    public function getNewestProducts($limit = 10) {
         return $this->productRepository->getNewestProducts($limit);
     }
 }

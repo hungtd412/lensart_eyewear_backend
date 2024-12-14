@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Product;
 
-interface ProductRepositoryInterface
-{
+interface ProductRepositoryInterface {
     public function store(array $product);
     public function getAll();
     public function getById(array $id);
+    public function getByCategoryId($categoryId);
     public function update(array $data, $product);
     public function updateEach(array $data, $product, $attributeOfProduct);
     // public function updateDescription(array $data, $product);
