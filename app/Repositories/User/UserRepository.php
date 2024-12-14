@@ -89,7 +89,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function setEmailVerified($user) {
-        $user->email_verified_at = Carbon::now();
+        $user->email_verified_at = Carbon::now('Asia/Ho_Chi_Minh');
         $user->save();
     }
 

@@ -73,6 +73,8 @@ class RepositoryServiceProvider extends ServiceProvider {
 
         $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
 
+        $this->app->bind(BlogReposityInterface::class, BlogReposity::class);
+
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);

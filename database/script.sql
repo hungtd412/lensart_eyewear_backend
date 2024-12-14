@@ -27,7 +27,7 @@ and cart_details.cart_id = carts.id
 and ((cart_details.product_id = 35 and cart_details.color = "Đen") or (cart_details.product_id = 11 and cart_details.color = "Xám"))
 
 
-select * from otps
+select * from blogs
 select * from users where id = 10
 delete from users where id = 10
 delete from carts where user_id = 10
