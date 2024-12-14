@@ -32,4 +32,12 @@ class MaterialController extends Controller {
     public function switchStatus($id) {
         return $this->materialService->switchStatus($id);
     }
+
+    public function indexActive() {
+        return $this->materialService->getAllActive();
+    }
+
+    public function getByIdActive($id) {
+        return $this->materialService->getByIdActive($id);
+    }
 }

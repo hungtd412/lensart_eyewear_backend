@@ -2,7 +2,8 @@
 
 namespace App\Repositories\Product;
 
-interface ProductFeatureRepositoryInterface {
+interface ProductFeatureRepositoryInterface
+{
     public function store(array $productFeature);
     public function getAll();
     public function getById($id);
@@ -10,4 +11,10 @@ interface ProductFeatureRepositoryInterface {
     public function update(array $data, $productFeature);
     public function deleteByProductId($id);
     public function delete($productFeature);
+
+    public function getAllActive();
+
+    public function getByIdActive($id);
+
+    public function getByProductIdActive($id);
 }

@@ -2,7 +2,8 @@
 
 namespace App\Repositories\Product;
 
-interface ProductRepositoryInterface {
+interface ProductRepositoryInterface
+{
     public function store(array $product);
     public function getAll();
     public function getById(array $id);
@@ -18,6 +19,12 @@ interface ProductRepositoryInterface {
     // public function updateGender(array $data, $product);
     // public function updateCreatedTime(array $data, $product);
     public function switchStatus($product);
+
+    public function getAllActive();
+
+    public function getByIdActive($id);
+
+    public function getByCategoryIdActive($categoryId);
 
     public function searchProduct($keyword);
 

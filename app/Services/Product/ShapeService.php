@@ -4,14 +4,17 @@ namespace App\Services\Product;
 
 use App\Repositories\Product\ShapeRepositoryInterface;
 
-class ShapeService {
+class ShapeService
+{
     protected $shapeRepository;
 
-    public function __construct(ShapeRepositoryInterface $shapeRepository) {
+    public function __construct(ShapeRepositoryInterface $shapeRepository)
+    {
         $this->shapeRepository = $shapeRepository;
     }
 
-    public function store($data) {
+    public function store($data)
+    {
         $shape = $this->shapeRepository->store($data);
 
         return response()->json([
@@ -20,7 +23,8 @@ class ShapeService {
         ], 200);
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $shapes = $this->shapeRepository->getAll();
 
         return response()->json([
@@ -29,7 +33,8 @@ class ShapeService {
         ], 200);
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $shape = $this->shapeRepository->getById($id);
 
         if ($shape === null) {
@@ -44,7 +49,8 @@ class ShapeService {
         ], 200);
     }
 
-    public function update($data, $id) {
+    public function update($data, $id)
+    {
         $shape = $this->shapeRepository->getById($id);
 
         $this->shapeRepository->update($data, $shape);
@@ -55,7 +61,8 @@ class ShapeService {
         ], 200);
     }
 
-    public function switchStatus($id) {
+    public function switchStatus($id)
+    {
         $shape = $this->shapeRepository->getById($id);
 
         $this->shapeRepository->switchStatus($shape);
@@ -63,6 +70,32 @@ class ShapeService {
         return response()->json([
             'message' => 'success',
             'data' => $shape
+        ], 200);
+    }
+
+    public function getAllActive()
+    {
+        $shapes = $this->shapeRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $shapes
+        ], 200);
+    }
+
+    public function getByIdActive($id)
+    {
+        $shape = $this->shapeRepository->getByIdActive($id);
+
+        if ($shape === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $shape,
         ], 200);
     }
 }
