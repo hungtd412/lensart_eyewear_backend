@@ -20,7 +20,7 @@ class VerifyOTPRequest extends FormRequest {
     public function rules(): array {
         return [
             'user_id' => 'required|exists:users,id',
-            'otp' => 'required'
+            'otp' => 'required|digits:6'
         ];
     }
 }

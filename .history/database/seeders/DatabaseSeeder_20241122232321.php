@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder {
             OrderAndDetailSeeder::class,
             WishlistAndDetailSeeder::class,
             // BlogSeeder::class,
-            ProductImageSeeder::class, //tam thoi chua seed product images
+            // ProductImageSeeder::class, tam thoi chua seed product images
         ]);
     }
 }
