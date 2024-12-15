@@ -88,22 +88,31 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
+    //need to pass: name, status
     Route::post('/brands/update/{id?}', [BrandController::class, 'update']);
 
     // Route::post('/colors/update/{id?}', [ColorController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/shapes/update/{id?}', [ShapeController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/materials/update/{id?}', [MaterialController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/features/update/{id?}', [FeatureController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/categories/update/{id?}', [CategoryController::class, 'update']);
 
+    //need to pass: address, manager_id, index, status
     Route::post('/branches/update/{id?}', [BranchController::class, 'update']);
 
+    //need to pass: name, description brand_id category_id
+    // color, shape_id material_id gender, array of feature ids
     Route::post('/products/update/{id?}', [ProductController::class, 'update']);
 
+    //api nay ko can dung, dùng api xóa ảnh rồi create ảnh mới
     Route::post('/product-images/update/{id?}', [ProductImageController::class, 'update']);
 
     Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
@@ -121,6 +130,8 @@ Route::group([
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin-manager', 'checkTwoIdsParameter'],
 ], function () {
+    // gắn ở url: product_id, branch_id, color,
+    // gắn ở body: chỉ cho cập nhật quantity, status
     Route::post('/product-details/update/{id1?}/{id2?}/{color?}', [ProductDetailController::class, 'update']);
 });
 
@@ -129,6 +140,7 @@ Route::group([
 //**************************************
 //  GET BY ID
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter'],
 ], function () {
@@ -153,8 +165,10 @@ Route::group([
     Route::get('/product-details/getByBranchId/{id?}', [ProductDetailController::class, 'getByBranchId']);
 });
 
+
+
 //**************************************
-//  GET BY PRODUCT AND BRANCH ID
+//  GET PRODUCT DETAILS BY PRODUCT AND BRANCH ID
 //**************************************
 Route::group([
     'middleware' => ['checkTwoIdsParameter'],
@@ -167,6 +181,7 @@ Route::group([
 //**************************************
 //  SWITCH STATUS
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
@@ -190,6 +205,7 @@ Route::group([
 //**************************************
 //  DELETE
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {

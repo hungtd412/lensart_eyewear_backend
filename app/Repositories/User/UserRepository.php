@@ -75,8 +75,8 @@ class UserRepository implements UserRepositoryInterface {
             ->first();
     }
 
-    public function getByRole($type) {
-        return User::where('role_id', $type)
+    public function getByRole($id) {
+        return User::where('role_id', $id)
             ->get();
     }
 

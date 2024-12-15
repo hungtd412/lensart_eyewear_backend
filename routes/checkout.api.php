@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 //**************************************
 //  MOMO
 //**************************************
+//ko dung
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-customer'],
 ], function () {
@@ -30,6 +31,8 @@ Route::group([
     // Route::post('/{id?}/create-payment-link', [CheckoutController::class, 'createPaymentLink']);
 
     //create transaction
+    //pass returnUrl and cancelUrl
+    //example: "returnUrl": "http://127.0.0.1:8000/", "cancelUrl": "http://127.0.0.1:8000/"
     Route::post('/orders/{id?}/create', [CheckOutController::class, 'createTransaction']);
 
     //get transaction's info
@@ -48,5 +51,6 @@ Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
 ], function () {
     Route::get('/transactions/all', [PayOSTransController::class, 'index']);
+    //ko can truyen j ca, vì chỉ fresh lai trang giao dich
     Route::post('/transactions/refresh', [PayOSTransController::class, 'refresh']);
 });

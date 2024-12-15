@@ -17,7 +17,8 @@ Route::get('coupons', [CouponController::class, 'index']);
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/coupons/create', [couponController::class, 'store']);
+    //name code quantity discount_price
+    Route::post('/coupons/create', [CouponController::class, 'store']);
 });
 
 
@@ -28,6 +29,7 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
+    //name code quantity discount_price status
     Route::post('/coupons/update/{id?}', [CouponController::class, 'update']);
 });
 
@@ -39,7 +41,7 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter'],
 ], function () {
-    Route::get('/coupons/getById/{id?}', [couponController::class, 'getById']);
+    Route::get('/coupons/getById/{id?}', [CouponController::class, 'getById']);
 });
 
 
@@ -50,5 +52,5 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
-    Route::post('/coupons/switch-status/{id?}', [couponController::class, 'switchStatus']);
+    Route::post('/coupons/switch-status/{id?}', [CouponController::class, 'switchStatus']);
 });
