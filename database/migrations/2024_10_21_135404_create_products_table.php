@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->string('description', 1000);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('material_id');
-            $table->unsignedBigInteger('shape_id');
+            $table->unsignedBigInteger('material_id')->nullable();
+            $table->unsignedBigInteger('shape_id')->nullable();
             $table->enum('gender', ['male', 'female', 'unisex'])->default('unisex');
             $table->decimal('price', 10, 2);
             $table->decimal('offer_price', 10, 2)->nullable();

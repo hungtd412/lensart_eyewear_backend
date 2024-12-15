@@ -4,27 +4,27 @@ namespace App\Services\Product;
 
 use App\Repositories\Product\ProductFeatureRepositoryInterface;
 
-class ProductFeatureService
-{
+class ProductFeatureService {
     protected $productFeatureRepository;
 
-    public function __construct(ProductFeatureRepositoryInterface $productFeatureRepository)
-    {
+    public function __construct(ProductFeatureRepositoryInterface $productFeatureRepository) {
         $this->productFeatureRepository = $productFeatureRepository;
     }
 
-    public function store($data)
-    {
-        $productFeature = $this->productFeatureRepository->store($data->toArray());
+    public function store($productId, $features) {
+        foreach ($features as $feature) {
+            $data['product_id'] = $productId;
+            $data['feature_id'] = $feature;
+            $this->productFeatureRepository->store($data);
+        }
 
         return response()->json([
             'status' => 'success',
-            'data' => $productFeature
         ], 200);
     }
 
-    public function getAll()
-    {
+
+    public function getAll() {
         $productFeatures = $this->productFeatureRepository->getAll();
 
         return response()->json([
@@ -33,8 +33,7 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function getById($id)
-    {
+    public function getById($id) {
         $productFeature = $this->productFeatureRepository->getById($id);
 
         if ($productFeature === null) {
@@ -49,8 +48,7 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function getByProductId($id)
-    {
+    public function getByProductId($id) {
         $productFeatures = $this->productFeatureRepository->getByProductId($id);
 
         if ($productFeatures === null) {
@@ -65,20 +63,26 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function update($data, $id)
-    {
-        $productFeature = $this->productFeatureRepository->getById($id);
+    public function update($productId, $features) {
+        $this->deleteExistFeaturesByProductId($productId);
 
-        $this->productFeatureRepository->update($data->toArray(), $productFeature);
+        foreach ($features as $feature) {
+            $data['product_id'] = $productId;
+            $data['feature_id'] = $feature;
+            $this->productFeatureRepository->store($data);
+        }
 
         return response()->json([
-            'message' => 'success',
-            'data' => $productFeature
+            'status' => 'success',
         ], 200);
     }
 
-    public function delete($id)
-    {
+
+    public function deleteExistFeaturesByProductId($productId) {
+        $this->productFeatureRepository->deleteByProductId($productId);
+    }
+
+    public function delete($id) {
         $productFeature = $this->productFeatureRepository->getById($id);
 
         $this->productFeatureRepository->delete($productFeature);
@@ -89,8 +93,7 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function getAllActive()
-    {
+    public function getAllActive() {
         $productFeatures = $this->productFeatureRepository->getAllActive();
 
         return response()->json([
@@ -99,8 +102,7 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function getByIdActive($id)
-    {
+    public function getByIdActive($id) {
         $productFeature = $this->productFeatureRepository->getByIdActive($id);
 
         if ($productFeature === null) {
@@ -115,8 +117,7 @@ class ProductFeatureService
         ], 200);
     }
 
-    public function getByProductIdActive($id)
-    {
+    public function getByProductIdActive($id) {
         $productFeatures = $this->productFeatureRepository->getByProductIdActive($id);
 
         if ($productFeatures === null) {
