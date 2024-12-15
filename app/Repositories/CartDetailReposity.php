@@ -334,4 +334,15 @@ class CartDetailReposity implements CartDetailReposityInterface
             'quantity' => $attributes['quantity'],
         ]);
     }
+
+    public function calculateTotalQuantity($userId)
+    {
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if ($cart) {
+            return CartDetail::where('cart_id', $cart->id)->count();
+        }
+
+        return 0;
+    }
 }
