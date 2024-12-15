@@ -340,7 +340,7 @@ class CartDetailReposity implements CartDetailReposityInterface
         $cart = Cart::where('user_id', $userId)->first();
 
         if ($cart) {
-            return CartDetail::where('cart_id', $cart->id)->sum('quantity');
+            return CartDetail::where('cart_id', $cart->id)->count();
         }
 
         return 0;
