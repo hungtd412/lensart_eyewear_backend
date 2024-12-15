@@ -66,7 +66,7 @@ class PayOSTransService {
 
     public function refresh($checkOutService, $payOS) {
         $payOSTranses = $this->payOSTransRepository->getAllUnpaid();
-        $x = 1;
+
         foreach ($payOSTranses as $payOSTrans) {
             $transInfo = $checkOutService->getPaymentLinkInfoOfOrder($payOSTrans->orderCode, $payOS)->getData()->data;
 

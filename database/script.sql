@@ -55,10 +55,12 @@ FROM payos_transactions
 WHERE order_id = 4;
 
 UPDATE payos_transactions
-SET amount = 500000
-WHERE orderCode = 2;
+SET amount = 108447.00
+WHERE orderCode = 45291;
 
-select * from carts, cart_details
+select id, user_id, total_price, payment_status, branch_id from orders where id = 13
+
+select * from payos_transactions, cart_details
 where carts.user_id=6 and cart_details.cart_id = carts.id
 
 INSERT INTO cart_details (cart_id, product_id, branch_id, color, quantity, total_price)
