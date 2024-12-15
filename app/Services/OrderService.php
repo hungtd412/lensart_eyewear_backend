@@ -83,7 +83,14 @@ class OrderService {
         foreach ($data['order_details'] as $orderDetail) {
             $order_total_price += $orderDetail['total_price'];
         }
-        $data['total_price'] = $order_total_price - $discountPrice;
+
+        $priceAfterDiscount = $order_total_price - $discountPrice;
+
+        if ($priceAfterDiscount < 0) {
+            $priceAfterDiscount = 0;
+        }
+
+        $data['total_price'] = $priceAfterDiscount;
     }
 
     public function storeOrderDetail($data, $orderId) {
