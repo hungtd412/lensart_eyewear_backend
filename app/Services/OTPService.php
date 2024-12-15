@@ -47,14 +47,15 @@ class OTPService {
         return $data['otp'];
     }
 
-    public function sendMailWithOTP($userId, $mail) {
-        $otp = $this->generateOtp($userId);
+    public function sendMailWithOTP($userID, $email) {
+        $otp = $this->generateOtp($userID);
 
-        Mail::to($mail)->send(new OTPMail($otp));
+        Mail::to($email)->send(new OTPMail($otp));
 
         return response()->json([
             'message' => 'User registered. OTP sent to email.',
-            'userId' => $userId
+            'userId' => $userID,
+            'email' => $email
         ], 201);
     }
 

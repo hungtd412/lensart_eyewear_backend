@@ -10,7 +10,7 @@ Route::group([
     Route::get('/profile', [UserController::class, 'profile']);
 
     Route::group([
-        'middleware' => ['checkIdParameter', 'auth:sanctum'],
+        'middleware' => ['checkIdParameter'],
     ], function () {
         Route::get('/getById/{id?}', [UserController::class, 'getById']);
         Route::post('/update/{id?}', [UserController::class, 'update']);
