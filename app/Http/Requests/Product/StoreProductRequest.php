@@ -26,12 +26,15 @@ class StoreProductRequest extends FormRequest {
             'description' => 'nullable|string|max:500',
             'brand_id' => 'required|integer|min:1',
             'category_id' => 'required|integer|min:1',
-            'color' => 'required|string|max:50',
-            'shape_id' => 'required|integer|min:1',
-            'material_id' => 'required|integer|min:1',
-            'gender' => 'required|in:male,female,unisex',
+            'color' => 'string|max:50',
+            'shape_id' => 'integer|min:1',
+            'material_id' => 'integer|min:1',
+            'gender' => 'in:male,female,unisex',
+            'price' => 'required|min:0|numeric',
+            'offer_price' => 'min:0|numeric',
             'features' => 'array',
             'features.*' => 'integer|min:1',
+            'status' => 'in:inactive,active'
         ];
     }
 }
