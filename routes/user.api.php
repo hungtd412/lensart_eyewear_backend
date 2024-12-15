@@ -14,6 +14,8 @@ Route::group([
     ], function () {
         Route::get('/getById/{id?}', [UserController::class, 'getById']);
         Route::post('/update/{id?}', [UserController::class, 'update']);
+        Route::post('/updatePassword/{id?}', [UserController::class, 'updatePassword']);
+        Route::post('/updateAddress/{id?}', [UserController::class, 'updateAddress']);
         Route::post('/switch-status/{id?}', [UserController::class, 'switchStatus']);
     });
 });

@@ -47,16 +47,12 @@ class UserPolicy {
                 || $user->role_id === 1
                 ? Response::allow()
                 : Response::deny();
-        }
-
-        if ($model->role_id === 2) {
+        } else if ($model->role_id === 2) {
             return $user->id === $model->id
                 || $user->role_id === 1
                 ? Response::allow()
                 : Response::deny();
-        }
-
-        if ($model->role_id === 3) {
+        } else if ($model->role_id === 3) {
             return $user->id === $model->id
                 || $user->role_id === 1
                 || $user->role_id === 2
