@@ -70,4 +70,11 @@ class CartDetailController extends Controller
 
         return response()->json($result, 200); // Trả về kết quả
     }
+
+    public function calculateTotalQuantity(Request $request): JsonResponse
+    {
+        $userId = auth()->id();
+        $totalQuantity = $this->cartDetailService->calculateTotalQuantity($userId);
+        return response()->json(['total_quantity' => $totalQuantity], 200);
+    }
 }
