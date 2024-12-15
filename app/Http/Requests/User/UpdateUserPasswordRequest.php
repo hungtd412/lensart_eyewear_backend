@@ -4,9 +4,8 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationTrait;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest {
+class UpdateUserPasswordRequest extends FormRequest {
     use FailedValidationTrait;
 
     /**
@@ -24,18 +23,7 @@ class UpdateUserRequest extends FormRequest {
     public function rules(): array {
         //unique:users,email,' . $this->route('id') => ignore if updated email is same with current email
         return [
-            'password' => 'string|min:6',
-            'firstname' => 'required|string|max:100',
-            'lastname' => 'required|string|max:100',
-            'address' => 'string|max:255',
-            'phone' => [
-                'required',
-                'string',
-                'max:11',
-                'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
-            ],
-            'status' => 'in:active,inactive',
-            'role_id' => 'integer|in:2,3'
+            'password' => 'required|string|min:6'
         ];
     }
 }

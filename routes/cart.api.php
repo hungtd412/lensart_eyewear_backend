@@ -62,3 +62,12 @@ Route::group([
 ], function () {
     Route::post('/cart/quick-buy', [CartDetailController::class, 'quickBuy']);
 });
+
+//**************************************
+// Calculate Total Quantity in Cart
+//**************************************
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-customer'],
+], function () {
+    Route::get('/cart/total-quantity', [CartDetailController::class, 'calculateTotalQuantity']);
+});

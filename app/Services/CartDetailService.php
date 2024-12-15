@@ -108,4 +108,8 @@ class CartDetailService {
             'final_price' => $pricingDetails['final_price'],
         ];
     }
+
+    public function calculateTotalQuantity($userId) {
+        return $this->cartDetailRepository->calculateTotalQuantity($userId);
+    }
 }
