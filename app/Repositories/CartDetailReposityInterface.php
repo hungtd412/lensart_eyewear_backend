@@ -31,4 +31,6 @@ interface CartDetailReposityInterface
     public function getOrCreateCart($userId);
 
     public function addOrUpdateCartDetail($cartId, $productId, array $attributes);
+
+    public function calculateTotalQuantity($userId);
 }
