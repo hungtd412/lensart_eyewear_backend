@@ -122,6 +122,12 @@ class UserService {
     public function update($data, $id) {
         $user = $this->userRepository->getById($id);
 
+        if ($user === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
         $response = Gate::inspect("update", $user);
 
         if ($response->allowed()) {
