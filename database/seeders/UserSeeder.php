@@ -16,7 +16,7 @@ class UserSeeder extends Seeder {
         $faker = Faker::create();
 
         DB::table('users')->insert([
-            'username' => 'admin',
+            // 'username' => 'admin',
             'password' => Hash::make('123456'),
             'email' => 'admin@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder {
         ]);
 
         DB::table('users')->insert([
-            'username' => 'managerhcm',
+            // 'username' => 'managerhcm',
             'password' => Hash::make('123456'),
             'email' => 'managerhcm@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder {
         ]);
 
         DB::table('users')->insert([
-            'username' => 'managerdn',
+            // 'username' => 'managerdn',
             'password' => Hash::make('123456'),
             'email' => 'managerdn@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder {
         ]);
 
         DB::table('users')->insert([
-            'username' => 'managerhn',
+            // 'username' => 'managerhn',
             'password' => Hash::make('123456'),
             'email' => 'managerhn@gmail.com',
             'email_verified_at' => Carbon::now(),
@@ -72,7 +72,7 @@ class UserSeeder extends Seeder {
             $address = $this->getRandomAddress($faker);
 
             DB::table('users')->insert([
-                'username' => 'customer' . $i,
+                // 'username' => 'customer' . $i,
                 'password' => Hash::make('123456'),
                 'email' => 'customer' . $i . '@gmail.com',
                 'email_verified_at' => Carbon::now(),

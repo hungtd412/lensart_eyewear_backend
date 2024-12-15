@@ -23,7 +23,7 @@ class StoreCouponRequest extends FormRequest {
     public function rules(): array {
         return [
             'name' => 'required|string|min:2|max:100',
-            'code' => 'required|string|min:3|max:10',
+            'code' => 'required|string|min:3|max:15',
             'quantity' => 'required|integer|min:0',
             'discount_price' => 'required|numeric',
             'status' => 'in:inactive,active',

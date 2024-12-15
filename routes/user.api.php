@@ -24,10 +24,14 @@ Route::group([
 //  GET USERS
 //**************************************
 Route::group([
-    'middleware' => ['checkTypeParameter', 'auth:sanctum', 'can:is-admin-manager'],
+    'middleware' => ['auth:sanctum'],
 ], function () {
-    Route::get('/users/role/{type?}', [UserController::class, 'getByRole']);
+    Route::get('/users/getCustomers', [UserController::class, 'getCustomers'])->middleware('can:is-admin-manager');
+
+    Route::get('/users/getAdminManagers', [UserController::class, 'getAdminManagers'])->middleware('can:is-admin');
 });
+
+
 
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin'],
@@ -35,6 +39,8 @@ Route::group([
     Route::get('/users', [UserController::class, 'getAll']);
     Route::post('/users/create', [UserController::class, 'store']);
 });
+
+
 
 
 

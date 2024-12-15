@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'auth'
 ], function () {
+    //email password firstname lastname phone address
     Route::post('/register', [AuthController::class, 'store'])->middleware('customGuest');
 
     Route::post('/login', [AuthController::class, 'login'])->middleware('customGuest');
@@ -38,6 +39,7 @@ Route::group([
 //**************************************
 // RESET PASSWORD
 //**************************************
+// ko lam
 Route::group([
     'prefix' => 'reset-password'
 ], function () {
@@ -54,6 +56,10 @@ Route::group([
 Route::group([
     'prefix' => 'auth'
 ], function () {
+    //pass userId, otp
+    //if otp is right, change user status to active, else still inactive
     Route::post('/verify-otp', [OTPController::class, 'verifyOtp']);
+
+    //pass userId, email
     Route::post('/resend-otp', [OTPController::class, 'sendMailWithOTP']);
 });
