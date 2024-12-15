@@ -22,7 +22,7 @@ class StoreUserRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'username' => 'required|string|min:5|max:20|unique:users',
+            // 'username' => 'required|string|min:5|max:20|unique:users',
             'password' => 'required|string|min:6',
             'firstname' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
@@ -32,7 +32,8 @@ class StoreUserRequest extends FormRequest {
                 'required',
                 'string',
                 'max:11',
-                'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/'
+                'regex:/^(0[3|5|7|8|9])[0-9]{8,9}$/',
+                'unique:users'
             ],
             'role_id' => 'integer|in:2,3'
         ];

@@ -7,43 +7,68 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Services\Product\ProductService;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
+class ProductController extends Controller
+{
     protected $productService;
 
-    public function __construct(ProductService $productService) {
+    public function __construct(ProductService $productService)
+    {
         $this->productService = $productService;
     }
 
-    public function store(StoreProductRequest $request) {
+    public function store(StoreProductRequest $request)
+    {
         return $this->productService->store($request->validated());
     }
 
-    public function index() {
+    public function index()
+    {
         return $this->productService->getAll();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         return $this->productService->getById($id);
     }
 
-    public function getByCategoryId($categoryId) {
+    public function getByCategoryId($categoryId)
+    {
         return $this->productService->getByCategoryId($categoryId);
     }
 
-    public function update(StoreProductRequest $request, $id) {
+    public function update(StoreProductRequest $request, $id)
+    {
         return $this->productService->update($request->validated(), $id);
     }
 
-    public function updateEach(Request $request, $id, $attributeOfProduct) {
+    public function updateEach(Request $request, $id, $attributeOfProduct)
+    {
         return $this->productService->updateEach($request, $id, $attributeOfProduct);
     }
 
-    public function switchStatus($id) {
+    public function switchStatus($id)
+    {
         return $this->productService->switchStatus($id);
     }
 
+    public function indexActive()
+    {
+        return $this->productService->getAllActive();
+    }
+
+    public function getByIdActive($id)
+    {
+        return $this->productService->getByIdActive($id);
+    }
+
+    public function getByCategoryIdActive($categoryId)
+    {
+        return $this->productService->getByCategoryIdActive($categoryId);
+    }
+
     // Search Product
-    public function searchProduct(Request $request) {
+    public function searchProduct(Request $request)
+    {
         $keyword = $request->input('keyword'); // Lấy từ khóa từ request
         $products = $this->productService->searchProduct($keyword); // Gọi service
 
@@ -52,7 +77,8 @@ class ProductController extends Controller {
 
 
     // Lọc Gọng kính
-    public function filterFrames(Request $request) {
+    public function filterFrames(Request $request)
+    {
         $products = $this->productService->filterFrames($request);
         return response()->json([
             'status' => 'success',
@@ -61,7 +87,8 @@ class ProductController extends Controller {
     }
 
     // Lọc Tròng kính
-    public function filterLenses(Request $request) {
+    public function filterLenses(Request $request)
+    {
         $products = $this->productService->filterLenses($request);
         return response()->json([
             'status' => 'success',
@@ -69,7 +96,8 @@ class ProductController extends Controller {
         ], 200);
     }
 
-    public function getBestSellingProducts() {
+    public function getBestSellingProducts()
+    {
         $products = $this->productService->getBestSellingProducts(10);
         return response()->json([
             'status' => 'success',
@@ -77,7 +105,8 @@ class ProductController extends Controller {
         ], 200);
     }
 
-    public function getNewestProducts() {
+    public function getNewestProducts()
+    {
         $products = $this->productService->getNewestProducts(10);
         return response()->json([
             'status' => 'success',

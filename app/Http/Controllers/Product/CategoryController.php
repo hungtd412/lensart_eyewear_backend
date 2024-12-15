@@ -70,4 +70,12 @@ class CategoryController extends Controller {
     public function switchStatus($id) {
         return $this->categoryService->switchStatus($id);
     }
+
+    public function indexActive() {
+        return $this->categoryService->getAllActive();
+    }
+
+    public function getByIdActive($id) {
+        return $this->categoryService->getByIdActive($id);
+    }
 }

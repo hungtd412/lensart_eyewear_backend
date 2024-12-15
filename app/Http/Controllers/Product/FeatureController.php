@@ -32,4 +32,12 @@ class FeatureController extends Controller {
     public function switchStatus($id) {
         return $this->featureService->switchStatus($id);
     }
+
+    public function indexActive() {
+        return $this->featureService->getAllActive();
+    }
+
+    public function getByIdActive($id) {
+        return $this->featureService->getByIdActive($id);
+    }
 }

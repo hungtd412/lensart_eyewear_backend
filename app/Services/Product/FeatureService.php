@@ -65,4 +65,28 @@ class FeatureService {
             'data' => $feature
         ], 200);
     }
+
+    public function getAllActive() {
+        $features = $this->featureRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $features
+        ], 200);
+    }
+
+    public function getByIdActive($id) {
+        $feature = $this->featureRepository->getByIdActive($id);
+
+        if ($feature === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $feature,
+        ], 200);
+    }
 }

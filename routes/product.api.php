@@ -14,11 +14,12 @@ use App\Http\Controllers\Product\ProductImageController;
 use App\Http\Controllers\Product\ShapeController;
 use Illuminate\Support\Facades\Route;
 
+// ADMIN & MANAGER (CUSTOMER Ở DƯỚI)
 
 //**************************************
 // GET ALL
 //**************************************
-Route::get('brands', [BrandController::class, 'index']);
+Route::get('/brands', [BrandController::class, 'index']);
 // Route::get('/colors', [ColorController::class, 'index']);
 Route::get('/shapes', [ShapeController::class, 'index']);
 Route::get('/materials', [MaterialController::class, 'index']);
@@ -87,22 +88,31 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
+    //need to pass: name, status
     Route::post('/brands/update/{id?}', [BrandController::class, 'update']);
 
     // Route::post('/colors/update/{id?}', [ColorController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/shapes/update/{id?}', [ShapeController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/materials/update/{id?}', [MaterialController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/features/update/{id?}', [FeatureController::class, 'update']);
 
+    //need to pass: name, status
     Route::post('/categories/update/{id?}', [CategoryController::class, 'update']);
 
+    //need to pass: address, manager_id, index, status
     Route::post('/branches/update/{id?}', [BranchController::class, 'update']);
 
+    //need to pass: name, description brand_id category_id
+    // color, shape_id material_id gender, array of feature ids
     Route::post('/products/update/{id?}', [ProductController::class, 'update']);
 
+    //api nay ko can dung, dùng api xóa ảnh rồi create ảnh mới
     Route::post('/product-images/update/{id?}', [ProductImageController::class, 'update']);
 
     Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
@@ -120,6 +130,8 @@ Route::group([
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin-manager', 'checkTwoIdsParameter'],
 ], function () {
+    // gắn ở url: product_id, branch_id, color,
+    // gắn ở body: chỉ cho cập nhật quantity, status
     Route::post('/product-details/update/{id1?}/{id2?}/{color?}', [ProductDetailController::class, 'update']);
 });
 
@@ -128,6 +140,7 @@ Route::group([
 //**************************************
 //  GET BY ID
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter'],
 ], function () {
@@ -152,8 +165,10 @@ Route::group([
     Route::get('/product-details/getByBranchId/{id?}', [ProductDetailController::class, 'getByBranchId']);
 });
 
+
+
 //**************************************
-//  GET BY PRODUCT AND BRANCH ID
+//  GET PRODUCT DETAILS BY PRODUCT AND BRANCH ID
 //**************************************
 Route::group([
     'middleware' => ['checkTwoIdsParameter'],
@@ -166,6 +181,7 @@ Route::group([
 //**************************************
 //  SWITCH STATUS
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
@@ -189,6 +205,7 @@ Route::group([
 //**************************************
 //  DELETE
 //**************************************
+// only pass id
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin'],
 ], function () {
@@ -198,6 +215,63 @@ Route::group([
 });
 
 // CUSTOMER
+//**************************************
+//  GET ACTIVE PRODUCTS FOR CUSTOMER
+//**************************************
+//**************************************
+// GET ALL
+//**************************************
+Route::get('/active/brands', [BrandController::class, 'indexActive']);
+// Route::get('/colors', [ColorController::class, 'index']);
+Route::get('/active/shapes', [ShapeController::class, 'indexActive']);
+Route::get('/active/materials', [MaterialController::class, 'indexActive']);
+Route::get('/active/features', [FeatureController::class, 'indexActive']);
+Route::get('/active/categories', [CategoryController::class, 'indexActive']);
+Route::get('/active/branches', [BranchController::class, 'indexActive']);
+Route::get('/active/products', [ProductController::class, 'indexActive']);
+Route::get('/active/product-features', [ProductFeatureController::class, 'indexActive']);
+Route::get('/active/product-images', [ProductImageController::class, 'indexActive']);
+Route::get('/active/product-details', [ProductDetailController::class, 'indexActive']);
+
+
+//**************************************
+//  GET BY ID
+//**************************************
+Route::group([
+    'middleware' => ['checkIdParameter'],
+], function () {
+    Route::get('/active/brands/getById/{id?}', [BrandController::class, 'getByIdActive']);
+    // Route::get('/colors/getById/{id?}', [ColorController::class, 'getById']);
+    Route::get('/active/shapes/getById/{id?}', [ShapeController::class, 'getById']);
+    Route::get('/active/materials/getById/{id?}', [MaterialController::class, 'getByIdActive']);
+    Route::get('/active/features/getById/{id?}', [FeatureController::class, 'getByIdActive']);
+    Route::get('/active/categories/getById/{id?}', [CategoryController::class, 'getByIdActive']);
+    Route::get('/active/branches/getById/{id?}', [BranchController::class, 'getByIdActive']);
+    Route::get('/active/products/getById/{id?}', [ProductController::class, 'getByIdActive']);
+    Route::get('/active/products/getByCategoryId/{id?}', [ProductController::class, 'getByCategoryIdActive']);
+    Route::get('/active/product-images/getById/{id?}', [ProductImageController::class, 'getByIdActive']);
+    Route::get('/active/product-features/getById/{id?}', [ProductFeatureController::class, 'getByIdActive']);
+
+    Route::get('/active/product-images/getByProductId/{id?}', [ProductImageController::class, 'getByProductIdActive']);
+
+    Route::get('/active/product-features/getByProductId/{id?}', [ProductFeatureController::class, 'getByProductIdActive']);
+
+    Route::get('/active/product-details/getByProductId/{id?}', [ProductDetailController::class, 'getByProductIdActive']);
+
+    Route::get('/active/product-details/getByBranchId/{id?}', [ProductDetailController::class, 'getByBranchIdActive']);
+});
+
+//**************************************
+//  GET BY PRODUCT AND BRANCH ID
+//**************************************
+Route::group([
+    'middleware' => ['checkTwoIdsParameter'],
+], function () {
+    Route::get('/active/product-details/getByProductAndBranchId/{id1?}/{id2?}', [ProductDetailController::class, 'getByProductAndBranchIdActive']);
+});
+
+
+
 //**************************************
 //  SEARCH PRODUCT ON HOMEPAGE
 //**************************************

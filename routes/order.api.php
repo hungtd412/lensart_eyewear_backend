@@ -42,8 +42,13 @@ Route::group([
 Route::group([
     'middleware' => ['checkIdParameter', 'auth:sanctum', 'can:is-admin-manager'],
 ], function () {
+    //'order_status': 'Đang xử lý,
+    //Đã xử lý và sẵn sàng giao hàng,Đang giao
+    //hàng,Đã giao,Đã hủy',
     Route::post('/orders/change-order-status/{id?}', [OrderController::class, 'changeOrderStatus']);
 
+
+    //'payment_status' => 'required|in:Chưa thanh toán,Đã thanh toán',
     Route::post('/orders/change-payment-status/{id?}', [OrderController::class, 'changePaymentStatus']);
 
     Route::post('/orders/switch-status/{id?}', [OrderController::class, 'switchStatus']);

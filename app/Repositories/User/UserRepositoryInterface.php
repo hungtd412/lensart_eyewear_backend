@@ -11,7 +11,7 @@ interface UserRepositoryInterface {
     public function getAll();
     public function getById($id);
     public function getByEmail($email);
-    public function getByRole($type);
+    public function getByRole($id);
     public function profile();
     public function update(array $data, $user);
     public function setEmailVerified($user);

@@ -123,4 +123,43 @@ class ProductImageService {
             'data' => $productImage
         ], 200);
     }
+
+    public function getAllActive() {
+        $productImages = $this->productImageRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $productImages
+        ], 200);
+    }
+
+    public function getByIdActive($id) {
+        $productImage = $this->productImageRepository->getByIdActive($id);
+
+        if ($productImage === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productImage,
+        ], 200);
+    }
+
+    public function getByProductIdActive($productId) {
+        $productImage = $this->productImageRepository->getByProductIdActive($productId);
+
+        if ($productImage === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productImage,
+        ], 200);
+    }
 }

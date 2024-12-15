@@ -105,4 +105,58 @@ class ProductDetailService {
             'productDetail' => $this->productDetailRepository->getByThreeIds($productId, $branchId, $color)
         ], 200);
     }
+
+    public function getAllActive() {
+        $productDetails = $this->productDetailRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $productDetails
+        ], 200);
+    }
+
+    public function getByProductIdActive($id) {
+        $productDetails = $this->productDetailRepository->getByProductIdActive($id);
+
+        if ($productDetails === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productDetails,
+        ], 200);
+    }
+
+    public function getByBranchIdActive($id) {
+        $productDetails = $this->productDetailRepository->getByBranchIdActive($id);
+
+        if ($productDetails === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productDetails,
+        ], 200);
+    }
+
+    public function getByProductAndBranchIdActive($productId, $branchId) {
+        $productDetails = $this->productDetailRepository->getByProductAndBranchIdActive($productId, $branchId);
+
+        if ($productDetails === null) {
+            return response()->json([
+                'message' => 'Can not find any data matching these conditions!'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productDetails,
+        ], 200);
+    }
 }

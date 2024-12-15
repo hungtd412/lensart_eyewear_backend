@@ -85,11 +85,30 @@ class UserService {
         }
     }
 
-    public function getByRole($type) {
-        $users = $this->userRepository->getByRole($type);
+    public function getByRole($id) {
+        $users = $this->userRepository->getByRole($id);
 
         return response()->json([
             'data' => $users,
+        ], 200);
+    }
+
+    public function getCustomers() {
+        $customers = $this->userRepository->getByRole(3);
+
+        return response()->json([
+            'data' => $customers,
+        ], 200);
+    }
+
+    public function getAdminManagers() {
+        $admin = $this->userRepository->getByRole(1);
+        $manager = $this->userRepository->getByRole(2);
+
+        $combined = $admin->merge($manager);
+
+        return response()->json([
+            'data' => $combined,
         ], 200);
     }
 
