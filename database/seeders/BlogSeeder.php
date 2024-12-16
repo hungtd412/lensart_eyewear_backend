@@ -16,19 +16,21 @@ class BlogSeeder extends Seeder {
         for ($i = 0; $i < 5; $i++) {
             // Lấy một hình ảnh ngẫu nhiên từ danh sách
             $sampleImages = $this->getSampleImages();
-            $selectedImage = $faker->randomElement($sampleImages);
+            // $selectedImage = $faker->randomElement($sampleImages);
 
             // Upload hình ảnh lên Cloudinary
-            $uploadedFile = Cloudinary::upload($selectedImage, [
-                'folder' => 'blogs'
-            ]);
+            // $uploadedFile = Cloudinary::upload($selectedImage, [
+            //     'folder' => 'blogs'
+            // ]);
 
             // Tạo blog với dữ liệu mẫu
             Blog::create([
                 'title' => $faker->sentence(6),
                 'description' => $faker->paragraph(3),
-                'image_url' => $uploadedFile->getSecurePath(),
-                'image_public_id' => $uploadedFile->getPublicId(),
+                // 'image_url' => $uploadedFile->getSecurePath(),
+                // 'image_public_id' => $uploadedFile->getPublicId(),
+                'image_url' => 'https://kinhmatanna.com/san-pham/gk-gong-nhua-cung-an086-52-17-146',
+                'image_public_id' => '$uploadedFile->getPublicId()',
                 'created_time' => Carbon::now(),
                 'status' => 'active',
             ]);

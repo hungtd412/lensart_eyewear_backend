@@ -8,6 +8,6 @@ interface BlogReposityInterface {
     public function getById($id);
     public function update(array $data, $blog);
     public function switchStatus($blog);
-    public function getActiveBlogs($limit);
+    public function getAllActive($limit);
     public function delete($blog);
 }
