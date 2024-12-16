@@ -28,9 +28,9 @@ class BlogReposity implements BlogReposityInterface {
 
     public function getAllActive($limit = 10) {
         return Blog::where('status', 'active')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->take($limit)
-            ->first();
+            ->get();
     }
 
     public function delete($blog) {

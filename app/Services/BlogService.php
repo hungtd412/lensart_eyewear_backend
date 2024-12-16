@@ -118,6 +118,6 @@ class BlogService {
      * @return mixed
      */
     public function getActiveBlogs($limit = 10) {
-        return $this->blogRepository->getActiveBlogs($limit);
+        return $this->blogRepository->getAllActive($limit);
     }
 }
