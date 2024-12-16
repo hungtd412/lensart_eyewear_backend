@@ -29,7 +29,7 @@ class BlogSeeder extends Seeder {
                 'description' => $faker->paragraph(3),
                 // 'image_url' => $uploadedFile->getSecurePath(),
                 // 'image_public_id' => $uploadedFile->getPublicId(),
-                'image_url' => 'https://kinhmatanna.com/san-pham/gk-gong-nhua-cung-an086-52-17-146',
+                'image_url' => 'https://kinhmatanna.com/_next/image?url=https%3A%2F%2Fcms.kinhmatanna.com%2Fwp-content%2Fuploads%2F2024%2F03%2FANNA_AN086_5109-scaled.jpg&w=384&q=75',
                 'image_public_id' => '$uploadedFile->getPublicId()',
                 'created_time' => Carbon::now(),
                 'status' => 'active',
