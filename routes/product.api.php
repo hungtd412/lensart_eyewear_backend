@@ -229,8 +229,8 @@ Route::get('/active/features', [FeatureController::class, 'indexActive']);
 Route::get('/active/categories', [CategoryController::class, 'indexActive']);
 Route::get('/active/branches', [BranchController::class, 'indexActive']);
 Route::get('/active/products', [ProductController::class, 'indexActive']);
-Route::get('/active/product-features', [ProductFeatureController::class, 'indexActive']);
-Route::get('/active/product-images', [ProductImageController::class, 'indexActive']);
+// Route::get('/active/product-features', [ProductFeatureController::class, 'indexActive']); Lấy route trên không cần active
+// Route::get('/active/product-images', [ProductImageController::class, 'indexActive']); Lấy route trên không cần active
 Route::get('/active/product-details', [ProductDetailController::class, 'indexActive']);
 
 
@@ -249,12 +249,12 @@ Route::group([
     Route::get('/active/branches/getById/{id?}', [BranchController::class, 'getByIdActive']);
     Route::get('/active/products/getById/{id?}', [ProductController::class, 'getByIdActive']);
     Route::get('/active/products/getByCategoryId/{id?}', [ProductController::class, 'getByCategoryIdActive']);
-    Route::get('/active/product-images/getById/{id?}', [ProductImageController::class, 'getByIdActive']);
-    Route::get('/active/product-features/getById/{id?}', [ProductFeatureController::class, 'getByIdActive']);
+    // Route::get('/active/product-images/getById/{id?}', [ProductImageController::class, 'getByIdActive']);
+    // Route::get('/active/product-features/getById/{id?}', [ProductFeatureController::class, 'getByIdActive']);
 
-    Route::get('/active/product-images/getByProductId/{id?}', [ProductImageController::class, 'getByProductIdActive']);
+    // Route::get('/active/product-images/getByProductId/{id?}', [ProductImageController::class, 'getByProductIdActive']);
 
-    Route::get('/active/product-features/getByProductId/{id?}', [ProductFeatureController::class, 'getByProductIdActive']);
+    // Route::get('/active/product-features/getByProductId/{id?}', [ProductFeatureController::class, 'getByProductIdActive']);
 
     Route::get('/active/product-details/getByProductId/{id?}', [ProductDetailController::class, 'getByProductIdActive']);
 
