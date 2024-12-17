@@ -15,7 +15,8 @@ class OrderRepository implements OrderRepositoryInterface {
     }
 
     public function getById($id) {
-        return Order::with(['orderDetails', 'user', 'coupon'])->find($id);
+        $order = Order::with(['orderDetails', 'user', 'coupon', 'branch'])->find($id);
+        return $order;
     }
 
     public function getPriceByOrderId($orderId) {

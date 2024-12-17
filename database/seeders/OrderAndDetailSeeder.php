@@ -84,8 +84,15 @@ class OrderAndDetailSeeder extends Seeder {
 
     public function getPriceByProductAndBranchId($productId, $branchId) {
         $originalPrice = Product::select('price')->where('id', $productId)->first()->price;
+        $offerPrice = Product::select('offer_price')->where('id', $productId)->first()->price;
+        $finalPrice = 0;
+        if ($offerPrice == null) {
+            $finalPrice = $originalPrice;
+        } else {
+            $finalPrice = $offerPrice;
+        }
         $index = Branch::select('index')->where('id', $branchId)->first()->index;
-        return (float)$originalPrice * (float)$index;
+        return (float)$finalPrice * (float)$index;
     }
 
     public function updateTotalPriceForOrder($orderId, $totalPrice, $couponCode) {
