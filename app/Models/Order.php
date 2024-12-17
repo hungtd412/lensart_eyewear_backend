@@ -24,7 +24,9 @@ class Order extends Model {
     ];
 
     public function orderDetails() {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(OrderDetail::class)
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->select('order_details.*', 'products.name', 'products.price', 'products.offer_price');
     }
 
     public function user() {
@@ -37,5 +39,9 @@ class Order extends Model {
 
     public function coupon() {
         return $this->belongsTo(Coupon::class);
+    }
+
+    public function payOsTrans() {
+        return $this->belongsTo(PayOSTrans::class);
     }
 }
