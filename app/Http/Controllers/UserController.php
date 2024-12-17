@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserAddressRequest;
+use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
 
@@ -42,6 +44,14 @@ class UserController extends Controller {
     }
 
     public function update(UpdateUserRequest $request, $id) {
+        return $this->userService->update($request->validated(), $id);
+    }
+
+    public function updateAddress(UpdateUserAddressRequest $request, $id) {
+        return $this->userService->update($request->validated(), $id);
+    }
+
+    public function updatePassword(UpdateUserPasswordRequest $request, $id) {
         return $this->userService->update($request->validated(), $id);
     }
 

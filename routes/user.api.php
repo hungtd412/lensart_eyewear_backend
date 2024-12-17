@@ -13,7 +13,10 @@ Route::group([
         'middleware' => ['checkIdParameter'],
     ], function () {
         Route::get('/getById/{id?}', [UserController::class, 'getById']);
+        Route::get('/getByRole/{id?}', [UserController::class, 'getByRole'])->middleware('can:is-admin');
         Route::post('/update/{id?}', [UserController::class, 'update']);
+        Route::post('/updatePassword/{id?}', [UserController::class, 'updatePassword']);
+        Route::post('/updateAddress/{id?}', [UserController::class, 'updateAddress']);
         Route::post('/switch-status/{id?}', [UserController::class, 'switchStatus']);
     });
 });
