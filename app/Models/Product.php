@@ -78,14 +78,17 @@ class Product extends Model {
 
     /**
      * Thiết lập mối quan hệ với bảng Reviews (nếu có)
-    //  */
-    // public function reviews()
-    // {
-    //     return $this->hasMany(ProductReview::class, 'product_id');
-    // }
+     */
+    public function reviews() {
+        return $this->hasMany(ProductReview::class, 'product_id')
+            ->join('users', 'product_reviews.user_id', '=', 'users.id')
+            ->select('product_reviews.*', 'users.firstname', 'users.lastname');
+    }
 
     // Định nghĩa mối quan hệ với bảng product_details
     public function productDetails() {
-        return $this->hasMany(ProductDetail::class, 'product_id');
+        return $this->hasMany(ProductDetail::class, 'product_id')
+            ->join('branches', 'product_details.branch_id', '=', 'branches.id')
+            ->select('product_details.*', 'branches.name as branch_name', 'branches.address');
     }
 }

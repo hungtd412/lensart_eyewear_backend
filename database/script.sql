@@ -68,6 +68,6 @@ VALUES
 (2, 35, 2, 'Đen', 3, 1821259.2),
 (2, 11, 2, 'Xám', 1, 572532.8);
 
-select * from users
 select * from products
-select * from product_features where product_id=66 ORDER BY product_id
+select * from product_details where product_id=10
+select * from product_features where product_id=1 ORDER BY product_id
