@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder {
             OrderAndDetailSeeder::class,
             WishlistAndDetailSeeder::class,
             BlogSeeder::class,
+            ProductReviewSeeder::class,
             // ProductImageSeeder::class, tam thoi chua seed product images
         ]);
     }
