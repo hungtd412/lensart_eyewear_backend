@@ -9,8 +9,10 @@ use App\Models\Coupon;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\CartDetailReposityInterface;
 
-class CartDetailReposity implements CartDetailReposityInterface {
-    public function getAllCartDetails($userId) {
+class CartDetailReposity implements CartDetailReposityInterface
+{
+    public function getAllCartDetails($userId)
+    {
         $cart = Cart::where('user_id', $userId)->first(); // Lấy giỏ hàng duy nhất
 
         if ($cart) {
@@ -62,11 +64,13 @@ class CartDetailReposity implements CartDetailReposityInterface {
         return collect([]); // Trả về Collection rỗng nếu không tìm thấy giỏ hàng
     }
 
-    public function getCartByUserId($userId) {
+    public function getCartByUserId($userId)
+    {
         return Cart::where('user_id', $userId)->first();
     }
 
-    public function getByIdAndUser($id, $userId) {
+    public function getByIdAndUser($id, $userId)
+    {
         return CartDetail::where('id', $id)
             ->whereHas('cart', function ($query) use ($userId) {
                 $query->where('user_id', $userId); // Kiểm tra user_id của cart
@@ -74,19 +78,22 @@ class CartDetailReposity implements CartDetailReposityInterface {
             ->first();
     }
 
-    public function getCartByIdAndUser($cartId, $userId) {
+    public function getCartByIdAndUser($cartId, $userId)
+    {
         return Cart::where('id', $cartId)
             ->where('user_id', $userId)
             ->first();
     }
 
-    private function getEffectivePrice($product) {
+    private function getEffectivePrice($product)
+    {
         return $product->offer_price !== null ? $product->offer_price : $product->price;
     }
 
 
 
-    public function store(array $cartDetail): ?CartDetail {
+    public function store(array $cartDetail): ?CartDetail
+    {
         // Lấy product_detail tương ứng
         $productDetail = DB::table('product_details')
             ->where('product_id', $cartDetail['product_id'])
@@ -126,6 +133,27 @@ class CartDetailReposity implements CartDetailReposityInterface {
             ->where('color', $cartDetail['color'])
             ->first();
 
+        // if ($existingCartDetail) {
+        //     // Cập nhật số lượng
+        //     $newQuantity = $existingCartDetail->quantity + $cartDetail['quantity'];
+
+        //     if ($newQuantity > $productDetail->quantity) {
+        //         throw new \Exception('Số lượng trong giỏ hàng vượt quá số lượng trong kho');
+        //     }
+
+        //     $cartDetail['quantity'] = $newQuantity;
+        //     $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
+
+        //     return $this->update($cartDetail, $existingCartDetail);
+        // }
+
+        // // Nếu không tồn tại trong giỏ hàng, tạo mới
+        // $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
+
+        // $newCartDetail = CartDetail::create($cartDetail);
+
+        // // Cập nhật lại `total_price`
+        // $this->updateCartDetailTotalPrice($newCartDetail);
         if ($existingCartDetail) {
             // Cập nhật số lượng
             $newQuantity = $existingCartDetail->quantity + $cartDetail['quantity'];
@@ -134,26 +162,29 @@ class CartDetailReposity implements CartDetailReposityInterface {
                 throw new \Exception('Số lượng trong giỏ hàng vượt quá số lượng trong kho');
             }
 
-            $cartDetail['quantity'] = $newQuantity;
-            $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
+            $existingCartDetail->quantity = $newQuantity;
+            $existingCartDetail->save();
 
-            return $this->update($cartDetail, $existingCartDetail);
+            return $existingCartDetail;
+        } else {
+            // Tạo mới chi tiết giỏ hàng
+            $newCartDetail = CartDetail::create([
+                'cart_id' => $cartDetail['cart_id'],
+                'product_id' => $cartDetail['product_id'],
+                'branch_id' => $cartDetail['branch_id'],
+                'color' => $cartDetail['color'],
+                'quantity' => $cartDetail['quantity'],
+                'price' => $price,
+            ]);
         }
-
-        // Nếu không tồn tại trong giỏ hàng, tạo mới
-        $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
-
-        $newCartDetail = CartDetail::create($cartDetail);
-
-        // Cập nhật lại `total_price`
-        $this->updateCartDetailTotalPrice($newCartDetail);
 
         return $newCartDetail;
     }
 
 
 
-    public function updateCartDetailTotalPrice(CartDetail $cartDetail) {
+    public function updateCartDetailTotalPrice(CartDetail $cartDetail)
+    {
         $product = $cartDetail->product;
         $branch = $cartDetail->branch;
 
@@ -170,11 +201,13 @@ class CartDetailReposity implements CartDetailReposityInterface {
     }
 
 
-    public function getById($id) {
+    public function getById($id)
+    {
         return CartDetail::find($id);
     }
 
-    public function update(array $data, $cartDetail) {
+    public function update(array $data, $cartDetail)
+    {
         $productDetail = DB::table('product_details')
             ->where('product_id', $cartDetail->product_id)
             ->where('branch_id', $cartDetail->branch_id)
@@ -196,21 +229,24 @@ class CartDetailReposity implements CartDetailReposityInterface {
 
 
     // Xóa một mục trong giỏ hàng
-    public function delete($cartDetailId) {
+    public function delete($cartDetailId)
+    {
         $cartDetail = CartDetail::find($cartDetailId);
         if ($cartDetail) {
             $cartDetail->delete();
         }
     }
 
-    public function clearCart($cartId) {
+    public function clearCart($cartId)
+    {
         CartDetail::where('cart_id', $cartId)->delete();
     }
 
     /**
      * Tính tổng tiền cho các sản phẩm được tick và áp dụng mã giảm giá nếu có
      */
-    public function calculateTotalWithCoupon(array $selectedCartDetailIds, $couponCode = null) {
+    public function calculateTotalWithCoupon(array $selectedCartDetailIds, $couponCode = null)
+    {
         // Nếu không có sản phẩm nào được chọn, trả về tổng tiền là 0
         if (empty($selectedCartDetailIds)) {
             return [
@@ -236,7 +272,8 @@ class CartDetailReposity implements CartDetailReposityInterface {
         ];
     }
 
-    private function calculateSelectedProductsTotal(array $selectedCartDetailIds) {
+    private function calculateSelectedProductsTotal(array $selectedCartDetailIds)
+    {
         return CartDetail::whereIn('id', $selectedCartDetailIds)
             ->with(['product', 'branch'])
             ->get()
@@ -254,7 +291,8 @@ class CartDetailReposity implements CartDetailReposityInterface {
     }
 
 
-    private function applyCouponDiscount($couponCode) {
+    private function applyCouponDiscount($couponCode)
+    {
         if (!$couponCode) {
             return 0;
         }
@@ -268,16 +306,19 @@ class CartDetailReposity implements CartDetailReposityInterface {
         return $coupon ? $coupon->discount_price : 0;
     }
 
-    private function calculateFinalPrice($totalPrice, $discount) {
+    private function calculateFinalPrice($totalPrice, $discount)
+    {
         // Đảm bảo tổng giá cuối cùng không âm
         return max($totalPrice - $discount, 0);
     }
 
-    public function getOrCreateCart($userId) {
+    public function getOrCreateCart($userId)
+    {
         return Cart::firstOrCreate(['user_id' => $userId]); // Tạo giỏ hàng nếu chưa tồn tại
     }
 
-    public function addOrUpdateCartDetail($cartId, $productId, array $attributes) {
+    public function addOrUpdateCartDetail($cartId, $productId, array $attributes)
+    {
         // Lấy product_detail tương ứng
         $productDetail = DB::table('product_details')
             ->where('product_id', $productId)
@@ -317,7 +358,8 @@ class CartDetailReposity implements CartDetailReposityInterface {
         ]);
     }
 
-    public function calculateTotalQuantity($userId) {
+    public function calculateTotalQuantity($userId)
+    {
         $cart = Cart::where('user_id', $userId)->first();
 
         if ($cart) {
