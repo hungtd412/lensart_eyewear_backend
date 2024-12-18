@@ -102,10 +102,6 @@ class CartDetailReposity implements CartDetailReposityInterface
             ->where('status', 'active')
             ->first();
 
-        if (!$productDetail) {
-            throw new \Exception('Chi tiết sản phẩm không tồn tại hoặc không hoạt động');
-        }
-
         // Kiểm tra trạng thái sản phẩm
         $product = DB::table('products')
             ->select('id', 'offer_price', 'price', 'status') // Thêm 'offer_price' và 'price' vào truy vấn
@@ -113,10 +109,6 @@ class CartDetailReposity implements CartDetailReposityInterface
             ->where('status', 'active')
             ->first();
 
-
-        if (!$product) {
-            throw new \Exception('Sản phẩm không tồn tại hoặc không hoạt động');
-        }
 
         // Sử dụng giá từ hàm getEffectivePrice
         $price = $this->getEffectivePrice($product);
@@ -133,27 +125,13 @@ class CartDetailReposity implements CartDetailReposityInterface
             ->where('color', $cartDetail['color'])
             ->first();
 
-        // if ($existingCartDetail) {
-        //     // Cập nhật số lượng
-        //     $newQuantity = $existingCartDetail->quantity + $cartDetail['quantity'];
+        $branch = DB::table('branches')
+            ->select('index')
+            ->where('id', $cartDetail['branch_id'])
+            ->where('status', 'active')
+            ->first();
+        $branchIndex = $branch->index;
 
-        //     if ($newQuantity > $productDetail->quantity) {
-        //         throw new \Exception('Số lượng trong giỏ hàng vượt quá số lượng trong kho');
-        //     }
-
-        //     $cartDetail['quantity'] = $newQuantity;
-        //     $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
-
-        //     return $this->update($cartDetail, $existingCartDetail);
-        // }
-
-        // // Nếu không tồn tại trong giỏ hàng, tạo mới
-        // $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
-
-        // $newCartDetail = CartDetail::create($cartDetail);
-
-        // // Cập nhật lại `total_price`
-        // $this->updateCartDetailTotalPrice($newCartDetail);
         if ($existingCartDetail) {
             // Cập nhật số lượng
             $newQuantity = $existingCartDetail->quantity + $cartDetail['quantity'];
@@ -162,23 +140,36 @@ class CartDetailReposity implements CartDetailReposityInterface
                 throw new \Exception('Số lượng trong giỏ hàng vượt quá số lượng trong kho');
             }
 
-            $existingCartDetail->quantity = $newQuantity;
-            $existingCartDetail->save();
+            $cartDetail['quantity'] = $newQuantity;
+            $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
+
+            $this->update($cartDetail, $existingCartDetail);
 
             return $existingCartDetail;
         } else {
             // Tạo mới chi tiết giỏ hàng
+            // $cartDetail->total_price = $cartDetail->quantity * $price * ($branch->index ?? 1);
             $newCartDetail = CartDetail::create([
                 'cart_id' => $cartDetail['cart_id'],
                 'product_id' => $cartDetail['product_id'],
                 'branch_id' => $cartDetail['branch_id'],
                 'color' => $cartDetail['color'],
                 'quantity' => $cartDetail['quantity'],
-                'price' => $price,
+                'total_price' => $cartDetail['quantity'] * $price * $branchIndex,
             ]);
+
+            return $newCartDetail;
         }
 
-        return $newCartDetail;
+        // // Nếu không tồn tại trong giỏ hàng, tạo mới
+        // $cartDetail['total_price'] = $cartDetail['quantity'] * $price;
+
+        // $newCartDetail = CartDetail::create($cartDetail);
+
+        // // Cập nhật lại `total_price`
+        // $this->updateCartDetailTotalPrice($newCartDetail);
+
+        // return $newCartDetail;
     }
 
 
@@ -223,6 +214,7 @@ class CartDetailReposity implements CartDetailReposityInterface
         $cartDetail->save();
 
         $this->updateCartDetailTotalPrice($cartDetail);
+
 
         return $cartDetail;
     }
