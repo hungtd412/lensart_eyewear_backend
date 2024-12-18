@@ -29,7 +29,12 @@ class CartDetailService
         }
 
         $data['cart_id'] = $cart->id; // Thêm cart_id vào dữ liệu
-        return $this->cartDetailRepository->store($data);
+        // return $this->cartDetailRepository->store($data);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $this->cartDetailRepository->store($data)
+        ], 200);
     }
 
     public function update(array $data, $id, $userId)
