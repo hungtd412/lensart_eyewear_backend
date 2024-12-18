@@ -75,5 +75,7 @@ and order_details.product_id = product_details.product_id
 and orders.id =1
 
 
-select * from order_details where order_id=1
+select * from products
+
+select * from cart_details where cart_details.cart_id = 2
 select * from coupons
