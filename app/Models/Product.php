@@ -26,6 +26,7 @@ class Product extends Model {
     protected $casts = [
         'created_time' => 'datetime:Y-m-d H:i:s',
         'price' => 'float',
+        'offer_price' => 'float',
     ];
 
 
@@ -89,6 +90,11 @@ class Product extends Model {
     public function productDetails() {
         return $this->hasMany(ProductDetail::class, 'product_id')
             ->join('branches', 'product_details.branch_id', '=', 'branches.id')
-            ->select('product_details.*', 'branches.name as branch_name', 'branches.address');
+            ->select('product_details.*', 'branches.name as branch_name', 'branches.address', 'branches.index')
+            ->withCasts([
+                'index' => 'float'
+            ]);
     }
 }
+
+use Illuminate\Support\Facades\DB;

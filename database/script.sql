@@ -76,4 +76,4 @@ and orders.id =1
 
 
 select * from order_details where order_id=1
-select * from product_features where product_id=1 ORDER BY product_id
+select * from products where id=2
