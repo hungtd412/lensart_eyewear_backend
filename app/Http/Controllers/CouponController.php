@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreCouponRequest;
 use App\Services\CouponService;
+use Illuminate\Http\Request;
 
 class CouponController extends Controller {
     protected $couponService;
@@ -20,11 +21,23 @@ class CouponController extends Controller {
         return $this->couponService->getAll();
     }
 
+    public function indexActive() {
+        return $this->couponService->getAllActive();
+    }
+
     public function getById($id) {
         return $this->couponService->getById($id);
     }
 
-    public function getByCode($code) {
+    public function getByCode(Request $request) {
+        $code = $request->query('code');
+
+        if (!$code) {
+            return response()->json([
+                'message' => 'Missing code parameter'
+            ], 400);
+        }
+
         return $this->couponService->getByCode($code);
     }
 
