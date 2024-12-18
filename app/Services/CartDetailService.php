@@ -5,22 +5,18 @@ namespace App\Services;
 use App\Repositories\CartDetailReposityInterface;
 use Illuminate\Support\Collection;
 
-class CartDetailService
-{
+class CartDetailService {
     protected $cartDetailRepository;
 
-    public function __construct(CartDetailReposityInterface $cartDetailRepository)
-    {
+    public function __construct(CartDetailReposityInterface $cartDetailRepository) {
         $this->cartDetailRepository = $cartDetailRepository;
     }
 
-    public function getAllCartDetails($userId)
-    {
+    public function getAllCartDetails($userId) {
         return $this->cartDetailRepository->getAllCartDetails($userId);
     }
 
-    public function store(array $data)
-    {
+    public function store(array $data) {
         $userId = $data['user_id'];
         $cart = $this->cartDetailRepository->getCartByUserId($userId); // Lấy cart theo user_id
 
@@ -32,8 +28,7 @@ class CartDetailService
         return $this->cartDetailRepository->store($data);
     }
 
-    public function update(array $data, $id, $userId)
-    {
+    public function update(array $data, $id, $userId) {
         $cartDetail = $this->cartDetailRepository->getByIdAndUser($id, $userId); // Kiểm tra userId với cartDetail
 
         if (!$cartDetail) {
@@ -43,8 +38,7 @@ class CartDetailService
         return $this->cartDetailRepository->update($data, $cartDetail);
     }
 
-    public function delete($cartDetailId, $userId)
-    {
+    public function delete($cartDetailId, $userId) {
         $cartDetail = $this->cartDetailRepository->getByIdAndUser($cartDetailId, $userId);
 
         if (!$cartDetail) {
@@ -57,8 +51,7 @@ class CartDetailService
     }
 
 
-    public function clearCart($cartId, $userId)
-    {
+    public function clearCart($cartId, $userId) {
         $cart = $this->cartDetailRepository->getCartByIdAndUser($cartId, $userId); // Kiểm tra userId với cart
 
         if (!$cart) {
@@ -70,8 +63,7 @@ class CartDetailService
         return response()->json(['message' => 'Cart cleared successfully'], 200);
     }
 
-    public function calculateTotalWithCoupon($userId, array $selectedIds, $couponCode = null)
-    {
+    public function calculateTotalWithCoupon($userId, array $selectedIds, $couponCode = null) {
         // Lấy cart của user
         $cart = $this->cartDetailRepository->getCartByUserId($userId);
 
@@ -82,8 +74,7 @@ class CartDetailService
         return $this->cartDetailRepository->calculateTotalWithCoupon($selectedIds, $couponCode);
     }
 
-    public function quickBuy(array $data)
-    {
+    public function quickBuy(array $data) {
         $userId = $data['user_id'];
 
         // Lấy hoặc tạo giỏ hàng cho người dùng
@@ -118,8 +109,7 @@ class CartDetailService
         ];
     }
 
-    public function calculateTotalQuantity($userId)
-    {
+    public function calculateTotalQuantity($userId) {
         return $this->cartDetailRepository->calculateTotalQuantity($userId);
     }
 }
