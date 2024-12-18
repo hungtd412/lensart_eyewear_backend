@@ -5,7 +5,7 @@ namespace App\Http\Requests\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationTrait;
 
-class StoreCartDetailRequest extends FormRequest
+class wishStoreCartDetailRequest extends FormRequest
 {
     use FailedValidationTrait;
 
@@ -26,9 +26,9 @@ class StoreCartDetailRequest extends FormRequest
     {
         return [
             // 'cart_id' => 'required|integer|exists:carts,id',
-            // 'product_id' => 'required|integer|exists:products,id',
-            // 'branch_id' => 'required|integer|exists:branches,id',
-            // 'color' => 'required|string|exists:product_details,color',
+            'product_id' => 'required|integer|exists:products,id',
+            'branch_id' => 'required|integer|exists:branches,id',
+            'color' => 'required|string|exists:product_details,color',
             'quantity' => 'required|integer|min:1'
         ];
     }
