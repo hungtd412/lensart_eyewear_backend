@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 // GET ALL
 //**************************************
 Route::get('coupons', [CouponController::class, 'index']);
+Route::get('active-coupons', [CouponController::class, 'indexActive']);
 
 
 
@@ -42,6 +43,17 @@ Route::group([
     'middleware' => ['checkIdParameter'],
 ], function () {
     Route::get('/coupons/getById/{id?}', [CouponController::class, 'getById']);
+});
+
+
+
+//**************************************
+//  GET BY CODE
+//**************************************
+Route::group([
+    // 'middleware' => ['checkCodeParameter'],
+], function () {
+    Route::get('/coupons/getByCode', [CouponController::class, 'getByCode']);
 });
 
 

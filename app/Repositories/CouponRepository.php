@@ -13,6 +13,10 @@ class CouponRepository implements CouponRepositoryInterface {
         return Coupon::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
     }
 
+    public function getAllActive() {
+        return Coupon::where('status', 'active')->get();
+    }
+
     public function getById($id) {
         return Coupon::where('id', $id)->where('status', 'active')->where('quantity', '>', 0)->first();
     }
