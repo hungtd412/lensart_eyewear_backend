@@ -29,6 +29,15 @@ class CouponService {
         ], 200);
     }
 
+    public function getAllActive() {
+        $coupons = $this->couponRepository->getAllActive();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $coupons
+        ], 200);
+    }
+
     public function getById($id) {
         $coupon = $this->couponRepository->getById($id);
 
@@ -49,7 +58,7 @@ class CouponService {
 
         if ($coupon === null) {
             return response()->json([
-                'message' => 'can not find any data matching these conditions!'
+                'message' => 'Can not find any data matching these conditions!'
             ], 404);
         }
 

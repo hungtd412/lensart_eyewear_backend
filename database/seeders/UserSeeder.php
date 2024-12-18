@@ -22,7 +22,7 @@ class UserSeeder extends Seeder {
             'email_verified_at' => Carbon::now(),
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
-            'address' => 'Vinhomes HCM',
+            'address' => '50 Đường Lý Thái Tổ, Thị trấn Đồng Văn, Huyện Duy Tiên, Hà Nam',
             'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 1,
             'phone' => '0323456789',
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder {
             'email_verified_at' => Carbon::now(),
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
-            'address' => 'Vinhomes HCM',
+            'address' => '3569 Đường Phạm Văn Đồng, Phường Linh Đông, Thành phố Thủ Đức, Hồ Chí Minh',
             'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
             'phone' => '0323456788',
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder {
             'email_verified_at' => Carbon::now(),
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
-            'address' => 'Vinhomes DN',
+            'address' => '123 Đường Nguyễn Văn Linh, Phường Hải Châu 1, Quận Hải Châu, Đà Nẵng',
             'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
             'phone' => '0323456787',
@@ -61,13 +61,13 @@ class UserSeeder extends Seeder {
             'email_verified_at' => Carbon::now(),
             'firstname' => $this->getRandomFirstName($faker),
             'lastname' => $this->getRandomLastName($faker),
-            'address' => 'Vinhomes HN',
+            'address' => '80 Đường Láng Hạ, Phường Thành Công, Quận Ba Đình, Hà Nội',
             'created_time' => Carbon::now(), // Thêm giá trị created_time chính xác
             'role_id' => 2,
             'phone' => '0323456786',
         ]);
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 31; $i++) {
             $phone = $this->getRandomPhone($faker);
             $address = $this->getRandomAddress($faker);
 
@@ -91,11 +91,15 @@ class UserSeeder extends Seeder {
             'Phạm',
             'Trần',
             'Nguyễn',
+            'Đặng',
+            'Hồ',
+            'Hoàng',
+            'Đào',
         ]);
     }
 
     public function getRandomLastName($faker) {
-        return $faker->randomElement(['Đức Hùng', 'Quang Bảo', 'Minh Chính', 'Văn Thanh']);
+        return $faker->randomElement(['Đức Hùng', 'Quang Bảo', 'Minh Chính', 'Văn Thanh', 'Tiến Đạt', 'Quốc Khánh', 'Bình Minh', 'Ánh Sao', 'Phương Tuấn']);
     }
 
     public function getRandomPhone($faker) {
@@ -104,22 +108,20 @@ class UserSeeder extends Seeder {
     }
 
     public function getRandomAddress($faker) {
-        return
-            $faker->numberBetween(1, 1000)
-            . ' '
-            . $faker->randomElement([
-                'Đường Lê Lợi',
-                'Đường Nguyễn Huệ',
-                'Đường Trần Hưng Đạo',
-                'Đường Hai Bà Trưng',
-                'Đường Phạm Ngũ Lão',
-                'Đường Điện Biên Phủ',
-                'Đường Lý Thái Tổ',
-                'Đường Nguyễn Trãi',
-                'Đường Cách Mạng Tháng Tám',
-                'Đường Pasteur',
-            ])
-            . ', '
-            . $faker->randomElement(['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']);
+        $addresses = [
+            '150 Đường Hùng Vương, Thị trấn Đông Hà, Huyện Cam Lộ, Quảng Trị',
+            '50 Đường Lý Thái Tổ, Thị trấn Đồng Văn, Huyện Duy Tiên, Hà Nam',
+            '3569 Đường Phạm Văn Đồng, Phường Linh Đông, Thành phố Thủ Đức, Hồ Chí Minh',
+            '120 Đường Trần Phú, Phường Máy Chai, Quận Ngô Quyền, Hải Phòng',
+            '20 Đường Trần Phú, Thị trấn Đức An, Huyện Đăk Song, Đắk Nông',
+            '30 Đường Quang Trung, Thị trấn Krông Klang, Huyện Đakrông, Quảng Trị',
+            '40 Đường Phan Bội Châu, Thị trấn Gia Nghĩa, Thành phố Gia Nghĩa, Đắk Nông',
+            '2072 Đường Quách Thị Trang, Xã Vĩnh Thanh, Huyện Nhơn Trạch, Đồng Nai',
+            '60 Đường Hoàng Diệu, Thị trấn Tân Phú, Huyện Tân Phú, Đồng Nai',
+            '70 Đường Nguyễn Trãi, Thị trấn Phước Bửu, Huyện Xuyên Mộc, Bà Rịa - Vũng Tàu'
+        ];
+        //TDP1, Thị trấn An Phú, Huyện An Phú, An Giang
+
+        return $faker->randomElement($addresses);
     }
 }
