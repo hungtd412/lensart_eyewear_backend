@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Cart\StoreCartDetailRequest;
+use App\Http\Requests\Cart\UpdateCartDetailRequest;
 use App\Services\CartDetailService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +30,7 @@ class CartDetailController extends Controller {
         return $this->cartDetailService->store($data);
     }
 
-    public function update(StoreCartDetailRequest $request, $id) {
+    public function update(UpdateCartDetailRequest $request, $id) {
         $userId = auth()->id(); // Lấy user_id
         return $this->cartDetailService->update($request->validated(), $id, $userId);
     }
