@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder {
             CartAndDetailSeeder::class,
             OrderAndDetailSeeder::class,
             WishlistAndDetailSeeder::class,
-            // BlogSeeder::class,
-            ProductImageSeeder::class, //tam thoi chua seed product images
+            BlogSeeder::class,
+            ProductReviewSeeder::class,
+            // ProductImageSeeder::class, tam thoi chua seed product images
         ]);
     }
 }
