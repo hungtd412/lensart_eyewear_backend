@@ -78,7 +78,7 @@ class ProductRepository implements ProductRepositoryInterface
 
         return Product::where('status', 'active') // Kiểm tra sản phẩm có `status = 1`
             ->whereHas('productDetails', function ($query) {
-                $query->where('status', 'active') // Kiểm tra `status` của product_details
+                $query->where('product_details.status', 'active') // Kiểm tra `status` của product_details
                     ->where('quantity', '>', 0); // Kiểm tra `quantity > 0`
             })
             ->where(function ($query) use ($keywords) {
@@ -103,9 +103,9 @@ class ProductRepository implements ProductRepositoryInterface
                 'brand:id,name', // Lấy thông tin thương hiệu
                 'category:id,name', // Lấy thông tin danh mục
                 'productDetails' => function ($query) {
-                    $query->where('status', 'active') // Chỉ lấy product_details đang hoạt động
+                    $query->where('product_details.status', 'active') // Chỉ lấy product_details đang hoạt động
                         ->where('quantity', '>', 0) // Lấy product_details có số lượng > 0
-                        ->select('product_id', 'branch_id', 'color', 'quantity', 'status'); // Chọn các cột cần thiết
+                        ->select('product_details.product_id', 'product_details.branch_id', 'product_details.color', 'product_details.quantity', 'product_details.status'); // Chọn các cột cần thiết
                 }
             ])
             ->get();
