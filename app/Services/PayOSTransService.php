@@ -16,7 +16,7 @@ class PayOSTransService {
 
         return response()->json([
             'status' => 'success',
-            'payOSTrans' => $payOSTrans
+            'data' => $payOSTrans
         ], 200);
     }
 
@@ -30,7 +30,7 @@ class PayOSTransService {
 
         return response()->json([
             'status' => 'success',
-            'payOSTranses' => $payOSTranses
+            'data' => $payOSTranses
         ], 200);
     }
 
@@ -45,7 +45,7 @@ class PayOSTransService {
 
         return response()->json([
             'message' => 'success',
-            'payOSTrans' => $payOSTrans,
+            'data' => $payOSTrans,
         ], 200);
     }
 
