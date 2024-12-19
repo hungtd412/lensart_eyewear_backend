@@ -12,7 +12,7 @@ class MaterialService {
     }
 
     public function store($data) {
-        $material = $this->materialRepository->store($data->toArray());
+        $material = $this->materialRepository->store($data);
 
         return response()->json([
             'status' => 'success',
