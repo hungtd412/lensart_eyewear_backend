@@ -46,12 +46,15 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function getByIdActive($id) {
-        return Product::where('id', $id)->where('status', 'active')->first();
+        return Product::where('id', $id)->where('status', 'active')
+            ->with(['images'])
+            ->first();
     }
 
     public function getByCategoryIdActive($categoryId) {
         return Product::where('category_id', $categoryId)
             ->where('status', 'active')
+            ->with(['images'])
             ->get();
     }
 
