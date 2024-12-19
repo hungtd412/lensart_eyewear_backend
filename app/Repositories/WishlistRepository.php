@@ -16,7 +16,7 @@ class WishlistRepository implements WishlistRepositoryInterface
         $wishlist = Wishlist::where('user_id', $userId)
             ->with([
                 'details' => function ($query) {
-                    $query->with(['product.category']);
+                    $query->with(['product.category', 'product.mainImage']);
                 }
             ])
             ->first();
@@ -31,6 +31,7 @@ class WishlistRepository implements WishlistRepositoryInterface
                         'product_id' => $detail->product_id,
                         'product_name' => $detail->product->name,
                         'product_price' => $detail->product->price,
+                        'product_image' => $detail->product->mainImage->image_url ?? 'N/A',
                         'category' => $detail->product->category->name ?? 'N/A'
                     ];
                 })

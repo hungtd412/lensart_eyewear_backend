@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Product extends Model {
+class Product extends Model
+{
     use HasFactory;
     public $timestamps = false;
 
@@ -31,63 +32,77 @@ class Product extends Model {
 
 
     // Thiết lập mối quan hệ với bảng Category
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng Brand
      */
-    public function brand() {
+    public function brand()
+    {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng Shape
      */
-    public function shape() {
+    public function shape()
+    {
         return $this->belongsTo(Shape::class, 'shape_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng Material
      */
-    public function material() {
+    public function material()
+    {
         return $this->belongsTo(Material::class, 'material_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng ProductFeature
      */
-    public function features() {
+    public function features()
+    {
         return $this->belongsToMany(Feature::class, 'product_features', 'product_id', 'feature_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng ProductDetail
      */
-    public function details() {
+    public function details()
+    {
         return $this->hasMany(ProductDetail::class, 'product_id');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng ProductImage
      */
-    public function images() {
+    public function images()
+    {
         return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+    public function mainImage()
+    {
+        return $this->hasOne(ProductImage::class, 'product_id', 'id')->orderBy('id', 'desc');
     }
 
     /**
      * Thiết lập mối quan hệ với bảng Reviews (nếu có)
      */
-    public function reviews() {
+    public function reviews()
+    {
         return $this->hasMany(ProductReview::class, 'product_id')
             ->join('users', 'product_reviews.user_id', '=', 'users.id')
             ->select('product_reviews.*', 'users.firstname', 'users.lastname');
     }
 
     // Định nghĩa mối quan hệ với bảng product_details
-    public function productDetails() {
+    public function productDetails()
+    {
         return $this->hasMany(ProductDetail::class, 'product_id')
             ->join('branches', 'product_details.branch_id', '=', 'branches.id')
             ->select('product_details.*', 'branches.name as branch_name', 'branches.address', 'branches.index')
