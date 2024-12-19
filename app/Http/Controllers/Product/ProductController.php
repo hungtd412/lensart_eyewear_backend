@@ -19,7 +19,12 @@ class ProductController extends Controller {
 
     public function store(StoreProductRequest $request) {
         $data = $request->validated();
+        if ($data['gender'] == null) {
+            $data['gender'] = 'unisex';
+        }
+
         $product = $this->productService->store($data)->getData()->data;
+
 
         if (array_key_exists('features', $data)) {
             $this->productFeatureService->store($product->id, $data['features']);
