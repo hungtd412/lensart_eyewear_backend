@@ -1,13 +1,6 @@
-/*-- 1. INSERT INTO role
-INSERT INTO role (id, name) VALUES (1, 'admin'), (2, 'manager'), (3, 'customer');
---seed role
-
--- 2. INSERT INTO users
---seed user
-*/
-
 -- 3. INSERT INTO branches
-INSERT INTO branches VALUES
+INSERT INTO branches (id, name, address, manager_id, `index`, status)
+VALUES
 (1, 'Hồ Chí Minh', '123 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh', 2, 1.0, 'active'),
 (2, 'Đà Nẵng', '456 Trần Phú, Quận Hải Châu, TP. Đà Nẵng', 3, 0.8, 'active'),
 (3, 'Hà Nội', '789 Đường Láng, Quận Đống Đa, TP. Hà Nội', 4, 0.9, 'active');
@@ -238,7 +231,7 @@ VALUES
 INSERT INTO product_images (product_id, image_url, image_public_id)
 VALUES
 -- Sản phẩm 1
-(1, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273140/x%C3%A1m_b%E1%BA%A1c_spprbv.jpg', 'xám_bạc_rqd1sp'),
+(1, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734276754/x%C3%A1m_b%E1%BA%A1c_rqd1sp.jpg', 'xám_bạc_rqd1sp'),
 (1, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_jk1pdd.jpg', 'đen_jk1pdd'),
 (1, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_x%C3%A1m_prcgd8.jpg', 'đen_xám_prcgd8'),
 (1, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_x%C3%A1m_2_mmnpzf.jpg', 'đen_xám_2_mmnpzf'),
@@ -660,43 +653,43 @@ VALUES
 INSERT INTO cart_details (id, cart_id, product_id, branch_id, color, quantity, total_price)
 VALUES
 -- Khách hàng 1 (cart_id = 1, 1 sản phẩm)
-(1, 1, 1, 1, 'Đen', 1, 450000),
+(1, 1, 1, 1, 'Đen', 1, 500000 * 1 * 1.0),
 
 -- Khách hàng 2 (cart_id = 2, 2 sản phẩm)
-(2, 2, 2, 1, 'Xanh Dương', 1, 500000),
-(3, 2, 3, 1, 'Đỏ', 2, 1200000),
+(2, 2, 2, 1, 'Xanh Dương', 1, 500000 * 1 * 1.0),
+(3, 2, 3, 1, 'Đỏ', 2, 600000 * 2 * 1.0),
 
 -- Khách hàng 3 (cart_id = 3, 3 sản phẩm)
-(4, 3, 4, 1, 'Xanh Lá', 1, 650000),
-(5, 3, 5, 1, 'Nâu', 1, 700000),
-(6, 3, 6, 1, 'Xám', 1, 750000),
+(4, 3, 4, 1, 'Xanh Lá', 1, 650000 * 1 * 1.0),
+(5, 3, 5, 1, 'Nâu', 1, 650000 * 1 * 1.0),
+(6, 3, 6, 1, 'Xám', 1, 750000 * 1 * 1.0),
 
 -- Khách hàng 4 (cart_id = 4, 1 sản phẩm)
-(7, 4, 7, 2, 'Đen', 1, 1050000),
+(7, 4, 7, 2, 'Đen', 1, 1100000 * 1 * 0.8),
 
 -- Khách hàng 5 (cart_id = 5, 2 sản phẩm)
-(8, 5, 8, 2, 'Xanh Dương', 1, 1150000),
-(9, 5, 9, 2, 'Đỏ', 1, 1250000),
+(8, 5, 8, 2, 'Xanh Dương', 1, 1150000 * 1 * 0.8),
+(9, 5, 9, 2, 'Đỏ', 1, 1300000 * 1 * 0.8),
 
 -- Khách hàng 6 (cart_id = 6, 3 sản phẩm)
-(10, 6, 10, 2, 'Xanh Lá', 1, 1350000),
-(11, 6, 11, 2, 'Nâu', 1, 1450000),
-(12, 6, 12, 2, 'Xám', 1, 1550000),
+(10, 6, 10, 2, 'Xanh Lá', 1, 1400000 * 1 * 0.8),
+(11, 6, 11, 2, 'Nâu', 1, 1500000 * 1 * 0.8),
+(12, 6, 12, 2, 'Xám', 1, 1550000 * 1 * 0.8),
 
 -- Khách hàng 7 (cart_id = 7, 1 sản phẩm)
-(13, 7, 13, 3, 'Đen', 1, 2000000),
+(13, 7, 13, 3, 'Đen', 1, 2100000 * 1 * 0.9),
 
 -- Khách hàng 8 (cart_id = 8, 2 sản phẩm)
-(14, 8, 14, 3, 'Xanh Dương', 1, 2100000),
-(15, 8, 15, 3, 'Đỏ', 1, 2200000),
+(14, 8, 14, 3, 'Xanh Dương', 1, 2100000 * 1 * 0.9),
+(15, 8, 15, 3, 'Đỏ', 1, 2300000 * 1 * 0.9),
 
 -- Khách hàng 9 (cart_id = 9, 3 sản phẩm)
-(16, 9, 16, 3, 'Xanh Lá', 1, 2300000),
-(17, 9, 17, 3, 'Nâu', 1, 2400000),
-(18, 9, 18, 3, 'Xám', 1, 2500000),
+(16, 9, 16, 3, 'Xanh Lá', 1, 2400000 * 1 * 0.9),
+(17, 9, 17, 3, 'Nâu', 1, 2400000 * 1 * 0.9),
+(18, 9, 18, 3, 'Xám', 1, 2500000 * 1 * 0.9),
 
 -- Khách hàng 10 (cart_id = 10, 1 sản phẩm)
-(19, 10, 19, 1, 'Đen', 1, 450000);
+(19, 10, 19, 1, 'Đen', 1, 500000 * 1 * 1.0);
 
 -- 15. INSERT INTO wishlists
 -- Tạo wishlist cho 4 khách hàng
@@ -747,189 +740,188 @@ VALUES
 INSERT INTO orders (id, user_id, date, branch_id, address, note, coupon_id, total_price, payment_status, order_status, payment_method, status)
 VALUES
 -- HCM (34 đơn hàng)
-(1, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Deliver fast', 1, 490000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(2, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Momo QR', 'active'),
+(1, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Deliver fast', 1, 490000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(2, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (3, 6, NOW(), 1, '456 Le Loi, HCM', 'Fast delivery', 2, 1985000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(4, 6, NOW(), 1, '456 Le Loi, HCM', 'Important', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Napas 247', 'active'),
-(5, 7, NOW(), 1, '789 Tran Hung Dao, HCM', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
-(6, 8, NOW(), 1, '56 Vo Van Kiet, HCM', 'Gift wrap', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(4, 6, NOW(), 1, '456 Le Loi, HCM', 'Important', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(5, 7, NOW(), 1, '789 Tran Hung Dao, HCM', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(6, 8, NOW(), 1, '56 Vo Van Kiet, HCM', 'Gift wrap', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (7, 9, NOW(), 1, '35 Nguyen Hue, HCM', 'Careful packaging', NULL, 800000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
-(8, 10, NOW(), 1, '89 Dien Bien Phu, HCM', 'Priority delivery', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Napas 247', 'active'),
-(9, 11, NOW(), 1, '12 Ly Chinh Thang, HCM', 'Express delivery', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(10, 12, NOW(), 1, '23 Vo Thi Sau, HCM', 'Special request', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Napas 247', 'active'),
-(11, 13, NOW(), 1, '45 Dinh Tien Hoang, HCM', 'Fragile items', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Momo QR', 'active'),
+(8, 10, NOW(), 1, '89 Dien Bien Phu, HCM', 'Priority delivery', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(9, 11, NOW(), 1, '12 Ly Chinh Thang, HCM', 'Express delivery', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(10, 12, NOW(), 1, '23 Vo Thi Sau, HCM', 'Special request', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(11, 13, NOW(), 1, '45 Dinh Tien Hoang, HCM', 'Fragile items', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
 (12, 14, NOW(), 1, '67 Le Duan, HCM', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(13, 15, NOW(), 1, '89 Hai Ba Trung, HCM', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
-(14, 16, NOW(), 1, '101 Pasteur, HCM', 'Handle carefully', NULL, 1550000, 'Đã thanh toán', 'Đang xử lý', 'Napas 247', 'active'),
-(15, 17, NOW(), 1, '34 Nguyen Oanh, HCM', 'Quick delivery', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
-(16, 18, NOW(), 1, '56 Tran Quang Khai, HCM', 'Special care', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
+(13, 15, NOW(), 1, '89 Hai Ba Trung, HCM', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(14, 16, NOW(), 1, '101 Pasteur, HCM', 'Handle carefully', NULL, 1550000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
+(15, 17, NOW(), 1, '34 Nguyen Oanh, HCM', 'Quick delivery', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(16, 18, NOW(), 1, '56 Tran Quang Khai, HCM', 'Special care', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (17, 19, NOW(), 1, '78 Ton Duc Thang, HCM', 'Urgent', NULL, 950000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(18, 20, NOW(), 1, '101 Nguyen Dinh Chieu, HCM', 'Priority', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Napas 247', 'active'),
-(19, 21, NOW(), 1, '67 Cach Mang Thang Tam, HCM', 'Deliver now', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(20, 22, NOW(), 1, '34 Truong Dinh, HCM', 'Handle carefully', NULL, 1350000, 'Đã thanh toán', 'Đã giao', 'Momo QR', 'active'),
-(21, 23, NOW(), 1, '56 Le Van Sy, HCM', 'Careful packaging', NULL, 1250000, 'Đã thanh toán', 'Đang giao hàng', 'Napas 247', 'active'),
-(22, 24, NOW(), 1, '78 Pham Van Dong, HCM', 'Quick service', NULL, 950000, 'Chưa thanh toán', 'Đã giao', 'Momo ATM', 'active'),
+(18, 20, NOW(), 1, '101 Nguyen Dinh Chieu, HCM', 'Priority', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(19, 21, NOW(), 1, '67 Cach Mang Thang Tam, HCM', 'Deliver now', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(20, 22, NOW(), 1, '34 Truong Dinh, HCM', 'Handle carefully', NULL, 1350000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(21, 23, NOW(), 1, '56 Le Van Sy, HCM', 'Careful packaging', NULL, 1250000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(22, 24, NOW(), 1, '78 Pham Van Dong, HCM', 'Quick service', NULL, 950000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (23, 25, NOW(), 1, '101 Dien Bien Phu, HCM', 'Urgent request', NULL, 1450000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(24, 26, NOW(), 1, '67 Nguyen Van Cu, HCM', 'Deliver with care', NULL, 1200000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
-(25, 27, NOW(), 1, '34 Vo Van Tan, HCM', 'Handle with caution', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Napas 247', 'active'),
-(26, 28, NOW(), 1, '56 Ly Thuong Kiet, HCM', 'Deliver fast', NULL, 1550000, 'Đã thanh toán', 'Đang xử lý', 'Momo ATM', 'active'),
+(24, 26, NOW(), 1, '67 Nguyen Van Cu, HCM', 'Deliver with care', NULL, 1200000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(25, 27, NOW(), 1, '34 Vo Van Tan, HCM', 'Handle with caution', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(26, 28, NOW(), 1, '56 Ly Thuong Kiet, HCM', 'Deliver fast', NULL, 1550000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
 (27, 29, NOW(), 1, '78 Bach Dang, HCM', 'Gift item', NULL, 1400000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(28, 30, NOW(), 1, '101 Hoang Sa, HCM', 'Quick handling', NULL, 1250000, 'Chưa thanh toán', 'Đã giao', 'Napas 247', 'active'),
-(29, 31, NOW(), 1, '34 Truong Chinh, HCM', 'Careful packaging', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
-(30, 32, NOW(), 1, '56 Nguyen Trai, HCM', 'Fragile item', NULL, 1100000, 'Đã thanh toán', 'Đang xử lý', 'Momo ATM', 'active'),
+(28, 30, NOW(), 1, '101 Hoang Sa, HCM', 'Quick handling', NULL, 1250000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(29, 31, NOW(), 1, '34 Truong Chinh, HCM', 'Careful packaging', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(30, 32, NOW(), 1, '56 Nguyen Trai, HCM', 'Fragile item', NULL, 1100000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
 (31, 33, NOW(), 1, '78 Dong Khoi, HCM', 'Handle urgently', NULL, 1250000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(32, 34, NOW(), 1, '101 Pasteur, HCM', 'Deliver fast', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Napas 247', 'active');
+(32, 34, NOW(), 1, '101 Pasteur, HCM', 'Deliver fast', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active');
 
 -- HN (19 đơn hàng)
 INSERT INTO orders (id, user_id, date, branch_id, address, note, coupon_id, total_price, payment_status, order_status, payment_method, status)
 VALUES
-(40, 5, NOW(), 3, '123 Nguyen Trai, Ha Noi', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(41, 6, NOW(), 3, '456 Le Loi, Ha Noi', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Momo QR', 'active'),
+(40, 5, NOW(), 3, '123 Nguyen Trai, Ha Noi', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(41, 6, NOW(), 3, '456 Le Loi, Ha Noi', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (42, 7, NOW(), 3, '789 Tran Hung Dao, Ha Noi', 'Urgent delivery', NULL, 2000000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(43, 8, NOW(), 3, '12 Ly Chinh Thang, Ha Noi', 'Gift wrap', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Napas 247', 'active'),
-(44, 9, NOW(), 3, '35 Nguyen Hue, Ha Noi', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
-(45, 10, NOW(), 3, '89 Dien Bien Phu, Ha Noi', 'Priority delivery', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(43, 8, NOW(), 3, '12 Ly Chinh Thang, Ha Noi', 'Gift wrap', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(44, 9, NOW(), 3, '35 Nguyen Hue, Ha Noi', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(45, 10, NOW(), 3, '89 Dien Bien Phu, Ha Noi', 'Priority delivery', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (46, 11, NOW(), 3, '23 Vo Thi Sau, Ha Noi', 'Special request', NULL, 800000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
-(47, 12, NOW(), 3, '101 Pasteur, Ha Noi', 'Quick service', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Napas 247', 'active'),
-(48, 13, NOW(), 3, '45 Dinh Tien Hoang, Ha Noi', 'Careful packaging', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(49, 14, NOW(), 3, '67 Le Duan, Ha Noi', 'Express delivery', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Napas 247', 'active'),
-(50, 15, NOW(), 3, '89 Hai Ba Trung, Ha Noi', 'Urgent', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Momo QR', 'active'),
+(47, 12, NOW(), 3, '101 Pasteur, Ha Noi', 'Quick service', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(48, 13, NOW(), 3, '45 Dinh Tien Hoang, Ha Noi', 'Careful packaging', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(49, 14, NOW(), 3, '67 Le Duan, Ha Noi', 'Express delivery', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(50, 15, NOW(), 3, '89 Hai Ba Trung, Ha Noi', 'Urgent', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (51, 16, NOW(), 3, '101 Nguyen Dinh Chieu, Ha Noi', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(52, 17, NOW(), 3, '34 Nguyen Oanh, Ha Noi', 'Handle carefully', NULL, 1500000, 'Đã thanh toán', 'Đang xử lý', 'Napas 247', 'active'),
-(53, 18, NOW(), 3, '56 Tran Quang Khai, Ha Noi', 'Deliver fast', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
-(54, 19, NOW(), 3, '78 Ton Duc Thang, Ha Noi', 'Special care', NULL, 950000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(52, 17, NOW(), 3, '34 Nguyen Oanh, Ha Noi', 'Handle carefully', NULL, 1500000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
+(53, 18, NOW(), 3, '56 Tran Quang Khai, Ha Noi', 'Deliver fast', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(54, 19, NOW(), 3, '78 Ton Duc Thang, Ha Noi', 'Special care', NULL, 950000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (55, 20, NOW(), 3, '67 Cach Mang Thang Tam, Ha Noi', 'Deliver with care', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(56, 21, NOW(), 3, '34 Truong Dinh, Ha Noi', 'Handle urgently', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Napas 247', 'active'),
-(57, 22, NOW(), 3, '56 Le Van Sy, Ha Noi', 'Priority delivery', NULL, 1350000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(58, 23, NOW(), 3, '78 Bach Dang, Ha Noi', 'Urgent request', NULL, 1200000, 'Đã thanh toán', 'Đã giao', 'Napas 247', 'active'),
+(56, 21, NOW(), 3, '34 Truong Dinh, Ha Noi', 'Handle urgently', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(57, 22, NOW(), 3, '56 Le Van Sy, Ha Noi', 'Priority delivery', NULL, 1350000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(58, 23, NOW(), 3, '78 Bach Dang, Ha Noi', 'Urgent request', NULL, 1200000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (59, 24, NOW(), 3, '101 Nguyen Van Cu, Ha Noi', 'Quick delivery', NULL, 1400000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active');
 
 -- Đà Nẵng (19 đơn hàng)
 INSERT INTO orders (id, user_id, date, branch_id, address, note, coupon_id, total_price, payment_status, order_status, payment_method, status)
 VALUES
-(60, 5, NOW(), 2, '123 Nguyen Trai, Da Nang', 'Deliver fast', NULL, 800000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(61, 6, NOW(), 2, '456 Le Loi, Da Nang', 'Handle with care', NULL, 1200000, 'Đã thanh toán', 'Đã giao', 'Momo QR', 'active'),
+(60, 5, NOW(), 2, '123 Nguyen Trai, Da Nang', 'Deliver fast', NULL, 800000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(61, 6, NOW(), 2, '456 Le Loi, Da Nang', 'Handle with care', NULL, 1200000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (62, 7, NOW(), 2, '789 Tran Hung Dao, Da Nang', 'Urgent delivery', NULL, 1600000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(63, 8, NOW(), 2, '12 Ly Chinh Thang, Da Nang', 'Gift wrap', NULL, 960000, 'Chưa thanh toán', 'Đã hủy', 'Napas 247', 'active'),
-(64, 9, NOW(), 2, '35 Nguyen Hue, Da Nang', 'Fragile', NULL, 1120000, 'Đã thanh toán', 'Đã giao', 'Momo ATM', 'active'),
-(65, 10, NOW(), 2, '89 Dien Bien Phu, Da Nang', 'Priority delivery', NULL, 720000, 'Chưa thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(63, 8, NOW(), 2, '12 Ly Chinh Thang, Da Nang', 'Gift wrap', NULL, 960000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(64, 9, NOW(), 2, '35 Nguyen Hue, Da Nang', 'Fragile', NULL, 1120000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(65, 10, NOW(), 2, '89 Dien Bien Phu, Da Nang', 'Priority delivery', NULL, 720000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (66, 11, NOW(), 2, '23 Vo Thi Sau, Da Nang', 'Special request', NULL, 640000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
-(67, 12, NOW(), 2, '101 Pasteur, Da Nang', 'Quick service', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(68, 13, NOW(), 2, '45 Dinh Tien Hoang, Da Nang', 'Careful packaging', NULL, 1040000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(67, 12, NOW(), 2, '101 Pasteur, Da Nang', 'Quick service', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(68, 13, NOW(), 2, '45 Dinh Tien Hoang, Da Nang', 'Careful packaging', NULL, 1040000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (69, 14, NOW(), 2, '67 Le Duan, Da Nang', 'Express delivery', NULL, 760000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
-(70, 15, NOW(), 2, '89 Hai Ba Trung, Da Nang', 'Urgent', NULL, 960000, 'Chưa thanh toán', 'Đã giao', 'Napas 247', 'active'),
+(70, 15, NOW(), 2, '89 Hai Ba Trung, Da Nang', 'Urgent', NULL, 960000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (71, 16, NOW(), 2, '101 Nguyen Dinh Chieu, Da Nang', 'Gift for someone', NULL, 1120000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(72, 17, NOW(), 2, '34 Nguyen Oanh, Da Nang', 'Handle carefully', NULL, 1200000, 'Đã thanh toán', 'Đang xử lý', 'Momo ATM', 'active'),
-(73, 18, NOW(), 2, '56 Tran Quang Khai, Da Nang', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đã giao', 'Momo QR', 'active'),
+(72, 17, NOW(), 2, '34 Nguyen Oanh, Da Nang', 'Handle carefully', NULL, 1200000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
+(73, 18, NOW(), 2, '56 Tran Quang Khai, Da Nang', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (74, 19, NOW(), 2, '78 Ton Duc Thang, Da Nang', 'Special care', NULL, 760000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(75, 20, NOW(), 2, '67 Cach Mang Thang Tam, Da Nang', 'Deliver with care', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Napas 247', 'active'),
-(76, 21, NOW(), 2, '34 Truong Dinh, Da Nang', 'Handle urgently', NULL, 1160000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active'),
-(77, 22, NOW(), 2, '56 Le Van Sy, Da Nang', 'Priority delivery', NULL, 1080000, 'Đã thanh toán', 'Đang giao hàng', 'Momo QR', 'active'),
+(75, 20, NOW(), 2, '67 Cach Mang Thang Tam, Da Nang', 'Deliver with care', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(76, 21, NOW(), 2, '34 Truong Dinh, Da Nang', 'Handle urgently', NULL, 1160000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(77, 22, NOW(), 2, '56 Le Van Sy, Da Nang', 'Priority delivery', NULL, 1080000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (78, 23, NOW(), 2, '78 Bach Dang, Da Nang', 'Urgent request', NULL, 960000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
-(79, 24, NOW(), 2, '101 Nguyen Van Cu, Da Nang', 'Quick delivery', NULL, 1120000, 'Đã thanh toán', 'Đang giao hàng', 'Momo ATM', 'active');
+(79, 24, NOW(), 2, '101 Nguyen Van Cu, Da Nang', 'Quick delivery', NULL, 1120000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active');
 
 -- 18. INSERT INTO order_details
 -- HCM
 INSERT INTO order_details (id, order_id, product_id, color, quantity, total_price) VALUES
-(1, 1, 1, 'Đen', 1, 500000),
-(2, 1, 2, 'Xanh', 1, 500000),
-(3, 2, 3, 'Đỏ', 2, 1500000),
-(4, 3, 4, 'Xanh lá', 1, 1000000),
-(5, 3, 5, 'Đen', 1, 1000000),
-(6, 4, 6, 'Trắng', 1, 1200000),
-(7, 5, 7, 'Xanh', 2, 1400000),
-(8, 6, 8, 'Vàng', 1, 900000),
-(9, 7, 9, 'Đen', 1, 800000),
-(10, 8, 10, 'Xanh lá', 2, 1100000),
-(11, 9, 11, 'Xanh', 1, 1300000),
-(12, 10, 12, 'Đỏ', 1, 950000),
-(13, 11, 13, 'Vàng', 1, 1200000),
-(14, 12, 14, 'Đen', 2, 1000000),
-(15, 13, 15, 'Xanh', 1, 1400000),
-(16, 14, 16, 'Xanh lá', 1, 1550000),
-(17, 15, 17, 'Đỏ', 2, 1450000),
-(18, 16, 18, 'Trắng', 1, 1250000),
-(19, 17, 19, 'Đen', 1, 950000),
-(20, 18, 20, 'Xanh', 1, 1200000),
-(21, 19, 21, 'Vàng', 2, 1100000),
-(22, 20, 22, 'Xanh lá', 1, 1350000),
-(23, 21, 23, 'Đen', 2, 1250000),
-(24, 22, 24, 'Xanh', 1, 950000),
-(25, 23, 25, 'Đỏ', 1, 1450000),
-(26, 24, 26, 'Xanh lá', 1, 1200000),
-(27, 25, 27, 'Trắng', 1, 1300000),
-(28, 26, 28, 'Vàng', 2, 1550000),
-(29, 27, 29, 'Xanh', 1, 1400000),
-(30, 28, 30, 'Đen', 1, 1250000),
-(31, 29, 31, 'Xanh lá', 1, 1450000),
-(32, 30, 32, 'Đỏ', 2, 1100000),
-(33, 31, 33, 'Vàng', 1, 1250000),
-(34, 32, 34, 'Đen', 1, 1300000);
+(1, 1, 1, 'Đen', 1, 500000 * 1 * 1.0 - 10000),
+(2, 1, 2, 'Xanh', 1, 500000 * 1 * 1.0 - 10000),
+(3, 2, 3, 'Đỏ', 2, 600000 * 2 * 1.0),
+(4, 3, 4, 'Xanh lá', 1, 650000 * 1 * 1.0 - 15000),
+(5, 3, 5, 'Đen', 1, 650000 * 1 * 1.0 - 15000),
+(6, 4, 6, 'Trắng', 1, 750000 * 1 * 1.0),
+(7, 5, 7, 'Xanh', 2, 1100000 * 2 * 1.0),
+(8, 6, 8, 'Vàng', 1, 1150000 * 1 * 1.0),
+(9, 7, 9, 'Đen', 1, 1300000 * 1 * 1.0),
+(10, 8, 10, 'Xanh lá', 2, 1400000 * 2 * 1.0),
+(11, 9, 11, 'Xanh', 1, 1500000 * 1 * 1.0),
+(12, 10, 12, 'Đỏ', 1, 1550000 * 1 * 1.0),
+(13, 11, 13, 'Vàng', 1, 2100000 * 1 * 1.0),
+(14, 12, 14, 'Đen', 2, 2100000 * 2 * 1.0),
+(15, 13, 15, 'Xanh', 1, 2300000 * 1 * 1.0),
+(16, 14, 16, 'Xanh lá', 1, 2400000 * 1 * 1.0),
+(17, 15, 17, 'Đỏ', 2, 2400000 * 2 * 1.0),
+(18, 16, 18, 'Trắng', 1, 2500000 * 1 * 1.0),
+(19, 17, 19, 'Đen', 1, 500000 * 1 * 1.0),
+(20, 18, 20, 'Xanh', 1, 500000 * 1 * 1.0),
+(21, 19, 21, 'Vàng', 2, 600000 * 2 * 1.0),
+(22, 20, 22, 'Xanh lá', 1, 650000 * 1 * 1.0),
+(23, 21, 23, 'Đen', 2, 650000 * 2 * 1.0),
+(24, 22, 24, 'Xanh', 1, 750000 * 1 * 1.0),
+(25, 23, 25, 'Đỏ', 1, 1100000 * 1 * 1.0),
+(26, 24, 26, 'Xanh lá', 1, 1150000 * 1 * 1.0),
+(27, 25, 27, 'Trắng', 1, 1300000 * 1 * 1.0),
+(28, 26, 28, 'Vàng', 2, 1400000 * 2 * 1.0),
+(29, 27, 29, 'Xanh', 1, 1500000 * 1 * 1.0),
+(30, 28, 30, 'Đen', 1, 1550000 * 1 * 1.0),
+(31, 29, 31, 'Xanh lá', 1, 2100000 * 1 * 1.0),
+(32, 30, 32, 'Đỏ', 2, 2100000 * 2 * 1.0),
+(33, 31, 33, 'Vàng', 1, 2300000 * 1 * 1.0),
+(34, 32, 34, 'Đen', 1, 2400000 * 1 * 1.0);
 
 -- HN
 INSERT INTO order_details (id, order_id, product_id, color, quantity, total_price) VALUES
-(35, 40, 1, 'Đen', 1, 500000),
-(36, 40, 2, 'Xanh', 1, 500000),
-(37, 41, 3, 'Đỏ', 2, 1500000),
-(38, 42, 4, 'Xanh lá', 1, 1000000),
-(39, 42, 5, 'Đen', 1, 1000000),
-(40, 43, 6, 'Trắng', 1, 1200000),
-(41, 44, 7, 'Xanh', 2, 1400000),
-(42, 45, 8, 'Vàng', 1, 900000),
-(43, 46, 9, 'Đen', 1, 800000),
-(44, 47, 10, 'Xanh lá', 2, 1100000),
-(45, 48, 11, 'Xanh', 1, 1300000),
-(46, 49, 12, 'Đỏ', 1, 950000),
-(47, 50, 13, 'Vàng', 1, 1200000),
-(48, 51, 14, 'Đen', 2, 1400000),
-(49, 52, 15, 'Xanh', 1, 1500000),
-(50, 53, 16, 'Xanh lá', 1, 1250000),
-(51, 54, 17, 'Đỏ', 2, 950000),
-(52, 55, 18, 'Trắng', 1, 1100000),
-(53, 56, 19, 'Đen', 1, 1450000),
-(54, 57, 20, 'Xanh', 1, 1350000),
-(55, 58, 21, 'Vàng', 2, 1200000),
-(56, 59, 22, 'Xanh lá', 1, 1400000);
+(35, 40, 1, 'Đen', 1, 500000 * 1 * 0.9),
+(36, 40, 2, 'Xanh', 1, 500000 * 1 * 0.9),
+(37, 41, 3, 'Đỏ', 2, 600000 * 2 * 0.9),
+(38, 42, 4, 'Xanh lá', 1, 650000 * 1 * 0.9),
+(39, 42, 5, 'Đen', 1, 650000 * 1 * 0.9),
+(40, 43, 6, 'Trắng', 1, 750000 * 1 * 0.9),
+(41, 44, 7, 'Xanh', 2, 1100000 * 2 * 0.9),
+(42, 45, 8, 'Vàng', 1, 1150000 * 1 * 0.9),
+(43, 46, 9, 'Đen', 1, 1300000 * 1 * 0.9),
+(44, 47, 10, 'Xanh lá', 2, 1400000 * 2 * 0.9),
+(45, 48, 11, 'Xanh', 1, 1500000 * 1 * 0.9),
+(46, 49, 12, 'Đỏ', 1, 1550000 * 1 * 0.9),
+(47, 50, 13, 'Vàng', 1, 2100000 * 1 * 0.9),
+(48, 51, 14, 'Đen', 2, 2100000 * 2 * 0.9),
+(49, 52, 15, 'Xanh', 1, 2300000 * 1 * 0.9),
+(50, 53, 16, 'Xanh lá', 1, 2400000 * 1 * 0.9),
+(51, 54, 17, 'Đỏ', 2, 2400000 * 2 * 0.9),
+(52, 55, 18, 'Trắng', 1, 2500000 * 1 * 0.9),
+(53, 56, 19, 'Đen', 1, 500000 * 1 * 0.9),
+(54, 57, 20, 'Xanh', 1, 500000 * 1 * 0.9),
+(55, 58, 21, 'Vàng', 2, 600000 * 2 * 0.9),
+(56, 59, 22, 'Xanh lá', 1, 650000 * 1 * 0.9);
 
 -- Đà Nẵng (19 đơn hàng) - order_details
 INSERT INTO order_details (id, order_id, product_id, color, quantity, total_price) VALUES
-(60, 60, 1, 'Đen', 1, 500000),
-(61, 60, 2, 'Xanh', 1, 500000),
-(62, 61, 3, 'Đỏ', 2, 1500000),
-(63, 62, 4, 'Xanh lá', 1, 1000000),
-(64, 62, 5, 'Đen', 1, 1000000),
-(65, 63, 6, 'Trắng', 1, 1200000),
-(66, 64, 7, 'Xanh', 2, 1400000),
-(67, 65, 8, 'Vàng', 1, 900000),
-(68, 66, 9, 'Đen', 1, 800000),
-(69, 67, 10, 'Xanh lá', 2, 1100000),
-(70, 68, 11, 'Xanh', 1, 1300000),
-(71, 69, 12, 'Đỏ', 1, 950000),
-(72, 70, 13, 'Vàng', 1, 1200000),
-(73, 71, 14, 'Đen', 2, 1400000),
-(74, 72, 15, 'Xanh', 1, 1500000),
-(75, 73, 16, 'Xanh lá', 1, 1250000),
-(76, 74, 17, 'Đỏ', 2, 950000),
-(77, 75, 18, 'Trắng', 1, 1100000),
-(78, 76, 19, 'Đen', 1, 1450000),
-(79, 77, 20, 'Xanh', 1, 1350000),
-(80, 78, 21, 'Vàng', 2, 1200000),
-(81, 79, 22, 'Xanh lá', 1, 1400000);
-
+(60, 60, 1, 'Đen', 1, 500000 * 1 * 0.8),
+(61, 60, 2, 'Xanh', 1, 500000 * 1 * 0.8),
+(62, 61, 3, 'Đỏ', 2, 600000 * 2 * 0.8),
+(63, 62, 4, 'Xanh lá', 1, 650000 * 1 * 0.8),
+(64, 62, 5, 'Đen', 1, 650000 * 1 * 0.8),
+(65, 63, 6, 'Trắng', 1, 750000 * 1 * 0.8),
+(66, 64, 7, 'Xanh', 2, 1100000 * 2 * 0.8),
+(67, 65, 8, 'Vàng', 1, 1150000 * 1 * 0.8),
+(68, 66, 9, 'Đen', 1, 1300000 * 1 * 0.8),
+(69, 67, 10, 'Xanh lá', 2, 1400000 * 2 * 0.8),
+(70, 68, 11, 'Xanh', 1, 1500000 * 1 * 0.8),
+(71, 69, 12, 'Đỏ', 1, 1550000 * 1 * 0.8),
+(72, 70, 13, 'Vàng', 1, 2100000 * 1 * 0.8),
+(73, 71, 14, 'Đen', 2, 2100000 * 2 * 0.8),
+(74, 72, 15, 'Xanh', 1, 2300000 * 1 * 0.8),
+(75, 73, 16, 'Xanh lá', 1, 2400000 * 1 * 0.8),
+(76, 74, 17, 'Đỏ', 2, 2400000 * 2 * 0.8),
+(77, 75, 18, 'Trắng', 1, 2500000 * 1 * 0.8),
+(78, 76, 19, 'Đen', 1, 500000 * 1 * 0.8),
+(79, 77, 20, 'Xanh', 1, 500000 * 1 * 0.8),
+(80, 78, 21, 'Vàng', 2, 600000 * 2 * 0.8),
+(81, 79, 22, 'Xanh lá', 1, 650000 * 1 * 0.8);
 
 -- 19. INSERT INTO payOS_transactions
-INSERT INTO payOS_transactions (id, orderCode, order_id, amount)
+INSERT INTO payOS_transactions (id, orderCode, order_id, amount, created_at, updated_at)
 VALUES
-(1, '100001', 60, 500000),
-(2, '100002', 61, 1500000),
-(3, '100003', 62, 2000000),
-(4, '100004', 63, 1200000),
-(5, '100005', 64, 1400000),
-(6, '100006', 65, 900000),
-(7, '100007', 66, 800000),
-(8, '100008', 67, 1100000),
-(9, '100009', 68, 1300000),
-(10, '100010', 69, 950000);
+(1, '100001', 1, 490000, NOW(), NOW()),
+(2, '100002', 2, 1500000, NOW(), NOW()),
+(3, '100003', 4, 1200000, NOW(), NOW()),
+(4, '100004', 47, 1100000, NOW(), NOW()),
+(5, '100005', 48, 1300000, NOW(), NOW()),
+(6, '100006', 67, 900000, NOW(), NOW()),
+(7, '100007', 68, 800000, NOW(), NOW()),
+(8, '100008', 70, 1100000, NOW(), NOW()),
+(9, '100009', 72, 1300000, NOW(), NOW()),
+(10, '100010', 73, 950000, NOW(), NOW());
 
 
 
@@ -947,7 +939,6 @@ VALUES
 (3, 'Chăm Sóc Tròng Kính: Mẹo Bảo Quản Để Độ Rõ Nét Lâu Dài',
     'Khám phá các mẹo thực tế để vệ sinh và bảo quản kính mắt hoặc kính áp tròng nhằm đảm bảo hiệu suất và độ bền lâu dài.',
     'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508345/blog1_tjzv6m.jpg', 'blog1_tjzv6m', NOW(), 'active'),
-
 (4, 'Chào Đón Năm Mới Với Ưu Đãi Lớn: Giảm Giá Đến 50%!',
     'Tưng bừng chào đón năm mới với những ưu đãi siêu hấp dẫn! Hãy sử dụng các mã giảm giá dưới đây để tiết kiệm hơn khi mua sắm:
 
@@ -1098,17 +1089,3 @@ VALUES
 -- Product 44
 (88, 44, 5, 5, 'Đáng mua, rất đẹp.', 'active'),
 (89, 44, 6, 4, 'Ổn.', 'active');
-
--- 24. INSERT INTO otps
-INSERT INTO otps (id, user_id, otp, expires_at, created_at, updated_at)
-VALUES
-(1, 5, '123456', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(2, 6, '234567', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(3, 7, '345678', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(4, 8, '456789', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(5, 9, '567890', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(6, 10, '678901', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(7, 11, '789012', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(8, 12, '890123', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(9, 13, '901234', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW()),
-(10, 14, '012345', DATE_ADD(NOW(), INTERVAL 10 MINUTE), NOW(), NOW());

@@ -10,7 +10,7 @@ class PayOSTransRepository implements PayOSTransRepositoryInterface {
     }
 
     public function getAll() {
-        return PayOSTrans::all();
+        return PayOSTrans::with('order')->get();
     }
 
     public function getByBranch($branchId) {

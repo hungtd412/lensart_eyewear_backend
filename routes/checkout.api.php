@@ -50,7 +50,7 @@ Route::group([
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
 ], function () {
-    Route::get('/transactions/all', [PayOSTransController::class, 'index']);
+    Route::get('/transactions', [PayOSTransController::class, 'index']);
     //ko can truyen j ca, vì chỉ fresh lai trang giao dich
     Route::post('/transactions/refresh', [PayOSTransController::class, 'refresh']);
 });
