@@ -13,7 +13,18 @@ class ProductReviewReposity implements ProductReviewReposityInterface
 
     public function getAll()
     {
-        return ProductReview::all();
+        $reviews = ProductReview::with(['product', 'user'])->get();
+
+        return $reviews->map(function ($review) {
+            return [
+                'id' => $review->id,
+                'product_name' => $review->product->name,
+                'user_name' => $review->user->firstname . ' ' . $review->user->lastname,
+                'rating' => $review->rating,
+                'review' => $review->review,
+                'status' => $review->status,
+            ];
+        });
     }
 
     public function getById($id)
