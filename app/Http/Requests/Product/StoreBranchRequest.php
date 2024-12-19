@@ -25,7 +25,7 @@ class StoreBranchRequest extends FormRequest {
             'name' => 'required|string|min:2|max:100',
             'address' => 'required|string|min:2|max:100',
             'manager_id' => 'required|integer|min:1',
-            'index' => 'required|decimal',
+            'index' => 'required|numeric',
             'status' => 'in:inactive,active',
         ];
     }

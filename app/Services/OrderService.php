@@ -101,6 +101,9 @@ class OrderService {
     }
 
     public function getAll() {
+
+        $roleId = auth()->user()->role_id;
+
         $orders = $this->orderRepository->getAll();
 
         return response()->json([
@@ -148,7 +151,9 @@ class OrderService {
         } catch (\Throwable $th) {
             $branchId = null;
         }
-        return $this->orderRepository->getByStatusAndBranch($status, $branchId);
+        return response()->json([
+            'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
+        ], 200);
     }
 
     public function isValidUser($branchId) {
