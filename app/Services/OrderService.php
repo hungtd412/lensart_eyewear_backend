@@ -108,6 +108,8 @@ class OrderService {
         } else if (auth()->user()->role_id === 2) {
             $branchId = auth()->user()->branch->id;
             $orders = $this->orderRepository->getByBranchId($branchId);
+        } else {
+            $orders = null;
         }
 
         return response()->json([
