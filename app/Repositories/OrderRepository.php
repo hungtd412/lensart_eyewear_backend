@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Order;
-use Illuminate\Support\Facades\DB;
 
 class OrderRepository implements OrderRepositoryInterface {
     public function store(array $data): Order {
@@ -21,6 +20,21 @@ class OrderRepository implements OrderRepositoryInterface {
 
     public function getPriceByOrderId($orderId) {
         return Order::find($orderId)?->total_price;
+    }
+
+    public function getByBranchId($branchId) {
+        $orders = Order::where('branch_id', $branchId)->get();
+
+        return $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'customer_name' => $order->user->firstname . ' ' . $order->user->lastname,
+                'date' => $order->date,
+                'amount' => $order->total_price,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+            ];
+        });
     }
 
     public function getByStatusAndBranch($status, $branchId = null) {

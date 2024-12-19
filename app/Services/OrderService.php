@@ -101,10 +101,14 @@ class OrderService {
     }
 
     public function getAll() {
+        // getByBranchId
 
-        $roleId = auth()->user()->role_id;
-
-        $orders = $this->orderRepository->getAll();
+        if (auth()->user()->role_id === 1) {
+            $orders = $this->orderRepository->getAll();
+        } else if (auth()->user()->role_id === 2) {
+            $branchId = auth()->user()->branch->id;
+            $orders = $this->orderRepository->getByBranchId($branchId);
+        }
 
         return response()->json([
             'status' => 'success',

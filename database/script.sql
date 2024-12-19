@@ -85,4 +85,13 @@ where payos_transactions.order_id = orders.id
  and branch_id in(1, 3)
 
 select * from cart_details where cart_details.cart_id = 2
-select * from otps
+select * from banners
+
+
+update banners
+set image_url = 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/banner_qevb0o.png'
+, image_public_id = 'banner_qevb0o'
+where id = 1
+
+delete from banners where id = 2
+insert into banners(image_url, image_public_id) values('x', 'y');

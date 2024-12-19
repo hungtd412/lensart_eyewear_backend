@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BannerReposity;
+use App\Repositories\BannerReposityInterface;
 use App\Repositories\BlogReposity;
 use App\Repositories\BlogReposityInterface;
 use App\Repositories\BranchRepository;
@@ -50,13 +52,11 @@ use App\Repositories\WishlistRepositoryInterface;
 use App\Repositories\WishlistReposityInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider
-{
+class RepositoryServiceProvider extends ServiceProvider {
     /**
      * Register services.
      */
-    public function register(): void
-    {
+    public function register(): void {
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
 
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
@@ -102,13 +102,14 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PayOSTransRepositoryInterface::class, PayOSTransRepository::class);
 
         $this->app->bind(ProductReviewReposityInterface::class, ProductReviewReposity::class);
+
+        $this->app->bind(BannerReposityInterface::class, BannerReposity::class);
     }
 
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
+    public function boot(): void {
         //
     }
 }
