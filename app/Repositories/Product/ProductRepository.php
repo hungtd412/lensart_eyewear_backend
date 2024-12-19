@@ -12,7 +12,7 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function getAll() {
-        return Product::all();
+        return Product::with(['images'])->all();
     }
 
     public function getById($id) {
