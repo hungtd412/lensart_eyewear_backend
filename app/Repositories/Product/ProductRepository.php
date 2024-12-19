@@ -23,6 +23,7 @@ class ProductRepository implements ProductRepositoryInterface {
 
     public function getByCategoryId($categoryId) {
         return Product::where('category_id', $categoryId)
+            ->with(['images'])
             ->get();
     }
 
@@ -173,6 +174,7 @@ class ProductRepository implements ProductRepositoryInterface {
             ->where('product_details.status', 'active')
             ->groupBy('products.id')
             ->orderBy('total_sold', 'desc')
+            ->with(['images'])
             ->take($limit)
             ->get();
     }
@@ -180,6 +182,7 @@ class ProductRepository implements ProductRepositoryInterface {
     public function getNewestProducts($limit = 10) {
         return Product::where('status', 'active')
             ->orderBy('id', 'desc')
+            ->with(['images'])
             ->take($limit)
             ->get();
     }
