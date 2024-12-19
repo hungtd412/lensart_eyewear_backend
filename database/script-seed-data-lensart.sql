@@ -48,11 +48,11 @@ VALUES
 (6, 'Chống hơi nước', 'active');
 
 -- 8. INSERT INTO category
-INSERT INTO category (id, name, description, status)
+INSERT INTO category (id, name, status)
 VALUES
-(1, 'Gọng kính', 'Dòng sản phẩm gọng kính cao cấp', 'active'),
-(2, 'Kính mát', 'Kính mát thời trang', 'active'),
-(3, 'Tròng kính', 'Tròng kính chính hãng', 'active');
+(1, 'Gọng kính', 'active'),
+(2, 'Kính mát', 'active'),
+(3, 'Tròng kính', 'active');
 
 -- 9. INSERT INTO products
 -- Gọng kính khung giá 500-1tr
