@@ -12,7 +12,7 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function getAll() {
-        return Product::with(['images'])->get();
+        return Product::all();
     }
 
     public function getById($id) {
@@ -41,7 +41,7 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function getAllActive() {
-        return Product::where('status', 'active')->get();
+        return Product::where('status', 'active')->with(['images'])->get();
     }
 
     public function getByIdActive($id) {
