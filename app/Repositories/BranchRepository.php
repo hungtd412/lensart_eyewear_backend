@@ -15,8 +15,8 @@ class BranchRepository implements BranchRepositoryInterface {
         return $branches->map(function ($branch) {
             return [
                 'id' => $branch->id,
-                'branch_name' => $branch->address,
-                'review' => $branch->address,
+                'branch_name' => $branch->name,
+                'address' => $branch->address,
                 'manager_name' => $branch->manager->firstname . ' ' . $branch->manager->lastname,
                 'status' => $branch->status,
             ];
