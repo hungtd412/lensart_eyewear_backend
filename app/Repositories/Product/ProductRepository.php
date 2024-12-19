@@ -106,11 +106,27 @@ class ProductRepository implements ProductRepositoryInterface
                     $query->where('product_details.status', 'active') // Chỉ lấy product_details đang hoạt động
                         ->where('quantity', '>', 0) // Lấy product_details có số lượng > 0
                         ->select('product_details.product_id', 'product_details.branch_id', 'product_details.color', 'product_details.quantity', 'product_details.status'); // Chọn các cột cần thiết
-                }
+                },
+                'mainImage:id,product_id,image_url' // Lấy thông tin hình ảnh chính
             ])
-            ->get();
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'description' => $product->description,
+                    'brand' => $product->brand->name ?? 'N/A',
+                    'category' => $product->category->name ?? 'N/A',
+                    'shape_id' => $product->shape_id,
+                    'material_id' => $product->material_id,
+                    'gender' => $product->gender,
+                    'price' => $product->price,
+                    'offer_price' => $product->offer_price,
+                    'image_url' => $product->mainImage->image_url ?? 'N/A', // Trả về image_url
+                    'product_details' => $product->productDetails
+                ];
+            });
     }
-
 
     // Lọc theo kiểu gọng
     public function filterByShape($query, $types)
