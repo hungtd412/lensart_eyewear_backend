@@ -101,6 +101,9 @@ class OrderService {
     }
 
     public function getAll() {
+
+        $roleId = auth()->user()->role_id;
+
         $orders = $this->orderRepository->getAll();
 
         return response()->json([

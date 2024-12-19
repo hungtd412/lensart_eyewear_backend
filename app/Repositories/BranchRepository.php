@@ -18,6 +18,7 @@ class BranchRepository implements BranchRepositoryInterface {
                 'branch_name' => $branch->name,
                 'address' => $branch->address,
                 'manager_name' => $branch->manager->firstname . ' ' . $branch->manager->lastname,
+                'index' => $branch->index,
                 'status' => $branch->status,
             ];
         });
