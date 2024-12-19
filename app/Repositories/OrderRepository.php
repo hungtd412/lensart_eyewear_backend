@@ -10,7 +10,7 @@ class OrderRepository implements OrderRepositoryInterface {
     }
 
     public function getAll() {
-        return Order::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")->get();
+        return $this->formatResponse(Order::all());
     }
 
     public function getById($id) {
@@ -25,16 +25,7 @@ class OrderRepository implements OrderRepositoryInterface {
     public function getByBranchId($branchId) {
         $orders = Order::where('branch_id', $branchId)->get();
 
-        return $orders->map(function ($order) {
-            return [
-                'id' => $order->id,
-                'customer_name' => $order->user->firstname . ' ' . $order->user->lastname,
-                'date' => $order->date,
-                'amount' => $order->total_price,
-                'order_status' => $order->order_status,
-                'payment_status' => $order->payment_status,
-            ];
-        });
+        return $this->formatResponse($orders);
     }
 
     public function getByStatusAndBranch($status, $branchId = null) {
@@ -52,7 +43,7 @@ class OrderRepository implements OrderRepositoryInterface {
             $ordersList->where('branch_id', $branchId);
         }
 
-        return $ordersList->get();
+        return $this->formatResponse($ordersList->get());
     }
 
     public function update(array $data, $order) {
@@ -80,6 +71,19 @@ class OrderRepository implements OrderRepositoryInterface {
     public function switchStatus($order) {
         $order->status = $order->status == 'active' ? 'inactive' : 'active';
         $order->save();
+    }
+
+    public function formatResponse($orders) {
+        return $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'customer_name' => $order->user->firstname . ' ' . $order->user->lastname,
+                'date' => $order->date,
+                'amount' => $order->total_price,
+                'order_status' => $order->order_status,
+                'payment_status' => $order->payment_status,
+            ];
+        });
     }
 
     // CUSTOMER
