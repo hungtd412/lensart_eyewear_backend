@@ -18,7 +18,7 @@ class CouponRepository implements CouponRepositoryInterface {
     }
 
     public function getById($id) {
-        return Coupon::where('id', $id)->where('status', 'active')->where('quantity', '>', 0)->first();
+        return Coupon::find($id);
     }
 
     public function getByCode($code) {
