@@ -151,7 +151,9 @@ class OrderService {
         } catch (\Throwable $th) {
             $branchId = null;
         }
-        return $this->orderRepository->getByStatusAndBranch($status, $branchId);
+        return response()->json([
+            'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
+        ], 200);
     }
 
     public function isValidUser($branchId) {
