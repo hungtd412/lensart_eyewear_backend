@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Branch extends Model
-{
+class Branch extends Model {
     use HasFactory;
     public $timestamps = false;
 
@@ -15,4 +14,8 @@ class Branch extends Model
     protected $casts = [
         'index' => 'float',
     ];
+
+    public function manager() {
+        return $this->belongsTo(User::class);
+    }
 }
