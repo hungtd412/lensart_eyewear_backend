@@ -149,11 +149,11 @@ class ProductService
     // Search Product
     public function searchProduct($keyword)
     {
-        // return $this->productRepository->searchProduct($keyword);
-        return response()->json([
-            'message' => 'success',
-            'data' => $this->productRepository->searchProduct($keyword),
-        ], 200);
+        return $this->productRepository->searchProduct($keyword);
+        // return response()->json([
+        //     'message' => 'success',
+        //     'data' => $this->productRepository->searchProduct($keyword),
+        // ], 200);
     }
 
     // Lọc Gọng kính
