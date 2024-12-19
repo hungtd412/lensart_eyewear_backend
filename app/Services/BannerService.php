@@ -56,24 +56,35 @@ class BannerService {
     public function update($data) {
         $banner = $this->bannerRepository->get();
 
-        $uploadedFile = $this->updateCloudinaryAndGetNewFile($data['image'], $banner);
+        if ($banner) {
+            $uploadedFile = $this->updateCloudinaryAndGetNewFile($data['image'], $banner);
 
-        $data = [
-            'image_url' => $uploadedFile->getSecurePath(),
-            'image_public_id' => $uploadedFile->getPublicId(),
-            'status' => $data['status'],
-        ];
+            $data = [
+                'image_url' => $uploadedFile->getSecurePath(),
+                'image_public_id' => $uploadedFile->getPublicId(),
+                'status' => $data['status'],
+            ];
 
-        $this->bannerRepository->update($data, $banner);
+            $this->bannerRepository->update($data, $banner);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $banner
-        ], 200);
+            return response()->json([
+                'message' => 'success',
+                'data' => $banner
+            ], 200);
+        } else {
+            return $this->store($data);
+        }
     }
 
     public function updateCloudinaryAndGetNewFile($image, $productImage) {
-        Cloudinary::destroy($productImage->image_public_id);
+        try {
+            if (!is_null($productImage->image_public_id)) {
+                Cloudinary::destroy($productImage->image_public_id);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
 
         return Cloudinary::upload($image->getRealPath(), [
             'folder' => 'banners'
