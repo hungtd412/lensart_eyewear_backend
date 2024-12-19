@@ -43,7 +43,7 @@ where status = 'active' and orders.branch_id=3;
 
 SELECT * from users
 
-SELECT users.username, orders.id, orders.total_price, orders.branch_id  from orders, users
+SELECT users.id, orders.id, orders.total_price, orders.branch_id  from orders, users
 where orders.payment_status = 'Chưa thanh toán'
 and users.id = orders.user_id
 
@@ -75,7 +75,14 @@ and order_details.product_id = product_details.product_id
 and orders.id =1
 
 
-select * from products
+select * from payos_transactions, orders
+where payos_transactions.order_id = orders.id
+ and payment_method='Chuyển khoản'
+ and orders.branch_id = 2
+
+ select * from  orders
+ where payment_method='Chuyển khoản'
+ and branch_id in(1, 3)
 
 select * from cart_details where cart_details.cart_id = 2
-select * from coupons
+select * from otps

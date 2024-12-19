@@ -14,6 +14,8 @@ class PayOSTrans extends Model {
 
     protected $casts = [
         'amount' => 'float',
+        'created_at' => 'datetime:d/m/Y H:i:s',
+        'updated_at' => 'datetime:d/m/Y H:i:s',
     ];
 
     public function order() {
