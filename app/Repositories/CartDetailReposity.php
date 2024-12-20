@@ -48,6 +48,8 @@ class CartDetailReposity implements CartDetailReposityInterface
 
                 return [
                     'id' => $cartDetail->id,
+                    'product_id' => $cartDetail->product_id,
+                    'branch_id' => $cartDetail->branch_id,
                     'product_name' => $product->name ?? 'N/A',
                     'product_price' => $productPrice * $branchIndex,
                     'brands_name' => $product->brand->name ?? 'N/A',
