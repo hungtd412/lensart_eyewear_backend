@@ -65,8 +65,7 @@ class OrderService {
         $discount_price = 0;
         try {
             $discount_price = $data['coupon_id'] ?? false
-                ? $this->couponRepository->getById($data['coupon_id'])
-                ->getData()->data->discount_price
+                ? $this->couponRepository->getById($data['coupon_id'])->discount_price
                 : 0.0;
         } catch (\Throwable $th) {
             $discount_price = 0;
@@ -75,7 +74,6 @@ class OrderService {
     }
 
     public function prepareForOrderData(&$data, $discountPrice) {
-        $data['user_id'] = auth()->id();
         $data['date'] = Carbon::parse(now())->setTimeZone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         $data['user_id'] = auth()->id();
 

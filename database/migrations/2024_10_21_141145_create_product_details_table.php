@@ -8,15 +8,15 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void {
+    public function up(): void
+    {
         Schema::create('product_details', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('branch_id');
-            $table->string('color');
+            $table->string('color')->nullable();
             $table->integer('quantity')->default(0);
             $table->enum('status', ['active', 'inactive'])->default('active');
-
-            $table->primary(['product_id', 'branch_id', 'color']);
 
             //Add foreign key
             $table->foreign('product_id')->references('id')->on('products');
@@ -27,7 +27,8 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void {
+    public function down(): void
+    {
         Schema::dropIfExists('product_details');
     }
 };
