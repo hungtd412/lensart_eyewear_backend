@@ -25,13 +25,24 @@ class PayOSTransService {
         if (auth()->user()->role_id === 1) {
             $payOSTranses = $this->payOSTransRepository->getAll();
         } else if (auth()->user()->role_id === 2) {
-            $payOSTranses = $this->payOSTransRepository->getByBranch(auth()->user()->branch->id);
+            $payOSTranses = $this->payOSTransRepository->getByBranch(
+                $this->getAllBranchIdOfManager(auth()->user())
+            );
         }
 
         return response()->json([
             'status' => 'success',
             'data' => $payOSTranses
         ], 200);
+    }
+
+    public function getAllBranchIdOfManager($manager) {
+        $branchIds = [];
+        $branches = $manager->branches;
+        foreach ($branches as $branch) {
+            $branchIds[] = $branch->id; // Add each branch ID to the array
+        }
+        return $branchIds;
     }
 
     public function getByOrderCode($orderCode) {

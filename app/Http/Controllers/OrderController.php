@@ -31,9 +31,9 @@ class OrderController extends Controller {
         return $this->orderService->getById($id);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null) {
-        return $this->orderService->getByStatusAndBranch($status, $branchId);
-    }
+    // public function getByStatusAndBranch($status, $branchId = null) {
+    //     return $this->orderService->getByStatusAndBranch($status, $branchId);
+    // }
 
     public function update(UpdateTwoOrderStatusRequest $request, $id) {
         return $this->orderService->update($request->validated(), $id);

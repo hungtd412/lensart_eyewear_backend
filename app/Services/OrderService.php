@@ -151,30 +151,30 @@ class OrderService {
         return $this->orderRepository->getPriceByOrderId($orderId);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null) {
-        if (!is_null($branchId)) {
-            if ($this->isValidUser($branchId)) {
-                return response()->json([
-                    'status' => 'success',
-                    'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 'fail',
-                    'message' => "Bạn không thể xem đơn hàng của chi nhánh khác!"
-                ], 403);
-            }
-        }
+    // public function getByStatusAndBranch($status, $branchId = null) {
+    //     if (!is_null($branchId)) {
+    //         if ($this->isValidUser($branchId)) {
+    //             return response()->json([
+    //                 'status' => 'success',
+    //                 'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
+    //             ], 200);
+    //         } else {
+    //             return response()->json([
+    //                 'status' => 'fail',
+    //                 'message' => "Bạn không thể xem đơn hàng của chi nhánh khác!"
+    //             ], 403);
+    //         }
+    //     }
 
-        try {
-            $branchId = auth()->user()->branch->id;
-        } catch (\Throwable $th) {
-            $branchId = null;
-        }
-        return response()->json([
-            'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
-        ], 200);
-    }
+    //     try {
+    //         $branchId = auth()->user()->branch->id;
+    //     } catch (\Throwable $th) {
+    //         $branchId = null;
+    //     }
+    //     return response()->json([
+    //         'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
+    //     ], 200);
+    // }
 
     public function isValidUser($branchId) {
         return auth()->user()->role_id === 1

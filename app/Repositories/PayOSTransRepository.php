@@ -13,9 +13,9 @@ class PayOSTransRepository implements PayOSTransRepositoryInterface {
         return PayOSTrans::with('order')->get();
     }
 
-    public function getByBranch($branchId) {
-        return PayOSTrans::whereHas('order', function ($query) use ($branchId) {
-            $query->where('branch_id', $branchId);
+    public function getByBranch($branchIds) {
+        return PayOSTrans::whereHas('order', function ($query) use ($branchIds) {
+            $query->whereIn('branch_id', $branchIds);
         })->get();
     }
 
