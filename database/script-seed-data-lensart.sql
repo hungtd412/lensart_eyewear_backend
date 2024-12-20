@@ -8,23 +8,32 @@ VALUES
 -- 4. INSERT INTO brands
 INSERT INTO brands (id, name, status)
 VALUES
-(1, 'Bevis', 'active'),
+(1, 'RAYBAN', 'active'),
 (2, 'Chemi', 'active'),
 (3, 'Essilor', 'active'),
-(4, 'Kodak', 'active'),
+(4, 'Kodax', 'active'),
 (5, 'Zeiss', 'active'),
-(6, 'Hoya', 'active');
+(6, 'Hoya', 'active'),
+(7, 'BOLON', 'active'),
+(8, 'JILL STUART', 'active'),
+(9, 'MERCURY', 'active'),
+(10, 'MOLSON', 'active'),
+(11, 'NEWBALANCE', 'active'),
+(12, 'POVINO', 'active'),
+(13, 'SEESON THE CLASSICS', 'active'),
+(14, 'VisionX', 'active');
 
 
 -- 5. INSERT INTO materials
 INSERT INTO materials (id, name, status)
 VALUES
-(1, 'Tổng hợp', 'active'),
-(2, 'Acetate', 'active'),
+(1, 'Nhựa và kim loại', 'active'),
+(2, 'Nhựa Acetate', 'active'),
 (3, 'Titanium', 'active'),
 (4, 'Kim loại', 'active'),
-(5, 'Nhựa', 'active'),
-(6, 'TR90', 'active');
+(5, 'Kim loại Titan', 'active'),
+(6, 'TR90', 'active'),
+(7, 'Hợp kim', 'active');
 
 
 -- 6. INSERT INTO shapes
@@ -35,7 +44,8 @@ VALUES
 (3, 'Chữ nhật', 'active'),
 (4, 'Browline', 'active'),
 (5, 'Oval', 'active'),
-(6, 'Phi công', 'active');
+(6, 'Phi công', 'active'),
+(7, 'Tròn', 'active');
 
 -- 7. INSERT INTO features
 INSERT INTO features (id, name, status)
@@ -58,122 +68,86 @@ VALUES
 -- Gọng kính khung giá 500-1tr
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(1, 'Gọng kính BOLON BT1529', 'Viền trên đậm - Nhựa và kim loại', 1, 1, 1, 1, 'Unisex', 500000, NULL, NOW(), 'active'),
-(2, 'Gọng kính JILL STUART JL33072', 'Đa giác - Titanium', 2, 1, 2, 2, 'Unisex', 550000, 500000, NOW(), 'active'),
-(3, 'Gọng kính MERCURY LV87137', 'Vuông - Kim loại Titan', 3, 1, 3, 3, 'Unisex', 600000, NULL, NOW(), 'active'),
-(4, 'Gọng kính MERCURY LV87297', 'Viền trên đậm - Kim loại Titan', 4, 1, 1, 3, 'Unisex', 650000, NULL, NOW(), 'active'),
-(5, 'Gọng kính MOLSON MJ6119', 'Đa giác - Nhựa và kim loại', 1, 1, 2, 1, 'Unisex', 700000, 650000, NOW(), 'active'),
-(6, 'Gọng kính MOLSON MJ6156', 'Tròn - Titanium', 2, 1, 3, 2, 'Unisex', 750000, NULL, NOW(), 'active');
+(1, 'Gọng kính BOLON BT1529', 'Viền trên đậm - Nhựa và kim loại', 7, 1, 1, 1, 'Unisex', 500000, NULL, NOW(), 'active'),
+(2, 'Gọng kính JILL STUART JL33072', 'Đa giác - Titanium', 8, 1, 1, 3, 'Unisex', 550000, 500000, NOW(), 'active'),
+(3, 'Gọng kính MERCURY LV87137', 'Vuông - Kim loại Titan', 9, 1, 2, 5, 'Unisex', 600000, NULL, NOW(), 'active'),
+(4, 'Gọng kính MERCURY LV87297', 'Viền trên đậm - Kim loại Titan', 9, 1, 1, 5, 'Unisex', 650000, NULL, NOW(), 'active'),
+(5, 'Gọng kính MOLSON MJ6119', 'Đa giác - Nhựa và kim loại', 10, 1, 1, 1, 'Unisex', 700000, 650000, NOW(), 'active'),
+(6, 'Gọng kính MOLSON MJ6156', 'Tròn - Titanium', 10, 1, 7, 3, 'Unisex', 750000, NULL, NOW(), 'active');
 
 -- Gọng kính khung giá 1tr-2tr
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(7, 'Gọng kính MOLSON MJ7272', 'Đa giác - Kim loại Titan', 3, 1, 2, 3, 'Unisex', 1100000, NULL, NOW(), 'active'),
-(8, 'Gọng kính NEWBALANCE NB09361X', 'Chữ nhật - Nhựa và kim loại', 4, 1, 1, 1, 'Unisex', 1200000, 1150000, NOW(), 'active'),
-(9, 'Gọng kính POVINO PO6843', 'Nhựa và kim loại - Vuông', 1, 1, 3, 2, 'Unisex', 1300000, NULL, NOW(), 'active'),
-(10, 'Gọng kính POVINO PO22641', 'Tròn - Nhựa và kim loại', 2, 1, 2, 1, 'Unisex', 1400000, NULL, NOW(), 'active'),
-(11, 'Gọng kính POVINO ST9380', 'Chữ nhật - Kim loại Titan', 3, 1, 1, 3, 'Unisex', 1500000, NULL, NOW(), 'active'),
-(12, 'Gọng kính RAYBAN RB6346-2904', 'Viền trên đậm - Titanium', 4, 1, 3, 2, 'Unisex', 1600000, 1550000, NOW(), 'active');
+(7, 'Gọng kính MOLSON MJ7272', 'Đa giác - Kim loại Titan', 10, 1, 1, 5, 'Unisex', 1100000, NULL, NOW(), 'active'),
+(8, 'Gọng kính NEWBALANCE NB09361X', 'Chữ nhật - Nhựa và kim loại', 11, 1, 3, 1, 'Unisex', 1200000, 1150000, NOW(), 'active'),
+(9, 'Gọng kính POVINO PO6843', 'Nhựa và kim loại - Vuông', 12, 1, 2, 1, 'Unisex', 1300000, NULL, NOW(), 'active'),
+(10, 'Gọng kính POVINO PO22641', 'Tròn - Nhựa và kim loại', 12, 1, 7, 1, 'Unisex', 1400000, NULL, NOW(), 'active'),
+(11, 'Gọng kính POVINO ST9380', 'Chữ nhật - Kim loại Titan', 12, 1, 3, 5, 'Unisex', 1500000, NULL, NOW(), 'active'),
+(12, 'Gọng kính RAYBAN RB6346-2904', 'Viền trên đậm - Titanium', 1, 1, 1, 3, 'Unisex', 1600000, 1550000, NOW(), 'active');
 
 -- Gọng kính khung giá 2tr-2tr5
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(13, 'Gọng kính RAYBAN RX8763', 'Titanium - Chữ nhật', 1, 1, 1, 2, 'Unisex', 2100000, NULL, NOW(), 'active'),
-(14, 'Gọng kính SEESON THE CLASSICS JIL', 'Vuông - Nhựa acetate', 2, 1, 3, 1, 'Unisex', 2200000, 2100000, NOW(), 'active'),
-(15, 'Gọng kính MOLSON MJ7272', 'Đa giác - Kim loại Titan', 3, 1, 2, 3, 'Unisex', 2300000, NULL, NOW(), 'active'),
-(16, 'Gọng kính POVINO ST9380', 'Chữ nhật - Kim loại Titan', 4, 1, 1, 3, 'Unisex', 2400000, NULL, NOW(), 'active'),
-(17, 'Gọng kính RAYBAN RX8763', 'Titanium - Chữ nhật', 1, 1, 1, 2, 'Unisex', 2500000, 2400000, NOW(), 'active'),
-(18, 'Gọng kính SEESON THE CLASSICS JIL', 'Vuông - Nhựa acetate', 2, 1, 3, 1, 'Unisex', 2500000, NULL, NOW(), 'active');
+(13, 'Gọng kính RAYBAN RX8763', 'Titanium - Chữ nhật', 1, 1, 3, 3, 'Unisex', 2100000, NULL, NOW(), 'active'),
+(14, 'Gọng kính SEESON THE CLASSICS JIL', 'Vuông - Nhựa acetate', 13, 1, 2, 2, 'Unisex', 2200000, 2100000, NOW(), 'active'),
+(15, 'Gọng kính MOLSON MJ7272', 'Đa giác - Kim loại Titan', 10, 1, 1, 5, 'Unisex', 2300000, NULL, NOW(), 'active'),
+(16, 'Gọng kính POVINO ST9380', 'Chữ nhật - Kim loại Titan', 4, 1, 3, 5, 'Unisex', 2400000, NULL, NOW(), 'active'),
+(17, 'Gọng kính RAYBAN RX8763', 'Titanium - Chữ nhật', 1, 1, 3, 3, 'Unisex', 2500000, 2400000, NOW(), 'active'),
+(18, 'Gọng kính SEESON THE CLASSICS JIL', 'Vuông - Nhựa acetate', 13, 1, 2, 2, 'Unisex', 2500000, NULL, NOW(), 'active');
 
 -- Kính mát khung giá 500,000 - 1,000,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(19, 'Kính mát BOLON BL3038', 'Nhựa Acetate', 1, 2, 1, 1, 'Unisex', 500000, NULL, NOW(), 'active'),
-(20, 'Kính mát BOLON BL3100', 'Nhựa và Kim loại', 2, 2, 2, 2, 'Unisex', 600000, 550000, NOW(), 'active'),
-(21, 'Kính mát BOLON BL5078', 'TR90', 3, 2, 1, 3, 'Unisex', 700000, NULL, NOW(), 'active'),
-(22, 'Kính mát BOLON BL7191', 'Hợp kim', 4, 2, 2, 2, 'Unisex', 800000, NULL, NOW(), 'active');
+(19, 'Kính mát BOLON BL3038', 'Nhựa Acetate', 7, 2, 5, 2, 'Unisex', 500000, NULL, NOW(), 'active'),
+(20, 'Kính mát BOLON BL3100', 'Nhựa và Kim loại', 7, 2, 5, 1, 'Unisex', 600000, 550000, NOW(), 'active'),
+(21, 'Kính mát BOLON BL5078', 'TR90', 7, 2, 5, 6, 'Unisex', 700000, NULL, NOW(), 'active'),
+(22, 'Kính mát BOLON BL7191', 'Hợp kim', 7, 2, 6, 7, 'Unisex', 800000, NULL, NOW(), 'active');
 
 -- Kính mát khung giá 1,000,000 - 2,000,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(23, 'Kính mát BOLON BV1025', 'Titanium', 1, 2, 3, 3, 'Unisex', 1100000, NULL, NOW(), 'active'),
-(24, 'Kính mát POVINO NN107', 'Nhựa Acetate', 2, 2, 1, 1, 'Unisex', 1200000, 1150000, NOW(), 'active'),
-(25, 'Kính mát POVINO SJMM68RX', 'Nhựa và Kim loại', 3, 2, 2, 2, 'Unisex', 1300000, NULL, NOW(), 'active'),
-(26, 'Kính mát RAYBAN RB3625', 'Kim loại', 4, 2, 3, 3, 'Unisex', 1400000, NULL, NOW(), 'active');
+(23, 'Kính mát BOLON BV1025', 'Titanium', 7, 2, 3, 3, 'Unisex', 1100000, NULL, NOW(), 'active'),
+(24, 'Kính mát POVINO NN107', 'Nhựa Acetate', 2, 2, 1, 2, 'Unisex', 1200000, 1150000, NOW(), 'active'),
+(25, 'Kính mát POVINO SJMM68RX', 'Nhựa và Kim loại', 3, 2, 2, 1, 'Unisex', 1300000, NULL, NOW(), 'active'),
+(26, 'Kính mát RAYBAN RB3625', 'Kim loại', 1, 2, 3, 4, 'Unisex', 1400000, NULL, NOW(), 'active');
 
 -- Kính mát khung giá 2,000,000 - 2,500,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(27, 'Kính mát BOLON BL3038', 'Nhựa Acetate', 1, 2, 1, 1, 'Unisex', 2100000, NULL, NOW(), 'active'),
-(28, 'Kính mát BOLON BL3100', 'Nhựa và Kim loại', 2, 2, 2, 2, 'Unisex', 2200000, 2100000, NOW(), 'active'),
-(29, 'Kính mát POVINO SJMM68RX', 'Nhựa và Kim loại', 3, 2, 3, 2, 'Unisex', 2300000, NULL, NOW(), 'active'),
-(30, 'Kính mát RAYBAN RB3625', 'Kim loại', 4, 2, 2, 3, 'Unisex', 2400000, NULL, NOW(), 'active');
+(27, 'Kính mát BOLON BL3038', 'Nhựa Acetate', 7, 2, 1, 2, 'Unisex', 2100000, NULL, NOW(), 'active'),
+(28, 'Kính mát BOLON BL3100', 'Nhựa và Kim loại', 7, 2, 2, 1, 'Unisex', 2200000, 2100000, NOW(), 'active'),
+(29, 'Kính mát POVINO SJMM68RX', 'Nhựa và Kim loại', 3, 2, 3, 1, 'Unisex', 2300000, NULL, NOW(), 'active'),
+(30, 'Kính mát RAYBAN RB3625', 'Kim loại', 1, 2, 2, 4, 'Unisex', 2400000, NULL, NOW(), 'active');
 
 -- Tròng kính khung giá 500,000 - 1,000,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(31, 'Tròng kính Chemi - Siêu mỏng', 'Siêu mỏng - Tròng kính cao cấp', 1, 3, 1, 1, 'Unisex', 500000, NULL, NOW(), 'active'),
-(32, 'Tròng kính Chemi - Chống UV', 'Chống tia UV - Tròng kính chính hãng', 1, 3, 2, 2, 'Unisex', 600000, 550000, NOW(), 'active'),
-(33, 'Tròng kính Element - Siêu mỏng', 'Siêu mỏng - Bảo vệ mắt tối đa', 2, 3, 3, 1, 'Unisex', 700000, NULL, NOW(), 'active'),
-(34, 'Tròng kính Element - Chống UV', 'Chống UV - Đảm bảo an toàn mắt', 2, 3, 1, 3, 'Unisex', 800000, NULL, NOW(), 'active');
+(31, 'Tròng kính Chemi - Siêu mỏng', 'Siêu mỏng - Tròng kính cao cấp', 2, 3, NULL, NULL, NULL, 500000, NULL, NOW(), 'active'),
+(32, 'Tròng kính Chemi - Chống UV', 'Chống tia UV - Tròng kính chính hãng', 2, 3, NULL, NULL, NULL, 600000, 550000, NOW(), 'active'),
+(33, 'Tròng kính Element - Siêu mỏng', 'Siêu mỏng - Bảo vệ mắt tối đa', 2, 3, NULL, NULL, NULL, 700000, NULL, NOW(), 'active'),
+(34, 'Tròng kính Element - Chống UV', 'Chống UV - Đảm bảo an toàn mắt', 2, 3, NULL, NULL, NULL, 800000, NULL, NOW(), 'active');
 
 -- Tròng kính khung giá 1,000,000 - 2,000,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(35, 'Tròng kính ESSILOR - Đổi màu', 'Đổi màu - Chống ánh sáng xanh', 3, 3, 2, 3, 'Unisex', 1100000, NULL, NOW(), 'active'),
-(36, 'Tròng kính ESSILOR - Siêu mỏng', 'Siêu mỏng - Tròng kính nhẹ và bền', 3, 3, 3, 2, 'Unisex', 1200000, 1150000, NOW(), 'active'),
-(37, 'Tròng kính HOYA - Đổi màu', 'Đổi màu - Bảo vệ mắt khỏi ánh sáng xanh', 4, 3, 1, 3, 'Unisex', 1300000, NULL, NOW(), 'active'),
-(38, 'Tròng kính HOYA - Chống UV', 'Chống tia UV - Đảm bảo an toàn', 4, 3, 2, 2, 'Unisex', 1400000, NULL, NOW(), 'active');
+(35, 'Tròng kính ESSILOR - Đổi màu', 'Đổi màu - Chống ánh sáng xanh', 3, 3, NULL, NULL, NULL, 1100000, NULL, NOW(), 'active'),
+(36, 'Tròng kính ESSILOR - Siêu mỏng', 'Siêu mỏng - Tròng kính nhẹ và bền', 3, 3, NULL, NULL, NULL, 1200000, 1150000, NOW(), 'active'),
+(37, 'Tròng kính HOYA - Đổi màu', 'Đổi màu - Bảo vệ mắt khỏi ánh sáng xanh', 6, 3, NULL, NULL, NULL, 1300000, NULL, NOW(), 'active'),
+(38, 'Tròng kính HOYA - Chống UV', 'Chống tia UV - Đảm bảo an toàn', 6, 3, NULL, NULL, NULL, 1400000, NULL, NOW(), 'active');
 
 -- Tròng kính khung giá 2,000,000 - 2,500,000
 INSERT INTO products (id, name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
 VALUES
-(39, 'Tròng kính Kodax - Chống UV', 'Chống UV - Độ bền cao', 2, 3, 3, 3, 'Unisex', 2100000, NULL, NOW(), 'active'),
-(40, 'Tròng kính Kodax - Đổi màu', 'Đổi màu thông minh, bảo vệ mắt', 1, 3, 1, 1, 'Unisex', 2200000, 2100000, NOW(), 'active'),
-(41, 'Tròng kính VisionX - Siêu mỏng', 'Siêu mỏng, nhẹ, tiện dụng', 3, 3, 2, 2, 'Unisex', 2300000, NULL, NOW(), 'active'),
-(42, 'Tròng kính VisionX - Đổi màu', 'Đổi màu linh hoạt, chống chói', 2, 3, 3, 3, 'Unisex', 2400000, NULL, NOW(), 'active'),
-(43, 'Tròng kính ZEISS - Chống UV', 'Công nghệ chống UV tiên tiến', 1, 3, 2, 1, 'Unisex', 2500000, 2400000, NOW(), 'active'),
-(44, 'Tròng kính ZEISS - Siêu mỏng', 'Siêu mỏng, sang trọng và bền bỉ', 3, 3, 3, 3, 'Unisex', 2600000, NULL, NOW(), 'active');
+(39, 'Tròng kính Kodax - Chống UV', 'Chống UV - Độ bền cao', 4, 3, NULL, NULL, NULL, 2100000, NULL, NOW(), 'active'),
+(40, 'Tròng kính Kodax - Đổi màu', 'Đổi màu thông minh, bảo vệ mắt', 4, 3, NULL, NULL, NULL, 2200000, 2100000, NOW(), 'active'),
+(41, 'Tròng kính VisionX - Siêu mỏng', 'Siêu mỏng, nhẹ, tiện dụng', 14, 3, NULL, NULL, NULL, 2300000, NULL, NOW(), 'active'),
+(42, 'Tròng kính VisionX - Đổi màu', 'Đổi màu linh hoạt, chống chói', 14, 3, NULL, NULL, NULL, 2400000, NULL, NOW(), 'active'),
+(43, 'Tròng kính ZEISS - Chống UV', 'Công nghệ chống UV tiên tiến', 5, 3, NULL, NULL, NULL, 2500000, 2400000, NOW(), 'active'),
+(44, 'Tròng kính ZEISS - Siêu mỏng', 'Siêu mỏng, sang trọng và bền bỉ', 5, 3, NULL, NULL, NULL, 2600000, NULL, NOW(), 'active');
 
 -- 10. INSERT INTO products
 INSERT INTO product_features (product_id, feature_id)
 VALUES
--- Sản phẩm 1
-(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
--- Sản phẩm 2
-(2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6),
--- Sản phẩm 3
-(3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6),
--- Sản phẩm 4
-(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6),
--- Sản phẩm 5
-(5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6),
--- Sản phẩm 6
-(6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6),
--- Sản phẩm 7
-(7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 6),
--- Sản phẩm 8
-(8, 1), (8, 2), (8, 3), (8, 4), (8, 5), (8, 6),
--- Sản phẩm 9
-(9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6),
--- Sản phẩm 10
-(10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6),
--- Sản phẩm 11
-(11, 1), (11, 2), (11, 3), (11, 4), (11, 5), (11, 6),
--- Sản phẩm 12
-(12, 1), (12, 2), (12, 3), (12, 4), (12, 5), (12, 6),
--- Sản phẩm 13
-(13, 1), (13, 2), (13, 3), (13, 4), (13, 5), (13, 6),
--- Sản phẩm 14
-(14, 1), (14, 2), (14, 3), (14, 4), (14, 5), (14, 6),
--- Sản phẩm 15
-(15, 1), (15, 2), (15, 3), (15, 4), (15, 5), (15, 6),
--- Sản phẩm 16
-(16, 1), (16, 2), (16, 3), (16, 4), (16, 5), (16, 6),
--- Sản phẩm 17
-(17, 1), (17, 2), (17, 3), (17, 4), (17, 5), (17, 6),
--- Sản phẩm 18
-(18, 1), (18, 2), (18, 3), (18, 4), (18, 5), (18, 6),
 -- Sản phẩm 19
 (19, 1), (19, 2), (19, 3), (19, 4), (19, 5), (19, 6),
 -- Sản phẩm 20
@@ -247,7 +221,7 @@ VALUES
 (3, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_wlauyb.jpg', 'đen_wlauyb'),
 (3, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277269/x%C3%A1m_dzc9qr.jpg', 'xám_dzc9qr'),
 (3, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_3_q0z2ml.jpg', 'đen_-_3_q0z2ml'),
-(3, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_2_x4rue5.jpg', 'đen_-_2_x4rue5'),
+(3, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_2_x4rueabc', 'đen_-_2_x4rue5'),
 -- Sản phẩm 4
 (4, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277399/%C4%91en_v%C3%A0ng_hksppf.jpg', 'đen_vàng_hksppf'),
 (4, 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277397/%C4%91en_n%C3%A2u_-_3_fnr8pn.jpg', 'đen_nâu_-_3_fnr8pn'),
@@ -598,62 +572,20 @@ VALUES
 (30, 1, 'Xanh Lá', 10, 'active'),
 (30, 1, 'Nâu', 10, 'active'),
 (30, 1, 'Xám', 10, 'active'),
-(31, 1, 'Đen', 10, 'active'),
-(31, 1, 'Xanh Dương', 10, 'active'),
-(31, 1, 'Đỏ', 10, 'active'),
-(31, 1, 'Xanh Lá', 10, 'active'),
-(32, 1, 'Nâu', 10, 'active'),
-(32, 1, 'Xám', 10, 'active'),
-(32, 1, 'Đen', 10, 'active'),
-(32, 1, 'Xanh Dương', 10, 'active'),
-(33, 1, 'Đỏ', 10, 'active'),
-(33, 1, 'Xanh Lá', 10, 'active'),
-(33, 1, 'Nâu', 10, 'active'),
-(33, 1, 'Xám', 10, 'active'),
-(34, 1, 'Đen', 10, 'active'),
-(34, 1, 'Xanh Dương', 10, 'active'),
-(34, 1, 'Đỏ', 10, 'active'),
-(34, 1, 'Xanh Lá', 10, 'active'),
-(35, 1, 'Nâu', 10, 'active'),
-(35, 1, 'Xám', 10, 'active'),
-(35, 1, 'Đen', 10, 'active'),
-(35, 1, 'Xanh Dương', 10, 'active'),
-(36, 1, 'Đỏ', 10, 'active'),
-(36, 1, 'Xanh Lá', 10, 'active'),
-(36, 1, 'Nâu', 10, 'active'),
-(36, 1, 'Xám', 10, 'active'),
-(37, 1, 'Đen', 10, 'active'),
-(37, 1, 'Xanh Dương', 10, 'active'),
-(37, 1, 'Đỏ', 10, 'active'),
-(37, 1, 'Xanh Lá', 10, 'active'),
-(38, 1, 'Nâu', 10, 'active'),
-(38, 1, 'Xám', 10, 'active'),
-(38, 1, 'Đen', 10, 'active'),
-(38, 1, 'Xanh Dương', 10, 'active'),
-(39, 1, 'Đỏ', 10, 'active'),
-(39, 1, 'Xanh Lá', 10, 'active'),
-(39, 1, 'Nâu', 10, 'active'),
-(39, 1, 'Xám', 10, 'active'),
-(40, 1, 'Đen', 10, 'active'),
-(40, 1, 'Xanh Dương', 10, 'active'),
-(40, 1, 'Đỏ', 10, 'active'),
-(40, 1, 'Xanh Lá', 10, 'active'),
-(41, 1, 'Nâu', 10, 'active'),
-(41, 1, 'Xám', 10, 'active'),
-(41, 1, 'Đen', 10, 'active'),
-(41, 1, 'Xanh Dương', 10, 'active'),
-(42, 1, 'Đỏ', 10, 'active'),
-(42, 1, 'Xanh Lá', 10, 'active'),
-(42, 1, 'Nâu', 10, 'active'),
-(42, 1, 'Xám', 10, 'active'),
-(43, 1, 'Đen', 10, 'active'),
-(43, 1, 'Xanh Dương', 10, 'active'),
-(43, 1, 'Đỏ', 10, 'active'),
-(43, 1, 'Xanh Lá', 10, 'active'),
-(44, 1, 'Nâu', 10, 'active'),
-(44, 1, 'Xám', 10, 'active'),
-(44, 1, 'Đen', 10, 'active'),
-(44, 1, 'Xanh Dương', 10, 'active'),
+(31, 1, NULL, 10, 'active'),
+(32,1, NULL, 10, 'active'),
+(33,1, NULL, 10, 'active'),
+(34,1, NULL, 10, 'active'),
+(35,1, NULL, 10, 'active'),
+(36,1, NULL, 10, 'active'),
+(37,1, NULL, 10, 'active'),
+(38,1, NULL, 10, 'active'),
+(39,1, NULL, 10, 'active'),
+(40,1, NULL, 10, 'active'),
+(41,1, NULL, 10, 'active'),
+(42,1, NULL, 10, 'active'),
+(43,1, NULL, 10, 'active'),
+(44,1, NULL, 10, 'active'),
 
 -- Đà Nẵng (Branch 2)
 (1, 2, 'Đen', 5, 'active'),
@@ -776,63 +708,20 @@ VALUES
 (30, 2, 'Xanh Lá', 5, 'active'),
 (30, 2, 'Nâu', 5, 'active'),
 (30, 2, 'Xám', 5, 'active'),
-(31, 2, 'Đen', 5, 'active'),
-(31, 2, 'Xanh Dương', 5, 'active'),
-(31, 2, 'Đỏ', 5, 'active'),
-(31, 2, 'Xanh Lá', 5, 'active'),
-(32, 2, 'Nâu', 5, 'active'),
-(32, 2, 'Xám', 5, 'active'),
-(32, 2, 'Đen', 5, 'active'),
-(32, 2, 'Xanh Dương', 5, 'active'),
-(33, 2, 'Đỏ', 5, 'active'),
-(33, 2, 'Xanh Lá', 5, 'active'),
-(33, 2, 'Nâu', 5, 'active'),
-(33, 2, 'Xám', 5, 'active'),
-(34, 2, 'Đen', 5, 'active'),
-(34, 2, 'Xanh Dương', 5, 'active'),
-(34, 2, 'Đỏ', 5, 'active'),
-(34, 2, 'Xanh Lá', 5, 'active'),
-(35, 2, 'Nâu', 5, 'active'),
-(35, 2, 'Xám', 5, 'active'),
-(35, 2, 'Đen', 5, 'active'),
-(35, 2, 'Xanh Dương', 5, 'active'),
-(36, 2, 'Đỏ', 5, 'active'),
-(36, 2, 'Xanh Lá', 5, 'active'),
-(36, 2, 'Nâu', 5, 'active'),
-(36, 2, 'Xám', 5, 'active'),
-(37, 2, 'Đen', 5, 'active'),
-(37, 2, 'Xanh Dương', 5, 'active'),
-(37, 2, 'Đỏ', 5, 'active'),
-(37, 2, 'Xanh Lá', 5, 'active'),
-(38, 2, 'Nâu', 5, 'active'),
-(38, 2, 'Xám', 5, 'active'),
-(38, 2, 'Đen', 5, 'active'),
-(38, 2, 'Xanh Dương', 5, 'active'),
-(39, 2, 'Đỏ', 5, 'active'),
-(39, 2, 'Xanh Lá', 5, 'active'),
-(39, 2, 'Nâu', 5, 'active'),
-(39, 2, 'Xám', 5, 'active'),
-(40, 2, 'Đen', 5, 'active'),
-(40, 2, 'Xanh Dương', 5, 'active'),
-(40, 2, 'Đỏ', 5, 'active'),
-(40, 2, 'Xanh Lá', 5, 'active'),
-(41, 2, 'Nâu', 5, 'active'),
-(41, 2, 'Xám', 5, 'active'),
-(41, 2, 'Đen', 5, 'active'),
-(41, 2, 'Xanh Dương', 5, 'active'),
-(42, 2, 'Đỏ', 5, 'active'),
-(42, 2, 'Xanh Lá', 5, 'active'),
-(42, 2, 'Nâu', 5, 'active'),
-(42, 2, 'Xám', 5, 'active'),
-(43, 2, 'Đen', 5, 'active'),
-(43, 2, 'Xanh Dương', 5, 'active'),
-(43, 2, 'Đỏ', 5, 'active'),
-(43, 2, 'Xanh Lá', 5, 'active'),
-(44, 2, 'Nâu', 5, 'active'),
-(44, 2, 'Xám', 5, 'active'),
-(44, 2, 'Đen', 5, 'active'),
-(44, 2, 'Xanh Dương', 5, 'active'),
-
+(31,2,NULL,5,'active'),
+(32,2,NULL,5,'active'),
+(33,2,NULL,5,'active'),
+(34,2,NULL,5,'active'),
+(35,2,NULL,5,'active'),
+(36,2,NULL,5,'active'),
+(37,2,NULL,5,'active'),
+(38,2,NULL,5,'active'),
+(39,2,NULL,5,'active'),
+(40,2,NULL,5,'active'),
+(41,2,NULL,5,'active'),
+(42,2,NULL,5,'active'),
+(43,2,NULL,5,'active'),
+(44,2,NULL,5,'active'),
 -- Hà Nội (Branch 3)
 (1, 3, 'Đen', 5, 'active'),
 (1, 3, 'Xanh Dương', 5, 'active'),
@@ -954,62 +843,20 @@ VALUES
 (30, 3, 'Xanh Lá', 5, 'active'),
 (30, 3, 'Nâu', 5, 'active'),
 (30, 3, 'Xám', 5, 'active'),
-(31, 3, 'Đen', 5, 'active'),
-(31, 3, 'Xanh Dương', 5, 'active'),
-(31, 3, 'Đỏ', 5, 'active'),
-(31, 3, 'Xanh Lá', 5, 'active'),
-(32, 3, 'Nâu', 5, 'active'),
-(32, 3, 'Xám', 5, 'active'),
-(32, 3, 'Đen', 5, 'active'),
-(32, 3, 'Xanh Dương', 5, 'active'),
-(33, 3, 'Đỏ', 5, 'active'),
-(33, 3, 'Xanh Lá', 5, 'active'),
-(33, 3, 'Nâu', 5, 'active'),
-(33, 3, 'Xám', 5, 'active'),
-(34, 3, 'Đen', 5, 'active'),
-(34, 3, 'Xanh Dương', 5, 'active'),
-(34, 3, 'Đỏ', 5, 'active'),
-(34, 3, 'Xanh Lá', 5, 'active'),
-(35, 3, 'Nâu', 5, 'active'),
-(35, 3, 'Xám', 5, 'active'),
-(35, 3, 'Đen', 5, 'active'),
-(35, 3, 'Xanh Dương', 5, 'active'),
-(36, 3, 'Đỏ', 5, 'active'),
-(36, 3, 'Xanh Lá', 5, 'active'),
-(36, 3, 'Nâu', 5, 'active'),
-(36, 3, 'Xám', 5, 'active'),
-(37, 3, 'Đen', 5, 'active'),
-(37, 3, 'Xanh Dương', 5, 'active'),
-(37, 3, 'Đỏ', 5, 'active'),
-(37, 3, 'Xanh Lá', 5, 'active'),
-(38, 3, 'Nâu', 5, 'active'),
-(38, 3, 'Xám', 5, 'active'),
-(38, 3, 'Đen', 5, 'active'),
-(38, 3, 'Xanh Dương', 5, 'active'),
-(39, 3, 'Đỏ', 5, 'active'),
-(39, 3, 'Xanh Lá', 5, 'active'),
-(39, 3, 'Nâu', 5, 'active'),
-(39, 3, 'Xám', 5, 'active'),
-(40, 3, 'Đen', 5, 'active'),
-(40, 3, 'Xanh Dương', 5, 'active'),
-(40, 3, 'Đỏ', 5, 'active'),
-(40, 3, 'Xanh Lá', 5, 'active'),
-(41, 3, 'Nâu', 5, 'active'),
-(41, 3, 'Xám', 5, 'active'),
-(41, 3, 'Đen', 5, 'active'),
-(41, 3, 'Xanh Dương', 5, 'active'),
-(42, 3, 'Đỏ', 5, 'active'),
-(42, 3, 'Xanh Lá', 5, 'active'),
-(42, 3, 'Nâu', 5, 'active'),
-(42, 3, 'Xám', 5, 'active'),
-(43, 3, 'Đen', 5, 'active'),
-(43, 3, 'Xanh Dương', 5, 'active'),
-(43, 3, 'Đỏ', 5, 'active'),
-(43, 3, 'Xanh Lá', 5, 'active'),
-(44, 3, 'Nâu', 5, 'active'),
-(44, 3, 'Xám', 5, 'active'),
-(44, 3, 'Đen', 5, 'active'),
-(44, 3, 'Xanh Dương', 5, 'active');
+(31,3,NULL,5,'active'),
+(32,3,NULL,5,'active'),
+(33,3,NULL,5,'active'),
+(34,3,NULL,5,'active'),
+(35,3,NULL,5,'active'),
+(36,3,NULL,5,'active'),
+(37,3,NULL,5,'active'),
+(38,3,NULL,5,'active'),
+(39,3,NULL,5,'active'),
+(40,3,NULL,5,'active'),
+(41,3,NULL,5,'active'),
+(42,3,NULL,5,'active'),
+(43,3,NULL,5,'active'),
+(44,3,NULL,5,'active');
 
 -- 13. INSERT INTO carts
 INSERT INTO carts (id, user_id)
@@ -1139,25 +986,25 @@ VALUES
 (1, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Deliver fast', 1, 490000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (2, 5, NOW(), 1, '123 Nguyen Trai, HCM', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (3, 6, NOW(), 1, '456 Le Loi, HCM', 'Fast delivery', 2, 1985000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(4, 6, NOW(), 1, '456 Le Loi, HCM', 'Important', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(4, 6, NOW(), 1, '456 Le Loi, HCM', 'Important', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'inactive'),
 (5, 7, NOW(), 1, '789 Tran Hung Dao, HCM', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(6, 8, NOW(), 1, '56 Vo Van Kiet, HCM', 'Gift wrap', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(6, 8, NOW(), 1, '56 Vo Van Kiet, HCM', 'Gift wrap', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'inactive'),
 (7, 9, NOW(), 1, '35 Nguyen Hue, HCM', 'Careful packaging', NULL, 800000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
 (8, 10, NOW(), 1, '89 Dien Bien Phu, HCM', 'Priority delivery', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (9, 11, NOW(), 1, '12 Ly Chinh Thang, HCM', 'Express delivery', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
-(10, 12, NOW(), 1, '23 Vo Thi Sau, HCM', 'Special request', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(10, 12, NOW(), 1, '23 Vo Thi Sau, HCM', 'Special request', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'inactive'),
 (11, 13, NOW(), 1, '45 Dinh Tien Hoang, HCM', 'Fragile items', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
 (12, 14, NOW(), 1, '67 Le Duan, HCM', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
-(13, 15, NOW(), 1, '89 Hai Ba Trung, HCM', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(13, 15, NOW(), 1, '89 Hai Ba Trung, HCM', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'inactive'),
 (14, 16, NOW(), 1, '101 Pasteur, HCM', 'Handle carefully', NULL, 1550000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
 (15, 17, NOW(), 1, '34 Nguyen Oanh, HCM', 'Quick delivery', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
-(16, 18, NOW(), 1, '56 Tran Quang Khai, HCM', 'Special care', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(16, 18, NOW(), 1, '56 Tran Quang Khai, HCM', 'Special care', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'inactive'),
 (17, 19, NOW(), 1, '78 Ton Duc Thang, HCM', 'Urgent', NULL, 950000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
 (18, 20, NOW(), 1, '101 Nguyen Dinh Chieu, HCM', 'Priority', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (19, 21, NOW(), 1, '67 Cach Mang Thang Tam, HCM', 'Deliver now', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (20, 22, NOW(), 1, '34 Truong Dinh, HCM', 'Handle carefully', NULL, 1350000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (21, 23, NOW(), 1, '56 Le Van Sy, HCM', 'Careful packaging', NULL, 1250000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
-(22, 24, NOW(), 1, '78 Pham Van Dong, HCM', 'Quick service', NULL, 950000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(22, 24, NOW(), 1, '78 Pham Van Dong, HCM', 'Quick service', NULL, 950000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'inactive'),
 (23, 25, NOW(), 1, '101 Dien Bien Phu, HCM', 'Urgent request', NULL, 1450000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
 (24, 26, NOW(), 1, '67 Nguyen Van Cu, HCM', 'Deliver with care', NULL, 1200000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (25, 27, NOW(), 1, '34 Vo Van Tan, HCM', 'Handle with caution', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
@@ -1169,24 +1016,25 @@ VALUES
 (31, 33, NOW(), 1, '78 Dong Khoi, HCM', 'Handle urgently', NULL, 1250000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
 (32, 34, NOW(), 1, '101 Pasteur, HCM', 'Deliver fast', NULL, 1300000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active');
 
+
 -- HN (19 đơn hàng)
 INSERT INTO orders (id, user_id, date, branch_id, address, note, coupon_id, total_price, payment_status, order_status, payment_method, status)
 VALUES
 (40, 5, NOW(), 3, '123 Nguyen Trai, Ha Noi', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (41, 6, NOW(), 3, '456 Le Loi, Ha Noi', 'Handle with care', NULL, 1500000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (42, 7, NOW(), 3, '789 Tran Hung Dao, Ha Noi', 'Urgent delivery', NULL, 2000000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(43, 8, NOW(), 3, '12 Ly Chinh Thang, Ha Noi', 'Gift wrap', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(43, 8, NOW(), 3, '12 Ly Chinh Thang, Ha Noi', 'Gift wrap', NULL, 1200000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'inactive'),
 (44, 9, NOW(), 3, '35 Nguyen Hue, Ha Noi', 'Fragile', NULL, 1400000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(45, 10, NOW(), 3, '89 Dien Bien Phu, Ha Noi', 'Priority delivery', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(45, 10, NOW(), 3, '89 Dien Bien Phu, Ha Noi', 'Priority delivery', NULL, 900000, 'Chưa thanh toán', 'Đang giao hàng', 'Tiền mặt', 'inactive'),
 (46, 11, NOW(), 3, '23 Vo Thi Sau, Ha Noi', 'Special request', NULL, 800000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
 (47, 12, NOW(), 3, '101 Pasteur, Ha Noi', 'Quick service', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (48, 13, NOW(), 3, '45 Dinh Tien Hoang, Ha Noi', 'Careful packaging', NULL, 1300000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
-(49, 14, NOW(), 3, '67 Le Duan, Ha Noi', 'Express delivery', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(50, 15, NOW(), 3, '89 Hai Ba Trung, Ha Noi', 'Urgent', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
+(49, 14, NOW(), 3, '67 Le Duan, Ha Noi', 'Express delivery', NULL, 950000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'inactive'),
+(50, 15, NOW(), 3, '89 Hai Ba Trung, Ha Noi', 'Urgent', NULL, 1200000, 'Chưa thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
 (51, 16, NOW(), 3, '101 Nguyen Dinh Chieu, Ha Noi', 'Gift for someone', NULL, 1400000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
 (52, 17, NOW(), 3, '34 Nguyen Oanh, Ha Noi', 'Handle carefully', NULL, 1500000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
 (53, 18, NOW(), 3, '56 Tran Quang Khai, Ha Noi', 'Deliver fast', NULL, 1250000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(54, 19, NOW(), 3, '78 Ton Duc Thang, Ha Noi', 'Special care', NULL, 950000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(54, 19, NOW(), 3, '78 Ton Duc Thang, Ha Noi', 'Special care', NULL, 950000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'inactive'),
 (55, 20, NOW(), 3, '67 Cach Mang Thang Tam, Ha Noi', 'Deliver with care', NULL, 1100000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
 (56, 21, NOW(), 3, '34 Truong Dinh, Ha Noi', 'Handle urgently', NULL, 1450000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (57, 22, NOW(), 3, '56 Le Van Sy, Ha Noi', 'Priority delivery', NULL, 1350000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
@@ -1199,18 +1047,18 @@ VALUES
 (60, 5, NOW(), 2, '123 Nguyen Trai, Da Nang', 'Deliver fast', NULL, 800000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (61, 6, NOW(), 2, '456 Le Loi, Da Nang', 'Handle with care', NULL, 1200000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (62, 7, NOW(), 2, '789 Tran Hung Dao, Da Nang', 'Urgent delivery', NULL, 1600000, 'Đã thanh toán', 'Đang xử lý', 'Tiền mặt', 'active'),
-(63, 8, NOW(), 2, '12 Ly Chinh Thang, Da Nang', 'Gift wrap', NULL, 960000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'active'),
+(63, 8, NOW(), 2, '12 Ly Chinh Thang, Da Nang', 'Gift wrap', NULL, 960000, 'Chưa thanh toán', 'Đã hủy', 'Chuyển khoản', 'inactive'),
 (64, 9, NOW(), 2, '35 Nguyen Hue, Da Nang', 'Fragile', NULL, 1120000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(65, 10, NOW(), 2, '89 Dien Bien Phu, Da Nang', 'Priority delivery', NULL, 720000, 'Chưa thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
+(65, 10, NOW(), 2, '89 Dien Bien Phu, Da Nang', 'Priority delivery', NULL, 720000, 'Chưa thanh toán', 'Đang giao hàng', 'Tiền mặt', 'inactive'),
 (66, 11, NOW(), 2, '23 Vo Thi Sau, Da Nang', 'Special request', NULL, 640000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
 (67, 12, NOW(), 2, '101 Pasteur, Da Nang', 'Quick service', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (68, 13, NOW(), 2, '45 Dinh Tien Hoang, Da Nang', 'Careful packaging', NULL, 1040000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
-(69, 14, NOW(), 2, '67 Le Duan, Da Nang', 'Express delivery', NULL, 760000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'active'),
+(69, 14, NOW(), 2, '67 Le Duan, Da Nang', 'Express delivery', NULL, 760000, 'Đã thanh toán', 'Đã giao', 'Tiền mặt', 'inactive'),
 (70, 15, NOW(), 2, '89 Hai Ba Trung, Da Nang', 'Urgent', NULL, 960000, 'Chưa thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
 (71, 16, NOW(), 2, '101 Nguyen Dinh Chieu, Da Nang', 'Gift for someone', NULL, 1120000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
 (72, 17, NOW(), 2, '34 Nguyen Oanh, Da Nang', 'Handle carefully', NULL, 1200000, 'Đã thanh toán', 'Đang xử lý', 'Chuyển khoản', 'active'),
 (73, 18, NOW(), 2, '56 Tran Quang Khai, Da Nang', 'Deliver fast', NULL, 1000000, 'Đã thanh toán', 'Đã giao', 'Chuyển khoản', 'active'),
-(74, 19, NOW(), 2, '78 Ton Duc Thang, Da Nang', 'Special care', NULL, 760000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'active'),
+(74, 19, NOW(), 2, '78 Ton Duc Thang, Da Nang', 'Special care', NULL, 760000, 'Đã thanh toán', 'Đang giao hàng', 'Tiền mặt', 'inactive'),
 (75, 20, NOW(), 2, '67 Cach Mang Thang Tam, Da Nang', 'Deliver with care', NULL, 880000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (76, 21, NOW(), 2, '34 Truong Dinh, Da Nang', 'Handle urgently', NULL, 1160000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
 (77, 22, NOW(), 2, '56 Le Van Sy, Da Nang', 'Priority delivery', NULL, 1080000, 'Đã thanh toán', 'Đang giao hàng', 'Chuyển khoản', 'active'),
@@ -1306,44 +1154,120 @@ INSERT INTO order_details (id, order_id, product_id, color, quantity, total_pric
 (81, 79, 22, 'Xanh lá', 1, 650000 * 1 * 0.8);
 
 -- 19. INSERT INTO payOS_transactions
-INSERT INTO payOS_transactions (id, orderCode, order_id, amount, created_at, updated_at)
+INSERT INTO payOS_transactions (id, orderCode, order_id, amount)
 VALUES
-(1, '100001', 1, 490000, NOW(), NOW()),
-(2, '100002', 2, 1500000, NOW(), NOW()),
-(3, '100003', 4, 1200000, NOW(), NOW()),
-(4, '100004', 47, 1100000, NOW(), NOW()),
-(5, '100005', 48, 1300000, NOW(), NOW()),
-(6, '100006', 67, 900000, NOW(), NOW()),
-(7, '100007', 68, 800000, NOW(), NOW()),
-(8, '100008', 70, 1100000, NOW(), NOW()),
-(9, '100009', 72, 1300000, NOW(), NOW()),
-(10, '100010', 73, 950000, NOW(), NOW());
+(1, '100001', 60, 500000),
+(2, '100002', 61, 1500000),
+(3, '100003', 62, 2000000),
+(4, '100004', 63, 1200000),
+(5, '100005', 64, 1400000),
+(6, '100006', 65, 900000),
+(7, '100007', 66, 800000),
+(8, '100008', 67, 1100000),
+(9, '100009', 68, 1300000),
+(10, '100010', 69, 950000);
 
 
 
--- 21. INSERT INTO blogs
 INSERT INTO blogs (id, title, description, image_url, image_public_id, created_time, status)
 VALUES
 (1, 'Bảo Vệ Đôi Mắt: Bí Quyết Chọn Kính Hoàn Hảo',
-    'Tìm hiểu cách chọn kính mắt phù hợp để bảo vệ đôi mắt và nâng tầm phong cách của bạn. Bí quyết bao gồm chọn chất liệu, kiểu dáng và loại tròng kính.',
+    'Đôi mắt là một trong những tài sản quý giá nhất mà chúng ta sở hữu. Chúng không chỉ giúp bạn nhìn thấy thế giới xung quanh mà còn đóng vai trò quan trọng trong giao tiếp và thể hiện cảm xúc. Chính vì vậy, việc chăm sóc và bảo vệ đôi mắt không chỉ là một nhu cầu mà còn là một trách nhiệm.
+
+    Trong bài viết này, chúng tôi sẽ chia sẻ toàn diện về cách chọn kính mắt hoàn hảo, từ những yếu tố quan trọng như chất liệu, kiểu dáng, và loại tròng kính phù hợp cho đến những lời khuyên hữu ích giúp bạn bảo vệ mắt trong thời gian dài.
+
+    ### 1. Tại sao cần bảo vệ đôi mắt?
+    Đôi mắt phải đối mặt với nhiều nguy cơ hàng ngày, từ tác động của tia UV, ánh sáng xanh từ màn hình điện tử đến ô nhiễm môi trường và bụi bẩn. Những yếu tố này có thể gây ra các vấn đề nghiêm trọng như mỏi mắt, khô mắt, và thậm chí là các bệnh lý lâu dài như thoái hóa điểm vàng hay đục thủy tinh thể. Một chiếc kính phù hợp không chỉ cải thiện tầm nhìn mà còn bảo vệ mắt khỏi những nguy cơ này.
+
+    ### 2. Làm thế nào để chọn kính mắt hoàn hảo?
+    Chọn một chiếc kính không chỉ là vấn đề về thời trang, mà còn là sự kết hợp hoàn hảo giữa chức năng và phong cách. Dưới đây là những yếu tố bạn cần xem xét:
+
+    #### a. Chất liệu gọng kính
+    - **Kim loại:** Gọng kính kim loại mang lại vẻ thanh lịch và nhẹ nhàng, thích hợp cho những ai yêu thích sự tinh tế.
+    - **Nhựa cao cấp:** Gọng nhựa thường nhẹ, đa dạng màu sắc và rất bền.
+    - **Titanium:** Nếu bạn cần một chiếc kính siêu nhẹ và chống ăn mòn, gọng kính titanium là lựa chọn hàng đầu.
+
+    #### b. Kiểu dáng phù hợp với khuôn mặt
+    - **Khuôn mặt tròn:** Chọn gọng kính vuông hoặc chữ nhật để tạo sự cân đối.
+    - **Khuôn mặt vuông:** Gọng kính oval hoặc tròn sẽ làm mềm mại các góc cạnh.
+    - **Khuôn mặt trái xoan:** Phù hợp với hầu hết các loại kính, bạn có thể tự do chọn phong cách.
+    - **Khuôn mặt hình tim:** Gọng kính có phần dưới rộng sẽ cân bằng tỷ lệ khuôn mặt.
+
+    #### c. Loại tròng kính
+    - **Tròng kính chống tia UV:** Đây là lựa chọn bắt buộc nếu bạn thường xuyên ở ngoài trời.
+    - **Tròng kính chống ánh sáng xanh:** Nếu bạn làm việc nhiều trước màn hình máy tính, loại kính này sẽ giúp giảm căng thẳng cho mắt.
+    - **Tròng kính đổi màu:** Tiện lợi khi bạn di chuyển giữa các môi trường ánh sáng khác nhau.
+
+    ### 3. Lời khuyên để sử dụng kính hiệu quả
+    - **Vệ sinh kính thường xuyên:** Dùng dung dịch chuyên dụng để lau kính, tránh sử dụng các loại vải cứng gây trầy xước.
+    - **Bảo quản kính đúng cách:** Luôn đặt kính vào hộp khi không sử dụng để tránh va đập.
+    - **Điều chỉnh kính định kỳ:** Đến cửa hàng để kiểm tra và điều chỉnh kính nếu cảm thấy không thoải mái.
+
+    ### 4. Tầm quan trọng của kính mắt trong phong cách
+    Một chiếc kính đẹp không chỉ giúp bảo vệ mắt mà còn là điểm nhấn cho phong cách cá nhân. Bạn có thể chọn kính theo xu hướng hoặc tùy chỉnh để phù hợp với gu thẩm mỹ của mình.
+
+    ### 5. Lựa chọn kính mắt ở đâu?
+    Hãy đến các cửa hàng uy tín hoặc tìm kiếm các thương hiệu chất lượng để đảm bảo rằng bạn nhận được sản phẩm tốt nhất. Đừng quên kiểm tra các chính sách bảo hành và dịch vụ hậu mãi.
+
+    Chọn một chiếc kính hoàn hảo không khó, nhưng cần sự cân nhắc kỹ lưỡng. Đôi mắt của bạn xứng đáng được chăm sóc và bảo vệ tốt nhất!',
     'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508358/blog3_yqg5vr.png', 'blog3_yqg5vr', NOW(), 'active'),
 
 (2, 'Kính Râm: Hơn Cả Một Phụ Kiện Thời Trang',
-    'Khám phá lý do tại sao kính râm không chỉ giúp bạn phong cách hơn mà còn bảo vệ mắt khỏi tia UV có hại.',
+    'Kính râm không chỉ là một phụ kiện thời trang mà còn đóng vai trò quan trọng trong việc bảo vệ mắt khỏi các tác động tiêu cực từ môi trường. Trong bài viết này, chúng tôi sẽ đi sâu vào các lợi ích mà kính râm mang lại, từ sức khỏe mắt đến phong cách cá nhân.
+
+    ### 1. Tác dụng bảo vệ mắt của kính râm
+    Kính râm được thiết kế để bảo vệ mắt khỏi tia UV, một yếu tố có thể gây hại nghiêm trọng. Các nghiên cứu đã chỉ ra rằng việc tiếp xúc lâu dài với tia UV có thể gây ra các vấn đề như viêm giác mạc, đục thủy tinh thể, và thậm chí là ung thư mắt. Một chiếc kính râm chất lượng cao với lớp phủ chống tia UV 400 có thể giúp ngăn chặn gần như toàn bộ các loại tia UV có hại này.
+
+    Ngoài tia UV, kính râm còn giúp bảo vệ mắt khỏi ánh sáng xanh - một loại ánh sáng được phát ra từ mặt trời và các thiết bị điện tử. Ánh sáng xanh có thể làm tổn thương võng mạc, gây ra mỏi mắt và thậm chí làm suy giảm thị lực. Việc sử dụng kính râm với tròng kính chống ánh sáng xanh sẽ giúp giảm thiểu những tác động tiêu cực này.
+
+    ### 2. Kính râm và vai trò trong phong cách thời trang
+    Một chiếc kính râm không chỉ bảo vệ mắt mà còn là biểu tượng của sự tự tin và cá tính. Trên thị trường hiện nay có rất nhiều loại kính râm với kiểu dáng và màu sắc đa dạng, từ phong cách cổ điển như Aviator, Wayfarer đến các thiết kế hiện đại và phá cách. Việc chọn một chiếc kính râm phù hợp không chỉ giúp bạn bảo vệ mắt mà còn nâng tầm phong cách cá nhân, thể hiện gu thẩm mỹ độc đáo.
+
+    ### 3. Cách chọn kính râm phù hợp
+    Khi chọn kính râm, có một số yếu tố bạn cần xem xét để đảm bảo rằng kính không chỉ đẹp mà còn phù hợp với nhu cầu sử dụng và khuôn mặt của bạn:
+
+    #### a. Chất liệu tròng kính
+    - **Polycarbonate:** Nhẹ, bền và chống va đập, phù hợp cho các hoạt động ngoài trời.
+    - **Tròng kính phân cực:** Giảm chói và tăng độ rõ nét, lý tưởng cho các hoạt động như lái xe và câu cá.
+    - **Tròng kính đổi màu:** Tự động điều chỉnh màu sắc theo môi trường ánh sáng.
+
+    #### b. Kiểu dáng phù hợp với khuôn mặt
+    - **Khuôn mặt tròn:** Chọn kính vuông hoặc chữ nhật để tạo cảm giác góc cạnh hơn.
+    - **Khuôn mặt vuông:** Gọng kính oval hoặc tròn giúp làm mềm mại các góc cạnh.
+    - **Khuôn mặt trái xoan:** Có thể tự do chọn bất kỳ kiểu dáng nào.
+    - **Khuôn mặt hình tim:** Gọng kính với phần dưới rộng sẽ cân bằng tỷ lệ khuôn mặt.
+
+    ### 4. Lời khuyên khi sử dụng kính râm
+    - **Làm sạch kính thường xuyên:** Sử dụng dung dịch chuyên dụng để lau kính, tránh dùng khăn giấy hoặc vải cứng có thể làm trầy xước tròng kính.
+    - **Bảo quản kính đúng cách:** Đặt kính vào hộp khi không sử dụng để tránh va đập và bụi bẩn.
+    - **Kiểm tra định kỳ:** Đảm bảo rằng kính của bạn không bị lỏng hoặc méo để đạt hiệu quả sử dụng tối đa.
+
+    ### 5. Tầm quan trọng của kính râm trong cuộc sống hiện đại
+    Với sự gia tăng của ô nhiễm môi trường và ánh sáng xanh từ các thiết bị công nghệ, kính râm không chỉ là một phụ kiện mà đã trở thành một vật dụng thiết yếu. Đầu tư vào một chiếc kính râm chất lượng cao không chỉ giúp bảo vệ mắt mà còn mang lại sự thoải mái và phong cách cho bạn trong cuộc sống hàng ngày.',
     'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/blog2_ayn1vs.png', 'blog2_ayn1vs', NOW(), 'active'),
-
 (3, 'Chăm Sóc Tròng Kính: Mẹo Bảo Quản Để Độ Rõ Nét Lâu Dài',
-    'Khám phá các mẹo thực tế để vệ sinh và bảo quản kính mắt hoặc kính áp tròng nhằm đảm bảo hiệu suất và độ bền lâu dài.',
+    'Tròng kính là một phần quan trọng của kính mắt, đóng vai trò quyết định đến khả năng nhìn rõ và bảo vệ mắt khỏi các tác nhân gây hại. Tuy nhiên, việc sử dụng và bảo quản không đúng cách có thể làm giảm tuổi thọ và hiệu suất của tròng kính. Trong bài viết này, chúng tôi sẽ hướng dẫn bạn các bước chi tiết để chăm sóc và bảo quản tròng kính một cách hiệu quả.
+
+    ### 1. Tại sao cần chăm sóc tròng kính đúng cách?
+    Tròng kính không chỉ giúp cải thiện thị lực mà còn bảo vệ mắt khỏi tia UV, ánh sáng xanh và bụi bẩn. Một tròng kính sạch và không bị trầy xước sẽ mang lại cảm giác thoải mái khi sử dụng, đồng thời đảm bảo rằng mắt bạn không phải làm việc quá sức để nhìn rõ.
+
+    ### 2. Các loại tròng kính phổ biến và cách bảo quản
+    - **Tròng kính chống ánh sáng xanh:** Dành cho những người làm việc nhiều với máy tính. Hãy lau kính thường xuyên bằng khăn mềm để tránh tích tụ bụi bẩn.
+    - **Tròng kính chống tia UV:** Lý tưởng cho các hoạt động ngoài trời. Bảo quản kính trong hộp chống sốc để tránh làm hỏng lớp phủ chống UV.
+    - **Tròng kính phân cực:** Loại tròng này cần được làm sạch bằng dung dịch chuyên dụng để duy trì hiệu quả chống chói.',
     'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508345/blog1_tjzv6m.jpg', 'blog1_tjzv6m', NOW(), 'active'),
+
 (4, 'Chào Đón Năm Mới Với Ưu Đãi Lớn: Giảm Giá Đến 50%!',
-    'Tưng bừng chào đón năm mới với những ưu đãi siêu hấp dẫn! Hãy sử dụng các mã giảm giá dưới đây để tiết kiệm hơn khi mua sắm:
+    'Năm mới đang đến gần, và đây là thời điểm hoàn hảo để bạn sắm sửa những món đồ yêu thích với giá cực kỳ ưu đãi. Chúng tôi đã chuẩn bị một loạt các chương trình khuyến mãi đặc biệt để bạn có thể tận hưởng không khí năm mới trọn vẹn hơn.
 
-    COUPON30: Giảm 30% cho mọi đơn hàng.
-    COUPON35: Giảm 35% cho mọi đơn hàng.
-    COUPON40: Giảm 40% cho mọi đơn hàng.
-    COUPON50: Giảm 50% cho mọi đơn hàng.
+    ### 1. Chi tiết chương trình ưu đãi
+    - **COUPON30:** Giảm 30% cho tất cả các sản phẩm.
+    - **COUPON35:** Giảm 35% khi mua sắm từ 1.000.000 VNĐ trở lên.
+    - **COUPON40:** Giảm 40% cho đơn hàng từ 2.000.000 VNĐ.
+    - **COUPON50:** Giảm 50% khi mua hàng từ 3.000.000 VNĐ trở lên.
 
-    Nhanh tay lên! Chương trình ưu đãi chỉ diễn ra đến hết ngày 31/12/2024. Mua sắm ngay để khởi đầu năm mới với những món hời tuyệt vời!',
+    ### 2. Những sản phẩm nổi bật trong chương trình ưu đãi
+    Hãy khám phá danh mục các sản phẩm chất lượng cao với giá ưu đãi chưa từng có. Từ kính mắt thời trang, kính râm bảo vệ mắt, đến các phụ kiện cao cấp, bạn chắc chắn sẽ tìm được món đồ phù hợp cho bản thân hoặc làm quà tặng cho người thân.',
     'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734517321/new-year-sale_qnlpsc.png', 'new-year-sale_qnlpsc', NOW(), 'active');
 
 -- 22. INSERT INTO banners
@@ -1485,3 +1409,4 @@ VALUES
 -- Product 44
 (88, 44, 5, 5, 'Đáng mua, rất đẹp.', 'active'),
 (89, 44, 6, 4, 'Ổn.', 'active');
+

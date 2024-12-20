@@ -32,8 +32,9 @@ class OrderController extends Controller {
         return $this->orderService->getById($id);
     }
 
-    public function getByStatus(GetOrderByStatusRequest $request) {
-        return $this->orderService->getByStatus($request->validated()['status']);
+    public function getByStatus($status) {
+
+        return $this->orderService->getByStatus($status);
     }
 
     public function update(UpdateTwoOrderStatusRequest $request, $id) {
