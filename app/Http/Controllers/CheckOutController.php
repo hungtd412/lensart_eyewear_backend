@@ -34,12 +34,14 @@ class CheckOutController extends Controller {
                 "message" => "Bạn không thể thanh toán đơn hàng này!",
             ]);
         }
+
         if ($this->orderService->isPaid($orderId) == true) {
             return response()->json([
                 "error" => 0,
                 "message" => "Đơn hàng đã được thanh toán!",
             ]);
         }
+
         $total_price = $this->orderService->getPriceByOrderId($orderId);
         if ($total_price == 0) {
             return response()->json([
