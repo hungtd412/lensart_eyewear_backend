@@ -68,28 +68,30 @@ VALUES
 (2, 35, 2, 'Đen', 3, 1821259.2),
 (2, 11, 2, 'Xám', 1, 572532.8);
 
-select * from orders, order_details, product_details
+select product_details.* from orders, order_details, product_details
 where orders.id = order_details.order_id
 and product_details.branch_id = orders.branch_id
 and order_details.product_id = product_details.product_id
-and orders.id =1
+and orders.id =17 and product_details.color = order_details.color
+
+select * from order_details
+where order_id =3
 
 
 select * from payos_transactions, orders
 where payos_transactions.order_id = orders.id
 
  select * from  orders
- where payment_method='Chuyển khoản'
+ where order_status='Đang xử lý'
  and branch_id in(1, 3)
 
 select * from cart_details where cart_details.cart_id = 2
 select * from banners
 
 
-update banners
-set image_url = 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/banner_qevb0o.png'
-, image_public_id = 'banner_qevb0o'
-where id = 1
+update orders
+set order_status = 'Đang xử lý'
+where id = 3
 
 select * from orders where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
