@@ -74,8 +74,8 @@ and product_details.branch_id = orders.branch_id
 and order_details.product_id = product_details.product_id
 and orders.id =17 and product_details.color = order_details.color
 
-select * from order_details
-where order_id =3
+select * from products
+where id = 19
 
 
 select * from payos_transactions, orders
@@ -93,5 +93,5 @@ update orders
 set order_status = 'Đang xử lý'
 where id = 3
 
-select * from orders where branch_id = 2
+select * from coupons where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
