@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckIdParameter;
+use App\Http\Middleware\CheckStatusParameter;
 use App\Http\Middleware\CheckThreeIDsParameter;
 use App\Http\Middleware\CheckTwoIDsParameter;
 use App\Http\Middleware\CheckTypeParameter;
@@ -75,6 +76,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkTwoIdsParameter' => CheckTwoIDsParameter::class,
             'checkThreeIdsParameter' => CheckThreeIDsParameter::class,
             'checkTypeParameter' => CheckTypeParameter::class,
+            'checkStatusParameter' => CheckStatusParameter::class,
         ]);
         $middleware->validateCsrfTokens(except: [
             '/*',

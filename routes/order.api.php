@@ -61,9 +61,9 @@ Route::group([
 //  GET BY STATUS
 //**************************************
 Route::group([
-    'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager', 'checkStatusParameter'],
 ], function () {
-    Route::get('/orders/getByStatus', [OrderController::class, 'getByStatus']);
+    Route::get('/orders/getByStatus/{status?}', [OrderController::class, 'getByStatus']);
 });
 
 
