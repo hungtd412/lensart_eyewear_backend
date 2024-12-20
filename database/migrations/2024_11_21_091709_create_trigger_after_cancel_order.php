@@ -20,8 +20,8 @@ return new class extends Migration {
                     JOIN order_details od ON pd.product_id = od.product_id
                                              AND pd.branch_id = NEW.branch_id
                                              AND pd.color = od.color
-                    SET pd.quantity = pd.quantity + od.quantity
-                    WHERE od.order_id = NEW.id;
+                                             AND od.order_id = NEW.id
+                    SET pd.quantity = pd.quantity + od.quantity;
                 END IF;
             END
         ");
