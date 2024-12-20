@@ -22,8 +22,8 @@ class OrderRepository implements OrderRepositoryInterface {
         return Order::find($orderId)?->total_price;
     }
 
-    public function getByBranchId($branchId) {
-        $orders = Order::where('branch_id', $branchId)->get();
+    public function getByBranchId($branchIds) {
+        $orders = Order::whereIn('branch_id', $branchIds)->get();
 
         return $this->formatResponse($orders);
     }

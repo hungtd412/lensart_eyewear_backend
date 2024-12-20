@@ -93,5 +93,5 @@ set image_url = 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/b
 , image_public_id = 'banner_qevb0o'
 where id = 1
 
-select * from orders
+select * from orders where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
