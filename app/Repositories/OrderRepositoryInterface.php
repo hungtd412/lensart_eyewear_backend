@@ -6,6 +6,7 @@ interface OrderRepositoryInterface {
     public function store(array $data);
     public function getAll();
     public function getById($id);
+    public function getByBranchId($branchId);
     public function getPriceByOrderId($orderId);
     public function getByStatusAndBranch($status, $branchId = null);
     public function update(array $data, $order);
