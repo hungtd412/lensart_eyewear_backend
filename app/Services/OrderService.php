@@ -263,7 +263,7 @@ class OrderService {
         $response = Gate::inspect("cancel", $order);
 
         if ($response->allowed()) {
-            if ($order->order_status === 'Chưa xử lý') {
+            if ($order->order_status === 'Đang xử lý') {
                 $this->orderRepository->cancel($id);
                 $order = $this->orderRepository->getById($id);
                 return response()->json([
