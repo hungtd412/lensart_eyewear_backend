@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
 use App\Http\Requests\Order\UpdateOrderStatusRequest;
 use App\Http\Requests\Order\UpdatePaymentStatusRequest;
+use App\Http\Requests\Order\UpdateTwoOrderStatusRequest;
 use App\Services\OrderService;
 
 class OrderController extends Controller {
@@ -34,7 +35,7 @@ class OrderController extends Controller {
         return $this->orderService->getByStatusAndBranch($status, $branchId);
     }
 
-    public function update(StoreOrderRequest $request, $id) {
+    public function update(UpdateTwoOrderStatusRequest $request, $id) {
         return $this->orderService->update($request->validated(), $id);
     }
 
