@@ -26,6 +26,7 @@ class StoreOrderRequest extends FormRequest {
             'address' => 'required|string|max:255',
             'note' => 'nullable|string|max:1000',
             'coupon_id' => 'nullable|exists:coupons,id',
+            'payment_method' => 'required|in:Chuyển khoản,Tiền mặt',
 
             'order_details' => 'required|array|min:1',
             'order_details.*.product_id' => 'required|exists:products,id',

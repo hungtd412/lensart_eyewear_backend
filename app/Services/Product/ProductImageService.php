@@ -13,26 +13,56 @@ class ProductImageService {
     }
 
     public function store($data) {
-        $uploadedFile = Cloudinary::upload($data['image']->getRealPath(), [
-            'folder' => 'products'
-        ]);
+        // Step 1: Temporarily store the uploaded image in /public folder
+        $imageName = uniqid() . '.' . $data['image']->getClientOriginalExtension();
+        $imagePath = public_path('uploads/' . $imageName);
 
-        $imageUrl = $uploadedFile->getSecurePath();
-        $imagePublicId = $uploadedFile->getPublicId();
+        $data['image']->move(public_path('uploads'), $imageName);
 
-        $data = [
-            'product_id' => $data['product_id'],
-            'image_url' => $imageUrl,
-            'image_public_id' => $imagePublicId,
-        ];
+        try {
+            // Step 2: Upload the image to Cloudinary
+            $uploadedFile = Cloudinary::upload($imagePath, [
+                'folder' => 'products'
+            ]);
 
-        $productImage = $this->productImageRepository->store($data);
+            $imageUrl = $uploadedFile->getSecurePath();
+            $imagePublicId = $uploadedFile->getPublicId();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $productImage
-        ], 200);
+            // Step 3: Delete the image from the /public folder
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Prepare data for storage
+            $dataToStore = [
+                'product_id' => $data['product_id'],
+                'image_url' => $imageUrl,
+                'image_public_id' => $imagePublicId,
+            ];
+
+            // Store the image data in the database
+            $productImage = $this->productImageRepository->store($dataToStore);
+
+            // Return success response
+            return response()->json([
+                'status' => 'success',
+                'data' => $productImage
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any errors (e.g., Cloudinary upload failure)
+
+            // Delete the temporary file if it exists
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Image upload failed: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function getAll() {
         $productImages = $this->productImageRepository->getAll();
