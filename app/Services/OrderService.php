@@ -101,14 +101,19 @@ class OrderService {
     }
 
     public function getAll() {
-        // getByBranchId
+        $currentUser = auth()->user();
 
-        if (auth()->user()->role_id === 1) {
+        if ($currentUser->role_id === 1) {
+
             $orders = $this->orderRepository->getAll();
-        } else if (auth()->user()->role_id === 2) {
-            $branchId = auth()->user()->branch->id;
-            $orders = $this->orderRepository->getByBranchId($branchId);
+        } else if ($currentUser->role_id === 2) {
+
+            //one manager can manage multiple branches
+            $branchIds = $this->getAllBranchIdOfManager($currentUser);
+
+            $orders = $this->orderRepository->getByBranchId($branchIds);
         } else {
+
             $orders = null;
         }
 
@@ -116,6 +121,15 @@ class OrderService {
             'status' => 'success',
             'data' => $orders
         ], 200);
+    }
+
+    public function getAllBranchIdOfManager($manager) {
+        $branchIds = [];
+        $branches = $manager->branches;
+        foreach ($branches as $branch) {
+            $branchIds[] = $branch->id; // Add each branch ID to the array
+        }
+        return $branchIds;
     }
 
     public function getById($id) {
@@ -137,30 +151,30 @@ class OrderService {
         return $this->orderRepository->getPriceByOrderId($orderId);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null) {
-        if (!is_null($branchId)) {
-            if ($this->isValidUser($branchId)) {
-                return response()->json([
-                    'status' => 'success',
-                    'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 'fail',
-                    'message' => "Bạn không thể xem đơn hàng của chi nhánh khác!"
-                ], 403);
-            }
-        }
+    // public function getByStatusAndBranch($status, $branchId = null) {
+    //     if (!is_null($branchId)) {
+    //         if ($this->isValidUser($branchId)) {
+    //             return response()->json([
+    //                 'status' => 'success',
+    //                 'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId)
+    //             ], 200);
+    //         } else {
+    //             return response()->json([
+    //                 'status' => 'fail',
+    //                 'message' => "Bạn không thể xem đơn hàng của chi nhánh khác!"
+    //             ], 403);
+    //         }
+    //     }
 
-        try {
-            $branchId = auth()->user()->branch->id;
-        } catch (\Throwable $th) {
-            $branchId = null;
-        }
-        return response()->json([
-            'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
-        ], 200);
-    }
+    //     try {
+    //         $branchId = auth()->user()->branch->id;
+    //     } catch (\Throwable $th) {
+    //         $branchId = null;
+    //     }
+    //     return response()->json([
+    //         'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
+    //     ], 200);
+    // }
 
     public function isValidUser($branchId) {
         return auth()->user()->role_id === 1
@@ -175,9 +189,9 @@ class OrderService {
 
         if ($response->allowed()) {
             $this->orderRepository->update($data, $order);
-            $order = $this->orderRepository->getById($id);
+            $updatedOrder = $this->orderRepository->getById($id);
             return response()->json([
-                'data' => $order,
+                'data' => $updatedOrder,
             ], 200);
         } else {
             return response()->json([

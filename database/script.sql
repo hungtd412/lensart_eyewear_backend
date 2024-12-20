@@ -77,8 +77,6 @@ and orders.id =1
 
 select * from payos_transactions, orders
 where payos_transactions.order_id = orders.id
- and payment_method='Chuyển khoản'
- and orders.branch_id = 2
 
  select * from  orders
  where payment_method='Chuyển khoản'
@@ -93,5 +91,5 @@ set image_url = 'https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/b
 , image_public_id = 'banner_qevb0o'
 where id = 1
 
-delete from banners where id = 2
+select * from orders where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
