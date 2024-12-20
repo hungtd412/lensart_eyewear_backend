@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('material_id')->nullable();
             $table->unsignedBigInteger('shape_id')->nullable();
-            $table->enum('gender', ['male', 'female', 'unisex'])->default('unisex');
+            $table->enum('gender', ['male', 'female', 'unisex'])->nullable()->default('unisex');
             $table->decimal('price', 10, 2);
             $table->decimal('offer_price', 10, 2)->nullable();
             $table->timestamp('created_time');
