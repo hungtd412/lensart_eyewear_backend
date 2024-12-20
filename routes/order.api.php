@@ -63,7 +63,7 @@ Route::group([
 Route::group([
     'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
 ], function () {
-    Route::get('/orders/{status?}/{branchId?}', [OrderController::class, 'getByStatusAndBranch']);
+    Route::get('/orders/getByStatus', [OrderController::class, 'getByStatus']);
 });
 
 

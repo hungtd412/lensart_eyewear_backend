@@ -77,8 +77,6 @@ and orders.id =1
 
 select * from payos_transactions, orders
 where payos_transactions.order_id = orders.id
- and payment_method='Chuyển khoản'
- and orders.branch_id = 2
 
  select * from  orders
  where payment_method='Chuyển khoản'

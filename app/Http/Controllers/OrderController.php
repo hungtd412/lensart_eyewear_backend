@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\GetOrderByStatusRequest;
 use App\Http\Requests\Order\StoreOrderRequest;
 use App\Http\Requests\Order\UpdateOrderStatusRequest;
 use App\Http\Requests\Order\UpdatePaymentStatusRequest;
@@ -31,8 +32,8 @@ class OrderController extends Controller {
         return $this->orderService->getById($id);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null) {
-        return $this->orderService->getByStatusAndBranch($status, $branchId);
+    public function getByStatus(GetOrderByStatusRequest $request) {
+        return $this->orderService->getByStatus($request->validated()['status']);
     }
 
     public function update(UpdateTwoOrderStatusRequest $request, $id) {
