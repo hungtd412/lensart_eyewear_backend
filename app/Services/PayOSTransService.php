@@ -75,6 +75,22 @@ class PayOSTransService {
         ], 200);
     }
 
+    public function update($checkOutService, $payOS, $orderId) {
+        $payOSTranses = $this->payOSTransRepository->getByOrderId($orderId);
+
+        foreach ($payOSTranses as $payOSTrans) {
+            $transInfo = $checkOutService->getPaymentLinkInfoOfOrder($payOSTrans->orderCode, $payOS)->getData()->data;
+
+            if ($transInfo->status === "CANCELLED") {
+                $this->payOSTransRepository->delete($transInfo->orderCode);
+            } else if ($transInfo->status === "PAID") {
+                $payOSTrans = $this->payOSTransRepository->getByOrderCode($transInfo->orderCode);
+
+                $this->payOSTransRepository->updateAmount($payOSTrans, $transInfo->amountPaid);
+            }
+        }
+    }
+
     public function refresh($checkOutService, $payOS) {
         $payOSTranses = $this->payOSTransRepository->getAllUnpaid();
 

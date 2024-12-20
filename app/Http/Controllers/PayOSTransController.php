@@ -32,6 +32,10 @@ class PayOSTransController extends Controller {
         return $this->payOSTransService->getByOrderId($orderId);
     }
 
+    public function update($orderId) {
+        return $this->payOSTransService->update($this->checkOutService, $this->payOS, $orderId);
+    }
+
     public function refresh() {
         return $this->payOSTransService->refresh($this->checkOutService, $this->payOS);
     }

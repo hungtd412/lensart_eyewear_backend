@@ -34,6 +34,7 @@ Route::group([
     //pass returnUrl and cancelUrl
     //example: "returnUrl": "http://127.0.0.1:8000/", "cancelUrl": "http://127.0.0.1:8000/"
     Route::post('/orders/{id?}/create', [CheckOutController::class, 'createTransaction']);
+    Route::post('/update/order/{id}', [PayOSTransController::class, 'update']);
 
     //get transaction's info
     Route::get('/{id?}/info', [CheckOutController::class, 'getPaymentLinkInfoOfOrder']);
