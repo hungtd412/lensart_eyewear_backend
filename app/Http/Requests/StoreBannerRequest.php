@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationTrait;
 
-class StoreBranchRequest extends FormRequest {
+class StoreBannerRequest extends FormRequest {
     use FailedValidationTrait;
 
     /**
@@ -22,10 +22,7 @@ class StoreBranchRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'name' => 'required|string|min:2|max:100',
-            'address' => 'required|string|min:2|max:100',
-            'manager_id' => 'required|integer|min:1',
-            'index' => 'required|numeric',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'in:inactive,active',
         ];
     }

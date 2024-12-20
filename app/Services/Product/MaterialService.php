@@ -12,7 +12,7 @@ class MaterialService {
     }
 
     public function store($data) {
-        $material = $this->materialRepository->store($data->toArray());
+        $material = $this->materialRepository->store($data);
 
         return response()->json([
             'status' => 'success',
@@ -47,7 +47,7 @@ class MaterialService {
     public function update($data, $id) {
         $material = $this->materialRepository->getById($id);
 
-        $this->materialRepository->update($data->toArray(), $material);
+        $this->materialRepository->update($data, $material);
 
         return response()->json([
             'message' => 'success',

@@ -43,7 +43,7 @@ class CouponService {
 
         if ($coupon === null) {
             return response()->json([
-                'message' => 'can not find any data matching these conditions!'
+                'message' => 'Can not find any data matching these conditions!'
             ], 404);
         }
 
@@ -75,7 +75,7 @@ class CouponService {
 
         if ($coupon === null) {
             return response()->json([
-                'message' => 'can not find any data matching these conditions!'
+                'message' => 'Can not find any data matching these conditions!'
             ], 404);
         }
 

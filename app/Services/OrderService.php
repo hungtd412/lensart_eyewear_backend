@@ -101,10 +101,16 @@ class OrderService {
     }
 
     public function getAll() {
+        // getByBranchId
 
-        $roleId = auth()->user()->role_id;
-
-        $orders = $this->orderRepository->getAll();
+        if (auth()->user()->role_id === 1) {
+            $orders = $this->orderRepository->getAll();
+        } else if (auth()->user()->role_id === 2) {
+            $branchId = auth()->user()->branch->id;
+            $orders = $this->orderRepository->getByBranchId($branchId);
+        } else {
+            $orders = null;
+        }
 
         return response()->json([
             'status' => 'success',
@@ -151,7 +157,9 @@ class OrderService {
         } catch (\Throwable $th) {
             $branchId = null;
         }
-        return $this->orderRepository->getByStatusAndBranch($status, $branchId);
+        return response()->json([
+            'data' => $this->orderRepository->getByStatusAndBranch($status, $branchId),
+        ], 200);
     }
 
     public function isValidUser($branchId) {
