@@ -28,7 +28,7 @@ class OrderRepository implements OrderRepositoryInterface {
         return $this->formatResponse($orders);
     }
 
-    public function getByStatusAndBranch($status, $branchId = null) {
+    public function getByStatusAndBranch($status, $branchIds = null) {
         $orderStatusList = ['Đang xử lý', 'Đã xử lý và sẵn sàng giao hàng', 'Đang giao hàng', 'Đã giao', 'Đã hủy'];
         $paymentStatusList = ['Chưa thanh toán', 'Đã thanh toán'];
 
@@ -39,8 +39,8 @@ class OrderRepository implements OrderRepositoryInterface {
             $ordersList = $ordersList->where('payment_status', $status);
         }
 
-        if (!is_null($branchId)) {
-            $ordersList->where('branch_id', $branchId);
+        if (!is_null($branchIds)) {
+            $ordersList->whereIn('branch_id', $branchIds);
         }
 
         return $this->formatResponse($ordersList->get());
