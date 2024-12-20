@@ -9,10 +9,14 @@ class ProductDetail extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $primaryKey = 'product_id, branch_id';
-    public $incrementing = false;
+    protected $primaryKey = 'id';
+    public $incrementing = true;
 
-    protected $fillable = ['product_id', 'branch_id', 'color', 'quantity', 'status'];
+    protected $fillable = ['id', 'product_id', 'branch_id', 'color', 'quantity', 'status'];
+
+    protected $casts = [
+        'color' => 'nullable',
+    ];
 
     public function product()
     {
