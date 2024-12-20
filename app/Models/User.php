@@ -61,7 +61,7 @@ class User extends Authenticatable {
         return $this->hasOne(Wishlist::class);
     }
 
-    public function branch() {
-        return $this->hasOne(Branch::class, 'manager_id', 'id');
+    public function branches() {
+        return $this->hasMany(Branch::class, 'manager_id', 'id');
     }
 }

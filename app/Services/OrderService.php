@@ -101,14 +101,19 @@ class OrderService {
     }
 
     public function getAll() {
-        // getByBranchId
+        $currentUser = auth()->user();
 
-        if (auth()->user()->role_id === 1) {
+        if ($currentUser->role_id === 1) {
+
             $orders = $this->orderRepository->getAll();
-        } else if (auth()->user()->role_id === 2) {
-            $branchId = auth()->user()->branch->id;
-            $orders = $this->orderRepository->getByBranchId($branchId);
+        } else if ($currentUser->role_id === 2) {
+
+            //one manager can manage multiple branches
+            $branchIds = $this->getAllBranchIdOfManager($currentUser);
+
+            $orders = $this->orderRepository->getByBranchId($branchIds);
         } else {
+
             $orders = null;
         }
 
@@ -116,6 +121,15 @@ class OrderService {
             'status' => 'success',
             'data' => $orders
         ], 200);
+    }
+
+    public function getAllBranchIdOfManager($manager) {
+        $branchIds = [];
+        $branches = $manager->branches;
+        foreach ($branches as $branch) {
+            $branchIds[] = $branch->id; // Add each branch ID to the array
+        }
+        return $branchIds;
     }
 
     public function getById($id) {
