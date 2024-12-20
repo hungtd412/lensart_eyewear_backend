@@ -175,9 +175,9 @@ class OrderService {
 
         if ($response->allowed()) {
             $this->orderRepository->update($data, $order);
-            $order = $this->orderRepository->getById($id);
+            $updatedOrder = $this->orderRepository->getById($id);
             return response()->json([
-                'data' => $order,
+                'data' => $updatedOrder,
             ], 200);
         } else {
             return response()->json([
