@@ -21,6 +21,7 @@ class StorePayOSTransactionRequest extends FormRequest {
         return [
             'returnUrl' => 'required|string|max:1000',
             'cancelUrl' => 'required|string|max:1000',
+            'shipping_fee' => 'required|numeric|min:0'
         ];
     }
 }
