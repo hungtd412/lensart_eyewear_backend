@@ -31,13 +31,12 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->sum('total_price');
     }
 
-    public function getCompletedOrders($branchId, $month, $year)
+    public function getDeliveredOrders($branchId, $month, $year)
     {
         return Order::where('branch_id', $branchId)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
             ->where('order_status', 'Đã giao')
-            ->where('payment_status', 'Đã thanh toán')
             ->count();
     }
 
@@ -90,7 +89,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('branch_id', $branchId)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->where('payment_status', 'Đã thanh toán')
+            ->where('order_status', 'Đã giao')
             ->groupBy(DB::raw('DAY(date)'))
             ->orderBy(DB::raw('DAY(date)'))
             ->get()
@@ -115,7 +114,7 @@ class DashboardRepository implements DashboardRepositoryInterface
         // Lấy dữ liệu trạng thái đơn hàng từ cơ sở dữ liệu
         $orderStatusOverview = Order::select(
             DB::raw('DAY(date) as day'),
-            DB::raw('SUM(CASE WHEN order_status = "Đã giao" THEN 1 ELSE 0 END) as completed_orders'),
+            DB::raw('SUM(CASE WHEN order_status = "Đã giao" THEN 1 ELSE 0 END) as delivered_orders'),
             DB::raw('SUM(CASE WHEN order_status = "Đang xử lý" THEN 1 ELSE 0 END) as processed_orders'),
             DB::raw('SUM(CASE WHEN order_status = "Đã hủy" THEN 1 ELSE 0 END) as cancelled_orders')
         )
@@ -134,7 +133,7 @@ class DashboardRepository implements DashboardRepositoryInterface
         $result = [];
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $result[$day] = [
-                'completed_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->completed_orders : 0,
+                'delivered_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->completed_orders : 0,
                 'processed_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->processed_orders : 0,
                 'cancelled_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->cancelled_orders : 0,
             ];

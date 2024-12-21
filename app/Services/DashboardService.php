@@ -28,7 +28,7 @@ class DashboardService
         // Lấy thông tin theo chi nhánh sau khi xác minh quyền
         return [
             'revenue' => $this->dashboardRepository->getRevenue($branchId, $month, $year),
-            'completed_orders' => $this->dashboardRepository->getCompletedOrders($branchId, $month, $year),
+            'delivered_orders' => $this->dashboardRepository->getDeliveredOrders($branchId, $month, $year),
             'pending_orders' => $this->dashboardRepository->getPendingOrders($branchId, $month, $year),
             'cancelled_orders' => $this->dashboardRepository->getCancelledOrders($branchId, $month, $year),
             'products_sold' => $this->dashboardRepository->getProductsSold($branchId, $month, $year),

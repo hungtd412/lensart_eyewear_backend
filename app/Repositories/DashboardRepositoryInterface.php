@@ -5,7 +5,7 @@ namespace App\Repositories;
 interface DashboardRepositoryInterface
 {
     public function getRevenue($branchId, $month, $year);
-    public function getCompletedOrders($branchId, $month, $year);
+    public function getDeliveredOrders($branchId, $month, $year);
     public function getPendingOrders($branchId, $month, $year);
     public function getCancelledOrders($branchId, $month, $year);
     public function getProductsSold($branchId, $month, $year);
