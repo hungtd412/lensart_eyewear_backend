@@ -104,8 +104,8 @@ class ProductService {
         ], 200);
     }
 
-    public function getByIdActive($id) {
-        $product = $this->productRepository->getByIdActive($id);
+    public function getByIdActive($productId) {
+        $product = $this->productRepository->getByIdActive($productId);
         // return gettype($product->);
         if ($product === null) {
             return response()->json([
