@@ -76,6 +76,25 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function getByRole($id) {
+        if ($id == 2) {
+            $users = User::where('role_id', $id)->with('branches')->get();
+            return $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'firstname' => $user->firstname,
+                    'lastname' => $user->lastname,
+                    'email' => $user->email,
+                    'email_verified_at' => $user->email_verified_at,
+                    'role_id' => $user->role_id,
+                    'phone' => $user->phone,
+                    'address' => $user->address,
+                    'created_time' => $user->created_at,
+                    'status' => $user->status,
+                    'branch_id' => $user->branches->pluck('id')->first(), // Assuming branches relationship returns a collection
+                ];
+            });
+        }
+
         return User::where('role_id', $id)
             ->get();
     }
