@@ -6,9 +6,10 @@ use App\Models\ProductDetail;
 use Illuminate\Support\Facades\DB;
 
 class ProductDetailRepository implements ProductDetailRepositoryInterface {
-    public function store(array $productDetail): ProductDetail {
-        return ProductDetail::create($productDetail);
+    public function store(array $productDetail) {
+        ProductDetail::create($productDetail);
     }
+
 
     public function getAll() {
         return ProductDetail::all();
@@ -106,5 +107,13 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
 
     public function isExistProductId($productId) {
         return DB::table('product_details')->where('product_id', $productId)->exists();
+    }
+
+    public function isExistVariant($productId, $branchId, $color) {
+        return DB::table('product_details')
+            ->where('product_id', $productId)
+            ->where('branch_id', $branchId)
+            ->where('color', $color)
+            ->exists();
     }
 }
