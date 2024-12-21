@@ -198,6 +198,8 @@ Route::group([
     Route::post('/branches/switch-status/{id?}', [BranchController::class, 'switchStatus']);
 
     Route::post('/products/switch-status/{id?}', [ProductController::class, 'switchStatus']);
+
+    Route::post('/product-details/switch-status/{id?}', [ProductDetailController::class, 'switchStatus']);
 });
 
 //**************************************
