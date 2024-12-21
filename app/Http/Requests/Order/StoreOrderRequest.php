@@ -26,10 +26,12 @@ class StoreOrderRequest extends FormRequest {
             'address' => 'required|string|max:255',
             'note' => 'nullable|string|max:1000',
             'coupon_id' => 'nullable|exists:coupons,id',
+            'payment_method' => 'required|in:Chuyển khoản,Tiền mặt',
+            'shipping_fee' => 'required|numeric|min:0',
 
             'order_details' => 'required|array|min:1',
             'order_details.*.product_id' => 'required|exists:products,id',
-            'order_details.*.color' => 'required|string|max:255',
+            'order_details.*.color' => 'nullable|string|max:255',
             'order_details.*.quantity' => 'required|integer|min:1',
             'order_details.*.total_price' => 'required|numeric|min:0',
         ];

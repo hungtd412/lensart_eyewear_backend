@@ -28,12 +28,12 @@ class CheckOutController extends Controller {
     }
 
     public function createTransaction(StorePayOSTransactionRequest $request, $orderId) {
-        if ($this->orderService->canCheckout($orderId) == false) {
-            return response()->json([
-                "error" => 0,
-                "message" => "Bạn không thể thanh toán đơn hàng này!",
-            ]);
-        }
+        // if ($this->orderService->canCheckout($orderId) == false) {
+        //     return response()->json([
+        //         "error" => 0,
+        //         "message" => "Bạn không thể thanh toán đơn hàng này!",
+        //     ]);
+        // }
 
         if ($this->orderService->isPaid($orderId) == true) {
             return response()->json([
@@ -42,7 +42,11 @@ class CheckOutController extends Controller {
             ]);
         }
 
-        $total_price = $this->orderService->getPriceByOrderId($orderId);
+        $body = $request->validated();
+
+        $shipping_fee = $body['shipping_fee'];
+
+        $total_price = intval($this->orderService->getPriceByOrderId($orderId)) + $shipping_fee;
         if ($total_price == 0) {
             return response()->json([
                 "error" => 0,
@@ -50,7 +54,6 @@ class CheckOutController extends Controller {
             ]);
         }
 
-        $body = $request->validated();
         $body['description'] = "Thanh toán đơn hàng " . $orderId;
         $body['amount'] = $total_price;
 

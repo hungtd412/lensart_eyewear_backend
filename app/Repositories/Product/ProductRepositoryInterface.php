@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Product;
 
-interface ProductRepositoryInterface
-{
+interface ProductRepositoryInterface {
     public function store(array $product);
     public function getAll();
     public function getById(array $id);
@@ -38,4 +37,5 @@ interface ProductRepositoryInterface
     public function getBestSellingProducts($limit = 10);
 
     public function getNewestProducts($limit = 10);
+    public function getProductCatetoryID($productId);
 }

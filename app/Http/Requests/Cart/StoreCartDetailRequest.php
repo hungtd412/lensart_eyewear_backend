@@ -23,9 +23,9 @@ class StoreCartDetailRequest extends FormRequest {
     public function rules(): array {
         return [
             // 'cart_id' => 'required|integer|exists:carts,id',
-            'product_id' => 'integer|exists:products,id',
-            'branch_id' => 'integer|exists:branches,id',
-            'color' => 'string|exists:product_details,color',
+            'product_id' => 'required|integer|exists:products,id',
+            'branch_id' => 'required|integer|exists:branches,id',
+            'color' => 'nullable|string|exists:product_details,color',
             'quantity' => 'required|integer|min:1'
         ];
     }

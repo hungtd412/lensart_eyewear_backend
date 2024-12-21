@@ -41,7 +41,7 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT * from users
+SELECT * from orders, order_details where orders.id = 80 and orders.id = order_details.order_id
 
 SELECT users.id, orders.id, orders.total_price, orders.branch_id  from orders, users
 where orders.payment_status = 'Chưa thanh toán'
@@ -50,7 +50,7 @@ and users.id = orders.user_id
 insert into payos_transactions (orderCode, order_id, amount) VALUES (1, 2, 0);
 insert into payos_transactions (orderCode, order_id, amount) VALUES (2, 2, 0);
 
-SELECT sum(amount)
+SELECT *
 FROM payos_transactions
 WHERE order_id = 4;
 
@@ -95,3 +95,9 @@ where id = 3
 
 select * from coupons where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
+
+INSERT INTO products (name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
+VALUES
+( 'Tròng kính hihi', 'Chống UV', 4, 3, NULL, NULL, NULL, 10000, NULL, NOW(), 'active');
+select * from product_details
+insert into product_details(product_id, branch_id, quantity) values (45, 1, 2);
