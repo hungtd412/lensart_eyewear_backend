@@ -89,7 +89,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('branch_id', $branchId)
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->where('payment_status', 'Đã thanh toán')
+            ->where('order_status', 'Đã giao')
             ->groupBy(DB::raw('DAY(date)'))
             ->orderBy(DB::raw('DAY(date)'))
             ->get()
