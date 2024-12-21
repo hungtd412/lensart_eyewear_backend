@@ -20,6 +20,10 @@ class ProductDetailService {
         ], 200);
     }
 
+    public function isExistProductId($productId) {
+        return $this->productDetailRepository->isExistProductId($productId);
+    }
+
     public function storeForAllBranch($data, $idAllBranches) {
         foreach ($idAllBranches as $id) {
             $data['branch_id'] = $id;
