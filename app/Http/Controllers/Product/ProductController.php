@@ -26,7 +26,7 @@ class ProductController extends Controller {
         $product = $this->productService->store($data)->getData()->data;
 
 
-        if (array_key_exists('features', $data)) {
+        if (!empty($data['features'])) {
             $this->productFeatureService->store($product->id, $data['features']);
         }
 
