@@ -118,8 +118,6 @@ Route::group([
     Route::post('/product-features/update/{id?}', [ProductFeatureController::class, 'update']);
 
     Route::post('/products/update-each/{id?}/{attributeOfProduct?}', [ProductController::class, 'updateEach']);
-
-    Route::post('/product-details/createForAllBranch', [ProductDetailController::class, 'storeForAllBranch']);
 });
 
 

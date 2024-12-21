@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreProductDetailAllBranchRequest;
 use App\Http\Requests\Product\StoreProductDetailRequest;
 use App\Http\Requests\Product\UpdateProducDetailRequest;
 use App\Services\BranchService;
@@ -21,12 +22,13 @@ class ProductDetailController extends Controller {
         return $this->productDetailService->store($request->validated());
     }
 
-    public function storeForAllBranch(StoreProductDetailRequest $request) {
+    public function storeForAllBranch(StoreProductDetailAllBranchRequest $request) {
         $allBranches = $this->branchService->getAll();
 
         //convert to array
         $data = $allBranches->getData(true);
-        $idAllBranches = array_column($data['data'], 'id');;
+        $idAllBranches = array_column($data['data'], 'id');
+
         return $this->productDetailService->storeForAllBranch($request->validated(), $idAllBranches);
     }
 

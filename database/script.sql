@@ -95,3 +95,9 @@ where id = 3
 
 select * from coupons where branch_id = 2
 insert into banners(image_url, image_public_id) values('x', 'y');
+
+INSERT INTO products (name, description, brand_id, category_id, shape_id, material_id, gender, price, offer_price, created_time, status)
+VALUES
+( 'Tròng kính hihi', 'Chống UV', 4, 3, NULL, NULL, NULL, 10000, NULL, NOW(), 'active');
+select * from product_details
+insert into product_details(product_id, branch_id, quantity) values (45, 1, 2);
