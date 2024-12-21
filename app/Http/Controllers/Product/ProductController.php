@@ -48,7 +48,7 @@ class ProductController extends Controller {
     public function update(StoreProductRequest $request, $id) {
         $data = $request->validated();
 
-        if (array_key_exists('features', $data)) {
+        if (!empty($data['features'])) {
             $this->productFeatureService->update($id, $data['features']);
         }
 
