@@ -25,7 +25,7 @@ class StoreCartDetailRequest extends FormRequest {
             // 'cart_id' => 'required|integer|exists:carts,id',
             'product_id' => 'required|integer|exists:products,id',
             'branch_id' => 'required|integer|exists:branches,id',
-            'color' => 'required|string|exists:product_details,color',
+            'color' => 'nullable|string|exists:product_details,color',
             'quantity' => 'required|integer|min:1'
         ];
     }

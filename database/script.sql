@@ -41,7 +41,7 @@ WHERE orders.id = 45;
 SELECT orders.id, orders.order_status, orders.user_id, orders.branch_id from orders
 where status = 'active' and orders.branch_id=3;
 
-SELECT * from orders
+SELECT * from orders, order_details where orders.id = 80 and orders.id = order_details.order_id
 
 SELECT users.id, orders.id, orders.total_price, orders.branch_id  from orders, users
 where orders.payment_status = 'Chưa thanh toán'
@@ -50,7 +50,7 @@ and users.id = orders.user_id
 insert into payos_transactions (orderCode, order_id, amount) VALUES (1, 2, 0);
 insert into payos_transactions (orderCode, order_id, amount) VALUES (2, 2, 0);
 
-SELECT sum(amount)
+SELECT *
 FROM payos_transactions
 WHERE order_id = 4;
 

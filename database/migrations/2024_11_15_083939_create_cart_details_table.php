@@ -8,14 +8,13 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('cart_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('cart_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('branch_id');
-            $table->string('color');
+            $table->string('color')->nullable();
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 10, 2);
 
@@ -31,8 +30,7 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::dropIfExists('cart_details');
     }
 };
