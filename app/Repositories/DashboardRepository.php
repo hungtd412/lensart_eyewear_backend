@@ -133,7 +133,7 @@ class DashboardRepository implements DashboardRepositoryInterface
         $result = [];
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $result[$day] = [
-                'delivered_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->completed_orders : 0,
+                'delivered_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->delivered_orders : 0,
                 'processed_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->processed_orders : 0,
                 'cancelled_orders' => isset($orderStatusOverview[$day]) ? (int) $orderStatusOverview[$day]->cancelled_orders : 0,
             ];
