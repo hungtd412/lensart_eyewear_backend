@@ -20,12 +20,14 @@ interface ProductRepositoryInterface {
     public function switchStatus($product);
 
     public function getAllActive();
+    public function getAllActive2();
 
     public function getByIdActive($id);
 
     public function getByCategoryIdActive($categoryId);
 
     public function searchProduct($keyword);
+    public function searchProduct2($keyword);
 
     public function filterByShape($query, $types);
     public function filterByGender($query, $gender);
