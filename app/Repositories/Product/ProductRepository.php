@@ -80,19 +80,12 @@ class ProductRepository implements ProductRepositoryInterface {
         return Product::where('id', $id)
             ->where('status', 'active')
             ->with([
-                'images',
-                'brand' => function ($query) {
-                    $query->where('status', 'active');
-                },
-                'shape' => function ($query) {
-                    $query->where('status', 'active');
-                },
-                'material' => function ($query) {
-                    $query->where('status', 'active');
-                },
-                'features' => function ($query) {
-                    $query->where('status', 'active');
-                }
+                'brand:id,name,status',
+                'category:id,name,status',
+                'shape:id,name,status',
+                'material:id,name,status',
+                'features:id,name,status',
+                'images:id,product_id,image_url'
             ])
             ->first();
     }
