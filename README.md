@@ -8,7 +8,7 @@
 
 ## GIỚI THIỆU ĐỒ ÁN
 
--    **Đề tài:** Website Mắt kính thời trang - LENSART EYEWEAR - Frontend
+-    **Đề tài:** Website Mắt kính thời trang - LENSART EYEWEAR - Backend
 -    **Repository BACKEND:** https://github.com/hungtd412/lensart_eyewear_backend
 -    **Repository FRONTEND:** https://github.com/ngbahung/client_lensart
 
