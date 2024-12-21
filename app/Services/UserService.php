@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\User\UserRepositoryInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +15,7 @@ class UserService {
     }
 
     public function store($data) {
+        $data['email_verified_at'] = Carbon::now('Asia/Ho_Chi_Minh');
         $user = $this->userRepository->store($data);
 
         return response()->json([
