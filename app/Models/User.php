@@ -31,6 +31,7 @@ class User extends Authenticatable {
         'phone',
         'address',
         'created_time',
+        'email_verified_at',
         'status'
     ];
 
