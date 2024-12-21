@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Product;
 
-interface ProductDetailRepositoryInterface
-{
+interface ProductDetailRepositoryInterface {
     public function store(array $productDetail);
     public function getAll();
     public function getByProductId($id);
@@ -23,4 +22,6 @@ interface ProductDetailRepositoryInterface
     public function getByBranchIdActive($id);
 
     public function getByProductAndBranchIdActive($productId, $branchId);
+
+    public function isExistProductId($productId);
 }

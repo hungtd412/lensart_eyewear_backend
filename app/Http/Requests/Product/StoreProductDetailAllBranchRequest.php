@@ -22,7 +22,7 @@ class StoreProductDetailAllBranchRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'product_id' => 'required|integer|min:1',
+            'product_id' => 'required|integer|min:1|exists:products,id',
             'color' => 'nullable|string|max:50',
             'quantity' => 'required|integer|min:0',
             'status' => 'nullable|in:active,inactive',
