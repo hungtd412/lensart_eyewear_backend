@@ -29,20 +29,20 @@ class ProductDetailController extends Controller {
 
         $data = $request->validated();
 
-        if ($this->productService->getProductCatetoryID($data['product_id']) === 3) {
-            if ($this->isExistProductId($data['product_id'])) {
-                return response()->json([
-                    'message' => 'Biến thể của tròng kính này đã được tạo rồi!',
-                ], 400);
-            }
-        }
+        // if ($this->productService->getProductCatetoryID($data['product_id']) === 3) {
+        //     if ($this->isExistProductId($data['product_id'])) {
+        //         return response()->json([
+        //             'message' => 'Biến thể của tròng kính này đã được tạo rồi!',
+        //         ], 400);
+        //     }
+        // }
 
 
         $allBranches = $this->branchService->getAll();
 
         //convert to array
-        $data = $allBranches->getData(true);
-        $idAllBranches = array_column($data['data'], 'id');
+        $branches = $allBranches->getData(true);
+        $idAllBranches = array_column($branches['data'], 'id');
 
         return $this->productDetailService->storeForAllBranch($data, $idAllBranches);
     }

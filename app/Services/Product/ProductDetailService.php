@@ -14,6 +14,7 @@ class ProductDetailService {
     public function store($data) {
         $productDetail = $this->productDetailRepository->store($data);
 
+
         return response()->json([
             'status' => 'success',
             'data' => $productDetail
@@ -25,8 +26,21 @@ class ProductDetailService {
     }
 
     public function storeForAllBranch($data, $idAllBranches) {
+
         foreach ($idAllBranches as $id) {
             $data['branch_id'] = $id;
+
+            $color = null;
+            if (array_key_exists('color', $data)) {
+                $color = $data['color'];
+            }
+
+
+            if ($this->productDetailRepository->isExistVariant($data['product_id'], $data['branch_id'], $color)) {
+                return response()->json([
+                    'message' => 'Biến thể của sản phẩm này đã được tạo rồi!',
+                ], 400);
+            }
             $this->productDetailRepository->store($data);
         }
 

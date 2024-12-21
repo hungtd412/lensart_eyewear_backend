@@ -24,4 +24,5 @@ interface ProductDetailRepositoryInterface {
     public function getByProductAndBranchIdActive($productId, $branchId);
 
     public function isExistProductId($productId);
+    public function isExistVariant($productId, $branchId, $color);
 }
