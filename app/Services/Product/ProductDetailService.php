@@ -177,4 +177,15 @@ class ProductDetailService {
             'data' => $productDetails,
         ], 200);
     }
+
+    public function switchStatus($id) {
+        $productDetail = $this->productDetailRepository->getById($id);
+
+        $this->productDetailRepository->switchStatus($productDetail);
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $productDetail
+        ], 200);
+    }
 }

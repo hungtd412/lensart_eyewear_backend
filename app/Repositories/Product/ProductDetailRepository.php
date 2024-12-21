@@ -10,6 +10,9 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
         ProductDetail::create($productDetail);
     }
 
+    public function getById($id) {
+        return ProductDetail::find($id);
+    }
 
     public function getAll() {
         return ProductDetail::all();
@@ -115,5 +118,10 @@ class ProductDetailRepository implements ProductDetailRepositoryInterface {
             ->where('branch_id', $branchId)
             ->where('color', $color)
             ->exists();
+    }
+
+    public function switchStatus($productDetail) {
+        $productDetail->status = $productDetail->status == 'active' ? 'inactive' : 'active';
+        $productDetail->save();
     }
 }

@@ -71,6 +71,10 @@ class ProductDetailController extends Controller {
         return $this->productDetailService->update($request->validated(), $productId, $branchId, $color);
     }
 
+    public function switchStatus($id) {
+        return $this->productDetailService->switchStatus($id);
+    }
+
     public function indexActive() {
         return $this->productDetailService->getAllActive();
     }

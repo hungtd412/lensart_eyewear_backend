@@ -14,7 +14,7 @@ class BannerReposity implements BannerReposityInterface {
     }
 
     public function getActive() {
-        return Banner::first()->where('status', 'active');
+        return Banner::where('status', 'active')->first();
     }
 
     public function update(array $data, $banner) {
