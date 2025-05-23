@@ -11,6 +11,7 @@
 -    **Đề tài:** Website Mắt kính thời trang - LENSART EYEWEAR - Backend
 -    **Repository BACKEND:** https://github.com/hungtd412/lensart_eyewear_backend
 -    **Repository FRONTEND:** https://github.com/ngbahung/client_lensart
+-    **Demo Video:** https://drive.google.com/drive/u/0/folders/1m3zsaq1QFgQo6nBLAFyrKmRfC6P45Fv3?zarsrc=411
 
 ## CÔNG NGHỆ SỬ DỤNG
 
