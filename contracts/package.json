@@ -8,8 +8,6 @@
         "test": "hardhat test",
         "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
         "deploy:local": "hardhat run scripts/deploy.js --network hardhat",
-        "deploy:tenderly": "hardhat run scripts/deploy.js --network virtualMainnet",
-        "enable:auto-verify": "node enable-auto-verify.js",
         "verify:sepolia": "hardhat run scripts/verify.js --network sepolia",
         "verify:token": "hardhat run scripts/verify-lenstoken.js --network sepolia",
         "verify:payment": "hardhat run scripts/verify-payment.js --network sepolia",

@@ -1,58 +1,32 @@
 const hre = require("hardhat");
 
-// Track verification errors without blocking deployment
-let verificationErrors = [];
-const originalError = console.error;
-const originalWarn = console.warn;
-
-// Intercept Tenderly verification errors
-console.error = function(...args) {
-  const message = args.join(' ');
-  if (message.includes('hardhat-tenderly') && (message.includes('Verification failed') || message.includes('400 Bad Request') || message.includes('Bad request input parameters'))) {
-    verificationErrors.push(message);
-    // Suppress these specific errors as they don't affect deployment success
-    return;
-  }
-  originalError.apply(console, args);
-};
-
-console.warn = function(...args) {
-  const message = args.join(' ');
-  if (message.includes('hardhat-tenderly') && message.includes('Verification')) {
-    verificationErrors.push(message);
-    return;
-  }
-  originalWarn.apply(console, args);
-};
-
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
   
   console.log("Deploying contracts with the account:", deployer.address);
   
-  const isVirtual = hre.network.name.includes("virtual");
+  // Check balance
+  const balance = await hre.ethers.provider.getBalance(deployer.address);
+  const balanceInEth = hre.ethers.formatEther(balance);
+  console.log("Account balance:", balanceInEth, "ETH");
   
-  // Check if automatic verification is enabled
-  const autoVerify = process.env.TENDERLY_AUTOMATIC_VERIFICATION === "true";
-  if (isVirtual && autoVerify) {
-    console.log("✓ Automatic verification enabled");
-  }
-  
-  if (!isVirtual && hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
-    const balance = await hre.ethers.provider.getBalance(deployer.address);
-    const balanceInEth = hre.ethers.formatEther(balance);
-    console.log("Account balance:", balanceInEth, "ETH");
-    
-    const minBalance = hre.ethers.parseEther("0.01");
+  // Check if balance is sufficient
+  if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+    const minBalance = hre.ethers.parseEther("0.01"); // Minimum 0.01 ETH
     if (balance < minBalance) {
-      console.error("\n✗ ERROR: Insufficient ETH balance!");
-      console.error("   Current:", balanceInEth, "ETH | Required: 0.01 ETH");
-      console.error("   Get ETH from: https://sepoliafaucet.com/");
+      console.error("\n✗ ERROR: Insufficient Sepolia ETH balance!");
+      console.error("   Current balance:", balanceInEth, "ETH");
+      console.error("   Required: At least 0.01 ETH for gas fees");
+      console.error("\n📝 How to get Sepolia ETH:");
+      console.error("   1. Visit: https://sepoliafaucet.com/");
+      console.error("   2. Or: https://www.infura.io/faucet/sepolia");
+      console.error("   3. Connect your wallet:", deployer.address);
+      console.error("   4. Request Sepolia ETH");
+      console.error("   5. Wait a few minutes for the ETH to arrive");
+      console.error("\n   Then run this command again.\n");
       process.exit(1);
     }
-    console.log("✓ Balance sufficient");
-  } else {
-    console.log("✓ Using virtual network");
+    console.log("✓ Balance sufficient for deployment");
   }
 
   // Declare variables for contract addresses
@@ -168,7 +142,8 @@ async function main() {
 
   console.log(`\nDeployment info saved to: ${deploymentsDir}/${hre.network.name}.json`);
 
-  if (!isVirtual && hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+  // Wait for block confirmations
+  if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
     console.log("\n⏳ Waiting for block confirmations...");
     try {
       if (lensTokenDeploymentTx) await lensTokenDeploymentTx.wait(5);
@@ -179,24 +154,6 @@ async function main() {
       console.warn("⚠️  Could not wait for confirmations:", error.message);
     }
   }
-  
-  if (isVirtual) {
-    console.log("\n✓ Deployment completed!");
-    console.log(`Check contracts: https://dashboard.tenderly.co/${process.env.TENDERLY_USERNAME || 'trinhhhh453543'}/${process.env.TENDERLY_PROJECT || 'leansart'}/contracts`);
-    
-    // Show verification status
-    if (verificationErrors.length > 0) {
-      console.log("\n⚠️  Automatic verification had some issues (deployment still successful):");
-      console.log("   You can verify contracts manually on Tenderly Dashboard");
-      console.log("   Or check TENDERLY_ACCESS_TOKEN in .env file");
-    } else if (autoVerify) {
-      console.log("\n✓ Contracts should be automatically verified");
-    }
-  }
-  
-  // Restore original console functions
-  console.error = originalError;
-  console.warn = originalWarn;
 }
 
 main()
