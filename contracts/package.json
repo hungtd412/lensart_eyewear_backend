@@ -13,6 +13,11 @@
         "verify:payment": "hardhat run scripts/verify-payment.js --network sepolia",
         "verify:nft": "hardhat run scripts/verify-nft.js --network sepolia",
         "testnet-test": "hardhat run scripts/testnet-test.js --network sepolia",
+        "faucet:lens": "hardhat run scripts/faucet-lens.js --network sepolia --",
+        "check:wallet": "hardhat run scripts/check-wallet.js --network sepolia",
+        "export:contracts": "hardhat run scripts/export-contracts.js",
+        "export:sepolia": "hardhat run scripts/export-contracts.js --network sepolia",
+        "export:local": "hardhat run scripts/export-contracts.js --network hardhat",
         "node": "hardhat node"
     },
     "devDependencies": {

@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
-require("@tenderly/hardhat-tenderly");
+// Tắt tự động verify trên Tenderly (chỉ dùng Tenderly RPC)
+// require("@tenderly/hardhat-tenderly");
 require("dotenv").config();
 
 function getPrivateKey() {
@@ -21,8 +22,11 @@ if (process.env.TENDERLY_VIRTUAL_MAINNET_RPC) {
 }
 
 if (privateKey) {
+  // Tenderly RPC URL mặc định cho Sepolia
+  const defaultSepoliaRpc = "https://virtual.rpc.tenderly.co/trinhhhh453543/project/public/crypto";
+  
   networks.sepolia = {
-    url: process.env.SEPOLIA_RPC_URL || "https://ethereum-sepolia-rpc.publicnode.com",
+    url: process.env.SEPOLIA_RPC_URL || defaultSepoliaRpc,
     accounts: [privateKey],
     chainId: 11155111
   };
@@ -35,10 +39,11 @@ module.exports = {
   },
   networks,
   etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
-  tenderly: {
-    project: process.env.TENDERLY_PROJECT || "leansart",
-    username: process.env.TENDERLY_USERNAME || "trinhhhh453543",
-  },
+  // Tắt cấu hình Tenderly (chỉ dùng RPC, không verify)
+  // tenderly: {
+  //   project: process.env.TENDERLY_PROJECT || "leansart",
+  //   username: process.env.TENDERLY_USERNAME || "trinhhhh453543",
+  // },
   paths: {
     sources: "./contracts",
     tests: "./test",

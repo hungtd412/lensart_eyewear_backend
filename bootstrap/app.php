@@ -67,6 +67,38 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/banner.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/blockchain.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/crypto-payment.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/wallet.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/transaction.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/ipfs.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/nft.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/token.api.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/rpc-proxy.api.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
