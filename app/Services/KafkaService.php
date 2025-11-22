@@ -238,5 +238,58 @@ class KafkaService {
 
         return $this->sendEvent($topic, $event);
     }
+
+    /**
+     * Send Sales Transaction Events to Kafka
+     * Mỗi sản phẩm trong order = 1 event riêng
+     * 
+     * @param \App\Models\Order $order
+     * @return array ['success' => int, 'failed' => int, 'total' => int]
+     */
+    public function sendSalesTransactions($order): array {
+        $topic = $this->config['topics']['order_created']; // hoặc topic riêng 'sales-transactions'
+        
+        $results = [
+            'success' => 0,
+            'failed' => 0,
+            'total' => 0,
+        ];
+
+        // Lấy order details (products trong order)
+        $orderDetails = $order->orderDetails;
+        
+        if ($orderDetails->isEmpty()) {
+            Log::warning("Order {$order->id} không có sản phẩm nào");
+            return $results;
+        }
+
+        // Gửi mỗi product như 1 transaction event riêng
+        foreach ($orderDetails as $detail) {
+            $results['total']++;
+            
+            // CHỈ GỬI 6 FIELDS YÊU CẦU
+            $transaction = [
+                'order_id' => $order->id,
+                'product_id' => $detail->product_id,
+                'quantity' => $detail->quantity,
+                'price' => $detail->total_price, // hoặc unit price nếu có
+                'timestamp' => $order->date,
+                'customer_id' => $order->user_id,
+            ];
+
+            // Gửi transaction event
+            $sent = $this->sendEvent($topic, $transaction, "order_{$order->id}_product_{$detail->product_id}");
+            
+            if ($sent) {
+                $results['success']++;
+                Log::info("Transaction sent for order {$order->id}, product {$detail->product_id}");
+            } else {
+                $results['failed']++;
+                Log::error("Failed to send transaction for order {$order->id}, product {$detail->product_id}");
+            }
+        }
+
+        return $results;
+    }
 }
 

@@ -36,6 +36,11 @@ Route::group([
     Route::post('/events/order-cancelled', [KafkaEventController::class, 'sendOrderCancelledEvent']);
     Route::post('/events/order-status-changed', [KafkaEventController::class, 'sendOrderStatusChangedEvent']);
 
+    // Sales Transactions (Simplified Format)
+    // Gửi dữ liệu giao dịch: order_id, product_id, quantity, price, timestamp, customer_id
+    // Mỗi product trong order = 1 event riêng
+    Route::post('/transactions/sales', [KafkaEventController::class, 'sendSalesTransactions']);
+
     // Generic event sender
     Route::post('/events/send', [KafkaEventController::class, 'sendGenericEvent']);
 });

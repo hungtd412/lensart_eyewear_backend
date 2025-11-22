@@ -288,5 +288,66 @@ class KafkaEventController extends Controller {
             ], 500);
         }
     }
+
+    /**
+     * Send Sales Transactions to Kafka
+     * Mỗi sản phẩm trong order = 1 event riêng
+     * 
+     * Format: order_id, product_id, quantity, price, timestamp, customer_id
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendSalesTransactions(Request $request) {
+        $request->validate([
+            'order_id' => 'required|integer|exists:orders,id',
+        ]);
+
+        try {
+            // Lấy order với order details
+            $order = $this->orderRepository->getById($request->order_id);
+            
+            if (!$order) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Order not found',
+                ], 404);
+            }
+
+            // Gửi sales transactions (1 product = 1 event)
+            $results = $this->kafkaService->sendSalesTransactions($order);
+
+            if ($results['success'] > 0) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Sales transactions sent to Kafka successfully',
+                    'order_id' => $order->id,
+                    'results' => $results,
+                    'format' => [
+                        'order_id' => 'integer',
+                        'product_id' => 'integer',
+                        'quantity' => 'integer',
+                        'price' => 'decimal',
+                        'timestamp' => 'ISO8601 string',
+                        'customer_id' => 'integer',
+                    ],
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to send sales transactions',
+                    'results' => $results,
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error sending sales transactions: ' . $e->getMessage());
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while sending transactions',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
 
