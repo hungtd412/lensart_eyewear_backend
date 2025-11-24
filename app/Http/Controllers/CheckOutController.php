@@ -58,6 +58,35 @@ class CheckOutController extends Controller {
         $body['amount'] = $total_price;
 
         $response = $this->checkoutService->createTransaction($body, $this->payOS);
+        
+        // Check if response is an error response
+        $responseData = $response->getData();
+        if (isset($responseData->error) && $responseData->error !== 0) {
+            return $response;
+        }
+        
+        // Check if response has valid data structure
+        // Handle both possible structures from payOS SDK
+        $hasValidStructure = false;
+        if (isset($responseData->data)) {
+            // Check if SDK returns full API response structure
+            if (isset($responseData->data->data) && isset($responseData->data->data->orderCode)) {
+                $hasValidStructure = true;
+            }
+            // Check if SDK returns just the data part
+            elseif (isset($responseData->data->orderCode)) {
+                $hasValidStructure = true;
+            }
+        }
+        
+        if (!$hasValidStructure) {
+            return response()->json([
+                "error" => 1,
+                "message" => "Invalid response from payment service: missing orderCode",
+                "data" => null
+            ], 500);
+        }
+        
         $data = $this->prepareDataForStoreTransaction($response, $orderId);
         $this->payOSTransService->store($data);
 
@@ -65,8 +94,26 @@ class CheckOutController extends Controller {
     }
 
     public function prepareDataForStoreTransaction($response, $orderId) {
+        $responseData = $response->getData();
+        
+        // Handle different response structures from payOS SDK
+        // Case 1: SDK returns full API response: {code, desc, data: {orderCode, ...}, signature}
+        // Our wrapper: {error: 0, message: "Success", data: {code, desc, data: {orderCode, ...}, signature}}
+        // So: responseData->data->data->orderCode
+        $orderCode = null;
+        
+        if (isset($responseData->data->data->orderCode)) {
+            // Full API response structure
+            $orderCode = $responseData->data->data->orderCode;
+        } elseif (isset($responseData->data->orderCode)) {
+            // SDK returns just the data part: {orderCode, checkoutUrl, ...}
+            // Our wrapper: {error: 0, message: "Success", data: {orderCode, ...}}
+            // So: responseData->data->orderCode
+            $orderCode = $responseData->data->orderCode;
+        }
+        
         return [
-            'orderCode' => $response->getData()->data->orderCode,
+            'orderCode' => $orderCode,
             'order_id' => $orderId,
             'payment_method' => 'Napas 247',
             'amount' => 0

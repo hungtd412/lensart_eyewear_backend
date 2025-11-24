@@ -25,6 +25,7 @@ class StoreBlogRequest extends FormRequest {
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|min:2|max:100',
             'description' => 'required|string|min:2',
+            'content' => 'nullable|string',
             'status' => 'in:inactive,active',
         ];
     }

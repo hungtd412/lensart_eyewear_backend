@@ -25,6 +25,7 @@ class BlogService {
         $data = [
             'title' => $data['title'],
             'description' => $data['description'],
+            'content' => $data['content'] ?? '',
             'image_url' => $imageUrl,
             'image_public_id' => $imagePublicId,
             'created_time' => Carbon::now('Asia/Ho_Chi_Minh'),
@@ -70,6 +71,7 @@ class BlogService {
         $data = [
             'title' => $data['title'],
             'description' => $data['description'],
+            'content' => $data['content'] ?? $blog->content ?? '',
             'image_url' => $uploadedFile->getSecurePath(),
             'image_public_id' => $uploadedFile->getPublicId(),
         ];

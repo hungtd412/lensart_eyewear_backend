@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\FailedValidationTrait;
 
 class StorePayOSTransactionRequest extends FormRequest {
+    use FailedValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -19,8 +22,8 @@ class StorePayOSTransactionRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'returnUrl' => 'required|string|max:1000',
-            'cancelUrl' => 'required|string|max:1000',
+            'returnUrl' => 'required|string|url|max:1000',
+            'cancelUrl' => 'required|string|url|max:1000',
             'shipping_fee' => 'required|numeric|min:0'
         ];
     }
