@@ -9,19 +9,29 @@ use App\Repositories\Product\ProductDetailRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use MicrosoftAzure\Storage\Queue\QueueRestProxy;
+
 
 class OrderService {
     protected $orderRepository;
     protected $couponRepository;
     protected $productDetailRepository;
     protected $orderDetailRepository;
+    protected $kafkaService;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, CouponRepositoryInterface $couponRepository, ProductDetailRepositoryInterface
-    $productDetailRepository, OrderDetailRepositoryInterface $orderDetailRepository) {
+    public function __construct(
+        OrderRepositoryInterface $orderRepository, 
+        CouponRepositoryInterface $couponRepository, 
+        ProductDetailRepositoryInterface $productDetailRepository, 
+        OrderDetailRepositoryInterface $orderDetailRepository,
+        KafkaService $kafkaService
+    ) {
         $this->orderRepository = $orderRepository;
         $this->couponRepository = $couponRepository;
         $this->productDetailRepository = $productDetailRepository;
         $this->orderDetailRepository = $orderDetailRepository;
+        $this->kafkaService = $kafkaService;
     }
 
     public function store($data) {
@@ -39,6 +49,45 @@ class OrderService {
         $order = $this->orderRepository->store($data);
 
         $this->storeOrderDetail($data, $order->id);
+
+        // // Publish Kafka event after order created successfully
+        // try {
+        //     $order->load('orderDetails');
+        //     $published = $this->kafkaService->publishOrderCreated($order);
+            
+        //     Log::info('Order created and Kafka event published', [
+        //         'order_id' => $order->id,
+        //         'items_count' => $order->orderDetails->count(),
+        //         'kafka_published' => $published
+        //     ]);
+        // } catch (\Exception $e) {
+        //     // Don't fail order creation if Kafka publish fails
+        //     Log::error('Order created but Kafka publish failed', [
+        //         'order_id' => $order->id,
+        //         'error' => $e->getMessage()
+        //     ]);
+        // }
+
+        try {
+            $order->load('orderDetails');
+            $this->sendToAzureQueue($order);
+            
+            Log::info('Order created and queued to Azure', [
+                'order_id' => $order->id,
+                'items_count' => $order->orderDetails->count()
+            ]);
+        } catch (\Exception $e) {
+            // Don't fail order creation if queue fails
+            Log::error('Order created but Azure Queue failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
+            
+            // Fallback to direct Kafka if configured
+            if (config('kafka.fallback_enabled', false)) {
+                $this->fallbackToKafka($order);
+            }
+        }
 
         return response()->json([
             'status' => 'success',
@@ -322,5 +371,89 @@ class OrderService {
             'status' => 'success',
             'data' => $orders
         ], 200);
+    }
+
+    //AZURE
+    /**
+     * Send order transactions to Azure Queue
+     * 
+     * @param \App\Models\Order $order
+     * @return void
+     */
+    private function sendToAzureQueue($order)
+    {
+        try {
+            // Build products array
+            $products = [];
+            
+            foreach ($order->orderDetails as $detail) {
+                // Use product_id directly from OrderDetail
+                $products[] = [
+                    'product_id' => $detail->product_id,
+                    'quantity' => $detail->quantity,
+                    'price' => number_format($detail->total_price, 2, '.', ''),
+                ];
+            }
+
+            // Build complete order message
+            $orderMessage = [
+                'order_id' => $order->id,
+                'timestamp' => Carbon::parse($order->date)->format('Y-m-d H:i:s'),
+                'customer_id' => $order->user_id,
+                'products' => $products,
+            ];
+            
+            // Dispatch single message to Azure Queue
+            // \App\Jobs\SendToKafkaQueue::dispatch($orderMessage);
+
+            $queue = QueueRestProxy::createQueueService(env('AZURE_STORAGE_CONNECTION_STRING'));
+
+            $queue->createMessage(
+                'kafka-messages',
+                base64_encode(json_encode($orderMessage))
+            );
+            
+            Log::info('Order queued to Azure', [
+                'order_id' => $order->id,
+                'products_count' => count($products),
+                'message' => $orderMessage,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to queue order', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+            
+            throw $e;
+        }
+    }
+
+    /**
+     * Fallback: Send directly to Kafka if Azure Queue fails
+     * 
+     * @param \App\Models\Order $order
+     * @return void
+     */
+    private function fallbackToKafka($order)
+    {
+        Log::warning('Using Kafka fallback (sync)', [
+            'order_id' => $order->id
+        ]);
+
+        try {
+            // Use existing KafkaService
+            $this->kafkaService->publishOrderCreated($order);
+            
+            Log::info('Order sent to Kafka directly (fallback)', [
+                'order_id' => $order->id,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Kafka fallback also failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

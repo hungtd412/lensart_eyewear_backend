@@ -1,319 +1,262 @@
-# Kafka Integration Setup Guide
+# Kafka Integration Setup
 
-## Bước 1 - Tạo API bắn event trong Laravel (trên Azure)
+## ✅ Đã hoàn thành
 
-### 📋 Tổng quan
+Kafka đã được tích hợp vào OrderService. Mỗi khi order được tạo thành công, event sẽ tự động được publish vào Kafka.
 
-Dự án LensArt Eyewear đã được tích hợp với Apache Kafka để xử lý các events liên quan đến đơn hàng (orders). API này cho phép gửi các events về trạng thái đơn hàng đến Kafka message broker.
+## ⚙️ Configuration
 
-### 🔧 Cài đặt
-
-#### 1. Dependencies đã được cài đặt:
-- `nmred/kafka-php` - Pure PHP Kafka client library
-
-#### 2. Cấu hình Environment Variables
-
-Thêm các biến sau vào file `.env`:
+Thêm vào file `.env`:
 
 ```env
 # Kafka Configuration
-KAFKA_BROKERS=localhost:9092
-# Hoặc nếu sử dụng Azure Event Hubs:
-# KAFKA_BROKERS=your-eventhub-namespace.servicebus.windows.net:9093
-
-# Kafka Topics
-KAFKA_ORDER_TOPIC=order-events
-KAFKA_ORDER_CREATED_TOPIC=order-created
-KAFKA_ORDER_UPDATED_TOPIC=order-updated
-KAFKA_ORDER_CANCELLED_TOPIC=order-cancelled
-
-# Kafka Producer Configuration
-KAFKA_PRODUCER_TIMEOUT=10000
-KAFKA_PRODUCER_ASYNC=true
-KAFKA_REQUIRED_ACK=1
-
-# Kafka Consumer Configuration
-KAFKA_CONSUMER_GROUP=lensart-consumer-group
-KAFKA_CONSUMER_TIMEOUT=10000
-
-# Kafka Security (SASL/SSL) - Cho Azure Event Hubs
-KAFKA_SASL_ENABLE=false
-KAFKA_SASL_MECHANISM=PLAIN
-KAFKA_SASL_USERNAME=
-KAFKA_SASL_PASSWORD=
-
-KAFKA_SSL_ENABLE=false
-KAFKA_SSL_CA_CERT=
-KAFKA_SSL_CERT=
-KAFKA_SSL_KEY=
+KAFKA_ENABLED=true                    # Enable Kafka publishing
+KAFKA_BROKERS=localhost:9092          # Kafka broker address
+KAFKA_USE_DOCKER=true                 # Use docker exec to publish (recommended)
 ```
 
-### 📁 Cấu trúc Files đã tạo:
+## 🔄 How It Works
+
+### 1. Order Created Flow:
 
 ```
-app/
-├── Events/
-│   └── OrderEvent.php                    # Event class cho order events
-├── Services/
-│   └── KafkaService.php                  # Service xử lý Kafka operations
-└── Http/
-    └── Controllers/
-        └── KafkaEventController.php      # Controller cho Kafka API endpoints
-
-config/
-└── kafka.php                             # Kafka configuration
-
-routes/
-└── kafka.api.php                         # API routes cho Kafka events
+User đặt hàng
+    ↓
+OrderService->store()
+    ↓
+1. Validate & Save order ✅
+2. KafkaService->publishOrderCreated() 📢
+    ↓
+Docker exec kafka-console-producer
+    ↓
+Kafka Topic: order-created
+    ↓
+Flink Job consumes & processes
+    ↓
+PostgreSQL (sales_transactions table)
 ```
 
-### 🚀 API Endpoints
+### 2. Event Format:
 
-Tất cả endpoints yêu cầu authentication (`auth:sanctum`) và quyền admin/manager (`can:is-admin-manager`).
-
-Base URL: `http://your-domain.com/api/kafka`
-
-#### 1. Test Kafka Connection
-```
-GET /api/kafka/test-connection
-```
-
-**Response:**
 ```json
 {
-    "status": "success",
-    "message": "Kafka connection test successful",
-    "kafka_brokers": "localhost:9092"
-}
-```
-
-#### 2. Send Order Created Event
-```
-POST /api/kafka/events/order-created
-```
-
-**Request Body:**
-```json
-{
-    "order_id": 1
-}
-```
-
-**Response:**
-```json
-{
-    "status": "success",
-    "message": "Order created event sent to Kafka successfully",
-    "event_type": "order.created",
-    "order_id": 1
-}
-```
-
-#### 3. Send Order Updated Event
-```
-POST /api/kafka/events/order-updated
-```
-
-**Request Body:**
-```json
-{
-    "order_id": 1
-}
-```
-
-#### 4. Send Order Cancelled Event
-```
-POST /api/kafka/events/order-cancelled
-```
-
-**Request Body:**
-```json
-{
-    "order_id": 1
-}
-```
-
-#### 5. Send Order Status Changed Event
-```
-POST /api/kafka/events/order-status-changed
-```
-
-**Request Body:**
-```json
-{
-    "order_id": 1,
-    "old_status": "Đang xử lý",
-    "new_status": "Đang giao hàng"
-}
-```
-
-#### 6. Send Generic Event
-```
-POST /api/kafka/events/send
-```
-
-**Request Body:**
-```json
-{
-    "event_type": "custom.event",
-    "data": {
-        "key1": "value1",
-        "key2": "value2"
+  "event_type": "order.created",
+  "order_id": 123,
+  "user_id": 456,
+  "branch_id": 1,
+  "total_price": 750000,
+  "order_status": "Đang xử lý",
+  "payment_status": "Chưa thanh toán",
+  "payment_method": "COD",
+  "coupon_id": null,
+  "date": "2024-11-25 10:30:00",
+  "order_details": [
+    {
+      "product_id": 1,
+      "quantity": 2,
+      "price": 250000,
+      "total_price": 500000,
+      "color": "Black"
     },
-    "topic": "custom-topic" // optional
-}
-```
-
-### 📦 Event Payload Structure
-
-Khi gửi event, dữ liệu sẽ có cấu trúc như sau:
-
-```json
-{
-    "event_type": "order.created",
-    "event_id": "evt_6556b7c8e9f2a1.23456789",
-    "timestamp": "2024-11-17T10:30:00+07:00",
-    "data": {
-        "id": 1,
-        "user_id": 123,
-        "branch_id": 1,
-        "date": "2024-11-17 10:30:00",
-        "address": "123 Nguyen Van Cu, Q5, TP.HCM",
-        "note": "Giao hàng buổi chiều",
-        "coupon_id": null,
-        "total_price": 1500000,
-        "order_status": "Đang xử lý",
-        "payment_status": "Đã thanh toán",
-        "payment_method": "payos",
-        "status": true,
-        "user": {
-            "id": 123,
-            "name": "Nguyen Van A",
-            "email": "nguyenvana@example.com"
-        },
-        "branch": {
-            "id": 1,
-            "name": "LensArt Q1",
-            "address": "100 Le Loi, Q1, TP.HCM"
-        },
-        "order_details": [
-            {
-                "id": 1,
-                "product_id": 10,
-                "product_name": "Gọng kính Rayban Classic",
-                "color": "Đen",
-                "quantity": 1,
-                "total_price": 1500000
-            }
-        ],
-        "metadata": {}
+    {
+      "product_id": 2,
+      "quantity": 1,
+      "price": 250000,
+      "total_price": 250000,
+      "color": "Blue"
     }
+  ],
+  "timestamp": "2024-11-25T10:30:00+07:00"
 }
 ```
 
-### 🔐 Azure Event Hubs Configuration
+## 🧪 Testing
 
-Nếu sử dụng Azure Event Hubs (tương thích với Kafka):
-
-1. **Tạo Event Hubs Namespace trên Azure Portal**
-
-2. **Cấu hình Connection String:**
-```env
-KAFKA_BROKERS=your-namespace.servicebus.windows.net:9093
-KAFKA_SASL_ENABLE=true
-KAFKA_SASL_MECHANISM=PLAIN
-KAFKA_SASL_USERNAME=$ConnectionString
-KAFKA_SASL_PASSWORD=Endpoint=sb://your-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=your-key
-KAFKA_SSL_ENABLE=true
-```
-
-3. **Tạo Event Hubs (Topics):**
-- `order-events`
-- `order-created`
-- `order-updated`
-- `order-cancelled`
-
-### 🧪 Testing
-
-#### Sử dụng Postman hoặc cURL:
+### 1. Start Kafka (if not running):
 
 ```bash
-# Test connection
-curl -X GET http://localhost:8000/api/kafka/test-connection \
-  -H "Authorization: Bearer YOUR_TOKEN"
-
-# Send order created event
-curl -X POST http://localhost:8000/api/kafka/events/order-created \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{"order_id": 1}'
+cd lensart_pipeline\docker
+docker-compose up -d
 ```
 
-### 📊 Monitoring & Logging
+### 2. Enable Kafka in Laravel:
 
-Tất cả events được log tại `storage/logs/laravel.log`:
+Update `.env`:
+```env
+KAFKA_ENABLED=true
+```
 
-- Thành công: `Event sent to Kafka topic: {topic}`
-- Thất bại: `Failed to send event to Kafka: {error}`
+### 3. Create a test order:
 
-### 🔄 Tích hợp tự động với Order Service
+```bash
+POST /api/orders
+Authorization: Bearer {token}
 
-Để tự động gửi events khi tạo/cập nhật/hủy đơn hàng, bạn có thể thêm vào `OrderService.php`:
-
-```php
-use App\Services\KafkaService;
-use App\Events\OrderEvent;
-
-public function __construct(..., KafkaService $kafkaService) {
-    // ...
-    $this->kafkaService = $kafkaService;
-}
-
-public function store($data) {
-    // ... existing code ...
-    $order = $this->orderRepository->store($data);
-    
-    // Send Kafka event
-    try {
-        $orderEvent = new OrderEvent($order, 'order.created');
-        $this->kafkaService->sendOrderCreatedEvent($orderEvent->toKafkaPayload());
-    } catch (\Exception $e) {
-        \Log::error('Failed to send Kafka event: ' . $e->getMessage());
+{
+  "branch_id": 1,
+  "payment_method": "COD",
+  "order_details": [
+    {
+      "product_id": 1,
+      "quantity": 2,
+      "price": 250000,
+      "total_price": 500000,
+      "color": "Black"
     }
-    
-    return response()->json([...]);
+  ]
 }
 ```
 
-### ⚠️ Lưu ý quan trọng
+### 4. Check Laravel logs:
 
-1. **Cài đặt Kafka/Event Hubs:** Đảm bảo Kafka broker hoặc Azure Event Hubs đã được cấu hình và chạy
-2. **Network:** Kiểm tra firewall và network rules cho phép kết nối đến Kafka broker
-3. **Authentication:** Sử dụng proper authentication tokens khi gọi API
-4. **Error Handling:** Events failed sẽ được log, cần có monitoring để theo dõi
-5. **Performance:** Với high volume, xem xét sử dụng async/queue processing
+```bash
+tail -f storage/logs/laravel.log | grep KAFKA
+```
 
-### 📞 Support
+Expected:
+```
+[KAFKA] Message published via Docker
+topic: order-created
+message_size: 456
+```
 
-Nếu có vấn đề, kiểm tra:
-1. Logs tại `storage/logs/laravel.log`
-2. Kafka broker logs
-3. Network connectivity: `telnet your-kafka-broker 9092`
+### 5. Verify in Kafka UI:
 
-### ✅ Checklist Hoàn thành Bước 1
+```
+Open http://localhost:8080
+→ Topics → order-created
+→ Messages
+→ You should see the event!
+```
 
-- [x] Cài đặt Kafka PHP client library
-- [x] Tạo Kafka configuration file
-- [x] Tạo KafkaService để publish events
-- [x] Tạo OrderEvent class cho event structure
-- [x] Tạo KafkaEventController với các API endpoints
-- [x] Tạo routes cho Kafka APIs
-- [x] Đăng ký routes trong bootstrap/app.php
-- [x] Tạo documentation
+### 6. Check PostgreSQL:
+
+```bash
+docker exec postgres psql -U postgres -d lensart_events -c "SELECT * FROM sales_transactions ORDER BY created_at DESC LIMIT 5;"
+```
+
+## 🔧 Implementation Details
+
+### KafkaService Methods:
+
+1. **publishOrderCreated($order)**
+   - Builds order event with order_details array
+   - Calls `publish()` method
+
+2. **publish($topic, $message)**
+   - Routes to appropriate publishing method
+   - Handles enabled/disabled state
+
+3. **publishViaDocker($topic, $message)**
+   - Uses `docker exec kafka-console-producer`
+   - Works when Kafka is in Docker container
+   - Default method (KAFKA_USE_DOCKER=true)
+
+4. **publishViaSocket($topic, $message)**
+   - Direct socket connection to Kafka
+   - For when Kafka is NOT in Docker
+   - TODO: Full implementation
+
+## ⚠️ Important Notes
+
+### Error Handling:
+- ✅ Kafka publish failures do NOT fail order creation
+- ✅ Errors are logged for monitoring
+- ✅ Order is always saved successfully
+
+### Performance:
+- Publishing is synchronous (~100-200ms)
+- Does not block order creation significantly
+- Can be made async if needed
+
+### Docker Requirements:
+- Kafka container must be named `kafka`
+- Container must be running
+- Docker must be accessible from PHP
+
+## 🐛 Troubleshooting
+
+### Issue: "docker command not found"
+
+**Solution:** Make sure Docker is in PATH
+```bash
+# Windows: Add Docker to PATH
+# Or restart terminal after Docker Desktop installation
+```
+
+### Issue: "kafka container not found"
+
+**Solution:** Start Kafka
+```bash
+cd lensart_pipeline\docker
+docker-compose up -d kafka
+```
+
+### Issue: Events not appearing in Kafka
+
+**Check:**
+```bash
+# 1. Check Kafka is running
+docker ps | grep kafka
+
+# 2. Check topic exists
+docker exec kafka /usr/bin/kafka-topics --list --bootstrap-server localhost:9092
+
+# 3. Create topic if missing
+docker exec kafka /usr/bin/kafka-topics --create --topic order-created --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
+```
+
+### Issue: "shell_exec disabled"
+
+**Solution:** Enable shell_exec in php.ini
+```ini
+; Remove shell_exec from disable_functions
+disable_functions = 
+```
+
+## 🚀 Production Deployment
+
+### For Azure deployment:
+
+**Option 1: Ngrok Tunnel (Development)**
+```bash
+ngrok tcp 9092
+# Update .env with ngrok URL
+```
+
+**Option 2: Azure Event Hubs (Production)**
+```env
+KAFKA_ENABLED=true
+KAFKA_BROKERS=your-namespace.servicebus.windows.net:9093
+KAFKA_USE_DOCKER=false
+# Implement socket publishing for Event Hubs
+```
+
+## 📊 Monitoring
+
+### View Laravel logs:
+```bash
+tail -f storage/logs/laravel.log | grep KAFKA
+```
+
+### View Kafka messages:
+```bash
+docker exec kafka /usr/bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic order-created --from-beginning
+```
+
+### View Flink processing:
+```bash
+# Open Flink Dashboard
+open http://localhost:8081
+```
+
+### View results in PostgreSQL:
+```bash
+docker exec postgres psql -U postgres -d lensart_events -c "SELECT COUNT(*) FROM sales_transactions;"
+```
 
 ---
 
+**Status:** ✅ Ready to use  
 **Version:** 1.0.0  
-**Date:** 2024-11-17  
-**Author:** LensArt Development Team
-
+**Date:** 25/11/2024

@@ -2,39 +2,25 @@
 
 namespace App\Services;
 
-use Kafka\Produce;
-use Exception;
 use Illuminate\Support\Facades\Log;
+use Kafka\Socket;
+use Kafka\Protocol\Encoder;
+use Kafka\Protocol\Decoder;
+use Exception;
 
-class KafkaService {
+class KafkaService
+{
     protected $config;
+    protected $enabled;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->config = config('kafka');
+        $this->enabled = env('KAFKA_ENABLED', false);
     }
 
     /**
-     * Get Kafka Producer instance
-     * 
-     * @return \Kafka\Produce
-     */
-    protected function getProducer() {
-        try {
-            // Get broker address (without zookeeper for simple produce)
-            $brokers = $this->config['brokers'];
-            
-            // For nmred/kafka-php, we'll use SimpleProduce via Protocol
-            // Or if Zookeeper available, use Produce::getInstance
-            
-            return $brokers;
-        } catch (Exception $e) {
-            Log::error('Failed to get Kafka producer: ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Send event to Kafka topic (using low-level protocol)
+     * Send event to Kafka topic using Socket Protocol
      *
      * @param string $topic
      * @param array $data
@@ -42,7 +28,17 @@ class KafkaService {
      * @param int $partition
      * @return bool
      */
-    public function sendEvent(string $topic, array $data, ?string $key = null, int $partition = 0): bool {
+    protected function sendEvent(string $topic, array $data, ?string $key = null, int $partition = 0): bool
+    {
+        if (!$this->enabled) {
+            Log::info('[KAFKA DISABLED] Would publish message', [
+                'topic' => $topic,
+                'data' => $data,
+                'key' => $key
+            ]);
+            return true;
+        }
+
         try {
             // Convert data to JSON
             $message = json_encode($data);
@@ -54,12 +50,12 @@ class KafkaService {
             // Parse host and port
             $parts = explode(':', $firstBroker);
             $host = $parts[0] ?? 'localhost';
-            $port = $parts[1] ?? '9092';
+            $port = (int)($parts[1] ?? 9092);
             
             // Prepare data structure for Kafka Protocol
             $produceData = [
-                'required_ack' => $this->config['producer']['required_ack'],
-                'timeout' => $this->config['producer']['timeout'],
+                'required_ack' => $this->config['producer']['required_ack'] ?? 1,
+                'timeout' => $this->config['producer']['timeout'] ?? 10000,
                 'data' => [
                     [
                         'topic_name' => $topic,
@@ -74,180 +70,97 @@ class KafkaService {
             ];
             
             // Create socket connection
-            $conn = new \Kafka\Socket($host, $port);
+            $conn = new Socket($host, $port);
             $conn->connect();
             
             // Encode and send produce request
-            $encoder = new \Kafka\Protocol\Encoder($conn);
+            $encoder = new Encoder($conn);
             $encoder->produceRequest($produceData);
             
             // Get response if required_ack > 0
-            if ($this->config['producer']['required_ack'] > 0) {
-                $decoder = new \Kafka\Protocol\Decoder($conn);
+            if (($this->config['producer']['required_ack'] ?? 1) > 0) {
+                $decoder = new Decoder($conn);
                 $result = $decoder->produceResponse();
             }
             
             // Close connection
             $conn->close();
-
-            Log::info("Event sent to Kafka topic: {$topic}", [
+            
+            Log::info('[KAFKA] Event sent successfully', [
+                'topic' => $topic,
                 'partition' => $partition,
-                'data_preview' => substr($message, 0, 200),
+                'message_size' => strlen($message),
+                'key' => $key
             ]);
-
+            
             return true;
+
         } catch (Exception $e) {
-            Log::error("Failed to send event to Kafka: " . $e->getMessage(), [
+            Log::error('[KAFKA] Failed to send event', [
                 'topic' => $topic,
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                'trace' => $e->getTraceAsString()
             ]);
-
             return false;
         }
     }
 
     /**
-     * Send Order Created Event
-     *
-     * @param array $orderData
+     * Publish order created event
+     * 
+     * @param \App\Models\Order $order
      * @return bool
      */
-    public function sendOrderCreatedEvent(array $orderData): bool {
-        $topic = $this->config['topics']['order_created'];
-        
-        $event = [
-            'event_type' => 'order.created',
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => $orderData,
-        ];
+    public function publishOrderCreated($order): bool
+    {
+        try {
+            $topic = $this->config['topics']['order_created'] ?? 'order-created';
+            
+            // Load order details
+            if (!$order->relationLoaded('orderDetails')) {
+                $order->load('orderDetails');
+            }
 
-        return $this->sendEvent($topic, $event, "order_{$orderData['id']}");
-    }
+            // Build products array - chỉ những thông tin cần thiết
+            $products = $order->orderDetails->map(function($detail) {
+                return [
+                    'product_id' => $detail->product_id,
+                    'quantity' => $detail->quantity,
+                    'price' => $detail->total_price,
+                ];
+            })->toArray();
 
-    /**
-     * Send Order Updated Event
-     *
-     * @param array $orderData
-     * @return bool
-     */
-    public function sendOrderUpdatedEvent(array $orderData): bool {
-        $topic = $this->config['topics']['order_updated'];
-        
-        $event = [
-            'event_type' => 'order.updated',
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => $orderData,
-        ];
+            // Build event - chỉ những field cần thiết
+            $event = [
+                'order_id' => $order->id,
+                'timestamp' => $order->date,
+                'customer_id' => $order->user_id,
+                'products' => $products,
+            ];
 
-        return $this->sendEvent($topic, $event, "order_{$orderData['id']}");
-    }
+            // Send event to Kafka
+            return $this->sendEvent($topic, $event, "order_{$order->id}");
 
-    /**
-     * Send Order Cancelled Event
-     *
-     * @param array $orderData
-     * @return bool
-     */
-    public function sendOrderCancelledEvent(array $orderData): bool {
-        $topic = $this->config['topics']['order_cancelled'];
-        
-        $event = [
-            'event_type' => 'order.cancelled',
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => $orderData,
-        ];
-
-        return $this->sendEvent($topic, $event, "order_{$orderData['id']}");
-    }
-
-    /**
-     * Send Order Status Changed Event
-     *
-     * @param int $orderId
-     * @param string $oldStatus
-     * @param string $newStatus
-     * @param array $orderData
-     * @return bool
-     */
-    public function sendOrderStatusChangedEvent(int $orderId, string $oldStatus, string $newStatus, array $orderData): bool {
-        $topic = $this->config['topics']['order_events'];
-        
-        $event = [
-            'event_type' => 'order.status_changed',
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => [
-                'order_id' => $orderId,
-                'old_status' => $oldStatus,
-                'new_status' => $newStatus,
-                'order' => $orderData,
-            ],
-        ];
-
-        return $this->sendEvent($topic, $event, "order_{$orderId}");
-    }
-
-    /**
-     * Send Payment Status Changed Event
-     *
-     * @param int $orderId
-     * @param string $oldPaymentStatus
-     * @param string $newPaymentStatus
-     * @param array $orderData
-     * @return bool
-     */
-    public function sendPaymentStatusChangedEvent(int $orderId, string $oldPaymentStatus, string $newPaymentStatus, array $orderData): bool {
-        $topic = $this->config['topics']['order_events'];
-        
-        $event = [
-            'event_type' => 'order.payment_status_changed',
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => [
-                'order_id' => $orderId,
-                'old_payment_status' => $oldPaymentStatus,
-                'new_payment_status' => $newPaymentStatus,
-                'order' => $orderData,
-            ],
-        ];
-
-        return $this->sendEvent($topic, $event, "order_{$orderId}");
-    }
-
-    /**
-     * Send generic event to Kafka
-     *
-     * @param string $eventType
-     * @param array $data
-     * @param string|null $topicOverride
-     * @return bool
-     */
-    public function sendGenericEvent(string $eventType, array $data, ?string $topicOverride = null): bool {
-        $topic = $topicOverride ?? $this->config['topics']['order_events'];
-        
-        $event = [
-            'event_type' => $eventType,
-            'event_id' => uniqid('evt_', true),
-            'timestamp' => now()->toIso8601String(),
-            'data' => $data,
-        ];
-
-        return $this->sendEvent($topic, $event);
+        } catch (Exception $e) {
+            Log::error('[KAFKA] Failed to publish order created event', [
+                'order_id' => $order->id ?? null,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return false;
+        }
     }
 
     /**
      * Send Sales Transaction Events to Kafka
-     * Mỗi sản phẩm trong order = 1 event riêng
+     * Mỗi sản phẩm trong order = 1 event riêng (OPTIONAL - nếu muốn gửi riêng từng product)
      * 
      * @param \App\Models\Order $order
      * @return array ['success' => int, 'failed' => int, 'total' => int]
      */
-    public function sendSalesTransactions($order): array {
-        $topic = $this->config['topics']['order_created']; // hoặc topic riêng 'sales-transactions'
+    public function sendSalesTransactions($order): array
+    {
+        $topic = $this->config['topics']['order_created'] ?? 'order-created';
         
         $results = [
             'success' => 0,
@@ -255,7 +168,11 @@ class KafkaService {
             'total' => 0,
         ];
 
-        // Lấy order details (products trong order)
+        // Load order details
+        if (!$order->relationLoaded('orderDetails')) {
+            $order->load('orderDetails');
+        }
+        
         $orderDetails = $order->orderDetails;
         
         if ($orderDetails->isEmpty()) {
@@ -267,29 +184,27 @@ class KafkaService {
         foreach ($orderDetails as $detail) {
             $results['total']++;
             
-            // CHỈ GỬI 6 FIELDS YÊU CẦU
+            // Transaction event cho từng sản phẩm
             $transaction = [
+                'event_type' => 'sales.transaction',
                 'order_id' => $order->id,
                 'product_id' => $detail->product_id,
                 'quantity' => $detail->quantity,
-                'price' => $detail->total_price, // hoặc unit price nếu có
+                'price' => $detail->total_price,
                 'timestamp' => $order->date,
                 'customer_id' => $order->user_id,
             ];
 
-            // Gửi transaction event
+            // Send transaction event
             $sent = $this->sendEvent($topic, $transaction, "order_{$order->id}_product_{$detail->product_id}");
             
             if ($sent) {
                 $results['success']++;
-                Log::info("Transaction sent for order {$order->id}, product {$detail->product_id}");
             } else {
                 $results['failed']++;
-                Log::error("Failed to send transaction for order {$order->id}, product {$detail->product_id}");
             }
         }
 
         return $results;
     }
 }
-
