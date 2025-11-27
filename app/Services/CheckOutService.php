@@ -139,18 +139,31 @@ class CheckOutService {
     }
 
     public function createTransaction($data, $payOS) {
-        $data["amount"] = intval($data["amount"]);
-        $data["orderCode"] = intval(substr(strval(microtime(true) * 10000), -6));
+        // Prepare data for payOS API
+        $payOSData = [
+            "amount" => intval($data["amount"]),
+            "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
+            "description" => $data["description"] ?? "Thanh toán đơn hàng",
+            "returnUrl" => $data["returnUrl"] ?? "http://localhost:5173/order-success",
+            "cancelUrl" => $data["cancelUrl"] ?? "http://localhost:5173/gio-hang",
+        ];
+
+        // Remove shipping_fee from payOS data as it's not needed by payOS API
+        // shipping_fee is only used for calculating total_price in the controller
 
         try {
-            $response = $payOS->createPaymentLink($data);
+            $response = $payOS->createPaymentLink($payOSData);
             return response()->json([
                 "error" => 0,
                 "message" => "Success",
                 "data" => $response,
             ]);
         } catch (\Throwable $th) {
-            return $th;
+            return response()->json([
+                "error" => 1,
+                "message" => $th->getMessage(),
+                "data" => null
+            ], 500);
         }
     }
 
