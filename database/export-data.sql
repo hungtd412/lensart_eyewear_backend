@@ -121,9 +121,9 @@ INSERT INTO carts VALUES (30,34);
 -- Dumping data for table `category`
 --
 
-INSERT INTO category VALUES (1,'Gọng kính','Dòng sản phẩm gọng kính cao cấp','active');
-INSERT INTO category VALUES (2,'Kính mát','Kính mát thời trang','active');
-INSERT INTO category VALUES (3,'Tròng kính','Tròng kính chính hãng','active');
+INSERT INTO category VALUES (1,'Gọng kính','active');
+INSERT INTO category VALUES (2,'Kính mát', 'active');
+INSERT INTO category VALUES (3,'Tròng kính', 'active');
 
 --
 -- Dumping data for table `coupons`

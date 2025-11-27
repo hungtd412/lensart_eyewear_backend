@@ -72,6 +72,15 @@ return [
             'after_commit' => false,
         ],
 
+        'azure-queue' => [
+            'driver' => 'azure-queue',
+            'connection_string' => env('AZURE_STORAGE_CONNECTION_STRING'),
+            'queue' => env('AZURE_STORAGE_QUEUE_NAME', 'kafka-messages'),
+            'retry_after' => (int) env('AZURE_QUEUE_RETRY_AFTER', 90),
+            'visibility_timeout' => (int) env('AZURE_QUEUE_VISIBILITY_TIMEOUT', 30),
+            'after_commit' => false,
+        ],
+
     ],
 
     /*
