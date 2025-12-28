@@ -9,13 +9,9 @@ use App\Repositories\Product\ProductDetailRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-<<<<<<< Updated upstream
-=======
 use Illuminate\Support\Facades\Log;
 // Azure Queue - optional dependency
 // use MicrosoftAzure\Storage\Queue\QueueRestProxy;
-
->>>>>>> Stashed changes
 
 class OrderService {
     protected $orderRepository;
@@ -330,8 +326,6 @@ class OrderService {
             'data' => $orders
         ], 200);
     }
-<<<<<<< Updated upstream
-=======
 
     //AZURE
     /**
@@ -434,5 +428,4 @@ class OrderService {
             ]);
         }
     }
->>>>>>> Stashed changes
 }
