@@ -9,6 +9,13 @@ use App\Repositories\Product\ProductDetailRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+<<<<<<< Updated upstream
+=======
+use Illuminate\Support\Facades\Log;
+// Azure Queue - optional dependency
+// use MicrosoftAzure\Storage\Queue\QueueRestProxy;
+
+>>>>>>> Stashed changes
 
 class OrderService {
     protected $orderRepository;
@@ -323,4 +330,109 @@ class OrderService {
             'data' => $orders
         ], 200);
     }
+<<<<<<< Updated upstream
+=======
+
+    //AZURE
+    /**
+     * Send order transactions to Azure Queue
+     * 
+     * @param \App\Models\Order $order
+     * @return void
+     */
+    private function sendToAzureQueue($order)
+    {
+        try {
+            // Check if Azure Queue class exists and connection string is configured
+            if (!class_exists('MicrosoftAzure\Storage\Queue\QueueRestProxy')) {
+                Log::warning('Azure Queue class not found, skipping queue operation', [
+                    'order_id' => $order->id,
+                ]);
+                return;
+            }
+
+            $connectionString = env('AZURE_STORAGE_CONNECTION_STRING');
+            if (empty($connectionString)) {
+                Log::warning('Azure Storage connection string not configured, skipping queue operation', [
+                    'order_id' => $order->id,
+                ]);
+                return;
+            }
+
+            // Build products array
+            $products = [];
+            
+            foreach ($order->orderDetails as $detail) {
+                // Use product_id directly from OrderDetail
+                $products[] = [
+                    'product_id' => $detail->product_id,
+                    'quantity' => $detail->quantity,
+                    'price' => number_format($detail->total_price, 2, '.', ''),
+                ];
+            }
+
+            // Build complete order message
+            $orderMessage = [
+                'order_id' => $order->id,
+                'timestamp' => Carbon::parse($order->date)->format('Y-m-d H:i:s'),
+                'customer_id' => $order->user_id,
+                'products' => $products,
+            ];
+            
+            // Dispatch single message to Azure Queue
+            // \App\Jobs\SendToKafkaQueue::dispatch($orderMessage);
+
+            $queue = \MicrosoftAzure\Storage\Queue\QueueRestProxy::createQueueService($connectionString);
+
+            $queue->createMessage(
+                'kafka-messages',
+                base64_encode(json_encode($orderMessage))
+            );
+            
+            Log::info('Order queued to Azure', [
+                'order_id' => $order->id,
+                'products_count' => count($products),
+                'message' => $orderMessage,
+            ]);
+
+        } catch (\Exception $e) {
+            // Log error but don't throw - don't break order creation if queue fails
+            Log::error('Failed to queue order to Azure', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+            
+            // Don't throw exception - order creation should succeed even if queue fails
+            // throw $e;
+        }
+    }
+
+    /**
+     * Fallback: Send directly to Kafka if Azure Queue fails
+     * 
+     * @param \App\Models\Order $order
+     * @return void
+     */
+    private function fallbackToKafka($order)
+    {
+        Log::warning('Using Kafka fallback (sync)', [
+            'order_id' => $order->id
+        ]);
+
+        try {
+            // Use existing KafkaService
+            $this->kafkaService->publishOrderCreated($order);
+            
+            Log::info('Order sent to Kafka directly (fallback)', [
+                'order_id' => $order->id,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Kafka fallback also failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+>>>>>>> Stashed changes
 }

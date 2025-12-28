@@ -17,19 +17,23 @@ use Illuminate\Support\Facades\Route;
 // ADMIN & MANAGER (CUSTOMER Ở DƯỚI)
 
 //**************************************
-// GET ALL
+// GET ALL - Admin routes (require authentication)
 //**************************************
-Route::get('/brands', [BrandController::class, 'index']);
-// Route::get('/colors', [ColorController::class, 'index']);
-Route::get('/shapes', [ShapeController::class, 'index']);
-Route::get('/materials', [MaterialController::class, 'index']);
-Route::get('/features', [FeatureController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/branches', [BranchController::class, 'index']);
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/product-features', [ProductFeatureController::class, 'index']);
-Route::get('/product-images', [ProductImageController::class, 'index']);
-Route::get('/product-details', [ProductDetailController::class, 'index']);
+Route::group([
+    'middleware' => ['auth:sanctum', 'can:is-admin-manager'],
+], function () {
+    Route::get('/brands', [BrandController::class, 'index']);
+    // Route::get('/colors', [ColorController::class, 'index']);
+    Route::get('/shapes', [ShapeController::class, 'index']);
+    Route::get('/materials', [MaterialController::class, 'index']);
+    Route::get('/features', [FeatureController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/branches', [BranchController::class, 'index']);
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/product-features', [ProductFeatureController::class, 'index']);
+    Route::get('/product-images', [ProductImageController::class, 'index']);
+    Route::get('/product-details', [ProductDetailController::class, 'index']);
+});
 
 
 
